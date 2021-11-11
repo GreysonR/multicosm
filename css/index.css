@@ -1,0 +1,146 @@
+body {
+	margin: 0;
+	background: #cbcfdd;
+	overflow: hidden;
+}
+
+#inGame {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+#canv {
+	background: transparent;
+}
+
+
+/* Image overlays */
+#tutorial {
+	display: none;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	transform-origin: top left;
+
+	width:  801px;
+	height: 481px;
+	background-image: url("../images/tutorial.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+#win {
+	display: none;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	transform-origin: top left;
+
+	width:  800px;
+	height: 481px;
+	background-image: url("../images/win.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+#enterContinue {
+	display: none;
+
+	position: absolute;
+	bottom: 40px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 3;
+	transform-origin: center top;
+
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 22px;
+	color: #616161;
+
+	background-color: #DDE2ED;
+	border-radius: 5px;
+	padding: 3px;
+}
+#winText {
+	display: none;
+
+	position: absolute;
+	bottom: 70px;
+	left: 50%;
+	transform: translateX(-50%);
+	transform-origin: center bottom;
+	z-index: 3;
+
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: bold;
+	font-size: 30px;
+	color: #353535;
+
+	background-color: #DDE2ED;
+	border-radius: 5px;
+	padding: 3px;
+}
+#enterContinue.active, #tutorial.active, #win.active, #winText.active {
+	display: block;
+}
+
+
+/* Layer buttons */
+#layerButtons {
+	position: absolute;
+	top: 5px;
+	right:   10px;
+	z-index: 1;
+
+	opacity: 0.9;
+	transform: scale(0.9);
+	transform-origin: top right;
+
+	background: #494949;
+	border-radius: 2px;
+}
+#layerButtons:hover {
+	opacity: 1;
+}
+#layerButtons>div {
+	width: 44px;
+	height: 44px;
+	background-color: #DDE2ED;
+
+	margin: 6px;
+	/* border: 3px solid #49494990; */
+	/* border-radius: 4px; */
+
+	background-position: center;
+	background-repeat: no-repeat;
+
+	cursor: pointer;
+}
+#layerButtons>div.viewing {
+	background-image: url("../images/viewing.svg");
+	background-size: 34px;
+}
+#layerButtons>div.active {
+	background-image: url("../images/x.svg");
+	background-size: 25px;
+}
+/* #layerButtons>div.active.viewing {
+	cursor: default;
+} */
+/* #layerButtons>div:only-child {
+	display: none;
+} */
+
+
+/* Dev tools */
+#devTools {
+	display: none;
+}
+#devTools.active {
+	display: block;
+}

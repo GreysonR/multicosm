@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Multicosm</title>
+
+	<link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+	
+	<div id="inGame">
+		<div id="winText">You won!</div>
+		<div id="enterContinue" class="active">Press Enter to continue</div>
+		<div id="win"></div>
+		<div id="tutorial" class="active"></div>
+
+		<canvas id="canv" width="800" height="480"></canvas>
+
+		<div id="layerButtons">
+			<div id="layer2" class="" style="background-color: #9F51DC"></div>
+			<div id="layer1" class="" style="background-color: #F09D3C"></div>
+			<div id="layer0" class="active viewing" style="background-color: #DDE2ED"></div>
+		</div>
+	</div>
+
+	<!-- dev -->
+	<div id="devTools">
+		<input id="mapInput" type="file" name="file" accept="image/svg+xml">
+	</div>
+</body>
+<script>
+	// Rescale canvas
+	function rescaleCanv() {
+		let pr = window["Render"] ? Render.pixelRatio : window.devicePixelRatio * 1.2
+		let width = window.innerWidth;
+		let scale = width / canv.width * (width < 800 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
+		scale = Math.min(scale, window.innerHeight / canv.height);
+		document.getElementById("inGame").style.transform = `translate(-50%, -50%) scale(${ scale })`;
+
+		document.getElementById("win").style.transform = `scale(${ pr })`;
+		document.getElementById("tutorial").style.transform = `scale(${ pr })`;
+		document.getElementById("layerButtons").style.transform = `scale(${ 1 / scale })`;
+	}
+	rescaleCanv();
+	window.addEventListener("resize", rescaleCanv);
+</script>
+
+<!-- engine stuff -->
+<script src="./js/engine/vec.js"></script>
+<script src="./js/engine/engine.js"></script>
+
+<!-- game code -->
+<script src="./js/init.js"></script>
+<script src="./js/keyEvents.js"></script>
+
+<!-- visual stuff -->
+<script src="./js/particles.js"></script>
+<script src="./js/animations.js"></script>
+<script src="./js/trail.js"></script>
+
+<script>
+	// Start engine after everything has loaded
+	engine.Render();
+</script>
+
+<script>
+	/*
+	// Remove tutorial - temp dev
+	document.getElementById("enterContinue").classList.remove("active");
+	document.getElementById("tutorial").classList.remove("active");
+	player.alive = true;
+	/**/
+
+	function sendReq(url, send = true) {
+		let xhr = new XMLHttpRequest();
+		xhr.open("GET", url);
+		if (send) xhr.send();
+
+		return xhr;
+	}
+
+	setTimeout(() => {
+		let uid = Number(document.cookie.split("=")[1]);
+		if (!isNaN(uid)) {
+			let lastTime = Date.now();
+			// start timing stuff
+			window.addEventListener("levelWin", () => {
+				let curTime = Date.now();
+				let delta = curTime - lastTime;
+				let readableTime = Math.round(delta / 1000 * 100) / 100;
+
+				sendReq(`/level?uid=${ uid }&time=${ readableTime }&level=${ World.worldIndex }`);
+			});
+		}
+	}, 50);
+</script>
+</html>
