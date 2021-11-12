@@ -592,11 +592,16 @@ const engine = {
 						animations.move(player.position, finalPos, ease.linear, 1.1);
 					}
 					else {
-						animations.move(player.position, finalPos, ease.out);
+						animations.move(player.position, finalPos, ease.out, 1.6);
 					}
 				}
 				else {
-					animations.move(player.position, finalPos);
+					if (collisionBody === undefined) {
+						animations.move(player.position, finalPos, ease.linear, 1.4);
+					}
+					else {
+						animations.move(player.position, finalPos);
+					}
 				}
 			}
 

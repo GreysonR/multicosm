@@ -166,18 +166,25 @@ document.getElementById("mapInput").addEventListener("input", event => {
 					out += `\n\t${ levelName }.createWall(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, ${ rect.height }, ${ layer });`;
 				}
 				else if (portals.includes(rect.fill) && portals.indexOf(rect.fill) > layer) { // export as teleporter
-					let vec = "1, 0";
-					if (rect.width < rect.height) {
-						if (rect.rx === 0) vec = "1, 0";
-						else vec = "-1, 0";
+					let vecStr = "1, 0";
+					let alongY = rect.width < rect.height;
+					if (alongY) {
+						if (rect.rx === 0) vecStr = "1, 0";
+						else vecStr = "-1, 0";
 					}
 					else {
-						if (rect.rx === 0) vec = "0, 1";
-						else vec = "0, -1";
+						if (rect.rx === 0) vecStr = "0, 1";
+						else vecStr = "0, -1";
 					}
 					let reflective = Math.min(rect.width, rect.height) === 7;
 
-					outPortal += `\n\t${ levelName }.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, 6, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vec })${ reflective ? ", true" : "" });`;
+					if (reflective) {
+						let direction = new vec(vecStr);
+						rect.x -= direction.x;
+						rect.y -= direction.y;
+					}
+
+					outPortal += `\n\t${ levelName }.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ alongY ? 6 : rect.width }, ${ alongY ? rect.height : 6 }, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vecStr })${ reflective ? ", true" : "" });`;
 				}
 				else if (rect.fill === spikes) { // export as spike
 					let vec = "1, 0";

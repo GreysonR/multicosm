@@ -6,6 +6,11 @@ class vec {
 			this.x = x.x;
 			this.y = x.y;
 		}
+		else if (typeof x === "string") {
+			x = x.split(",");
+			this.x = Number(x[0]);
+			this.y = Number(x[1]);
+		}
 		else {
 			this.x = x;
 			this.y = y;
