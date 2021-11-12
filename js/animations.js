@@ -106,7 +106,7 @@ const ease = animate;
 
 
 const animations = {
-	move: function(from, to, curveType = ease.inOut, durationMult = 1.2) {
+	move: function(from, to, curveType = ease.inOut, durationMult = 1.2, keepMoving = false) {
 		let diff = to.sub(from);
 		let m = 0.38;
 		let duration = Math.min(160, diff.length * m) * durationMult; // 160, 0.38
@@ -137,7 +137,7 @@ const animations = {
 				player.position = to;
 				delete player.animation;
 
-				player.moving = false;
+				player.moving = keepMoving;
 				Trail.removeBody(player);
 			},
 		});

@@ -175,8 +175,9 @@ document.getElementById("mapInput").addEventListener("input", event => {
 						if (rect.rx === 0) vec = "0, 1";
 						else vec = "0, -1";
 					}
+					let reflective = Math.min(rect.width, rect.height) === 7;
 
-					outPortal += `\n\t${ levelName }.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, ${ rect.height }, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vec }), true);`;
+					outPortal += `\n\t${ levelName }.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, ${ rect.height }, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vec })${ reflective ? ", true" : "" });`;
 				}
 				else if (rect.fill === spikes) { // export as spike
 					let vec = "1, 0";

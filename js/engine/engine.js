@@ -267,7 +267,23 @@ const engine = {
 			if (player.render && curViewingLayer === curLayer) {
 				const player = engine.player;
 				ctx.fillStyle = "#FF537D";
-				ctx.fillRect(player.position.x, player.position.y, 32, 32);
+				// ctx.fillRect(player.position.x, player.position.y, 32, 32);
+
+				let borderRadius = 2;
+				ctx.beginPath();
+				ctx.moveTo(player.position.x + borderRadius, player.position.y);
+				ctx.lineTo(player.position.x + 32 - borderRadius, player.position.y);
+				ctx.arcTo(player.position.x + 32, player.position.y, player.position.x + 32, player.position.y + borderRadius, borderRadius);
+				ctx.lineTo(player.position.x + 32, player.position.y + 32 - borderRadius);
+				ctx.arcTo(player.position.x + 32, player.position.y + 32, player.position.x + 32 - borderRadius, player.position.y + 32, borderRadius);
+				ctx.lineTo(player.position.x + borderRadius, player.position.y + 32);
+				ctx.arcTo(player.position.x, player.position.y + 32, player.position.x, player.position.y + 32 - borderRadius, borderRadius);
+				ctx.lineTo(player.position.x, player.position.y + borderRadius);
+				ctx.arcTo(player.position.x, player.position.y, player.position.x + borderRadius, player.position.y, borderRadius);
+
+				ctx.closePath();
+				ctx.fill();
+				/* */
 			}
 
 			
@@ -313,20 +329,18 @@ const engine = {
 			ctx.fillStyle = "#494949";
 			for (let i = 0; i < walls.length; i++) {
 				let wall = walls[i];
-				ctx.fillRect(wall.position.x - 0.5, wall.position.y - 0.5, wall.width + 0.5, wall.height + 0.5);
+				// ctx.fillRect(wall.position.x - 0.5, wall.position.y - 0.5, wall.width + 0.5, wall.height + 0.5);
 
 				// Rounds corners - almost as slow as bogosort
-				/*
-				let borderRadius = 15;
+				
+				let borderRadius = 3;
+				ctx.beginPath();
 				ctx.moveTo(wall.position.x + borderRadius, wall.position.y);
 				ctx.lineTo(wall.position.x + wall.width - borderRadius, wall.position.y);
-				// ctx.lineTo(wall.position.x + wall.width, wall.position.y + borderRadius);
 				ctx.arcTo(wall.position.x + wall.width, wall.position.y, wall.position.x + wall.width, wall.position.y + borderRadius, borderRadius);
 				ctx.lineTo(wall.position.x + wall.width, wall.position.y + wall.height - borderRadius);
-				// ctx.lineTo(wall.position.x + wall.width - borderRadius, wall.position.y + wall.height);
 				ctx.arcTo(wall.position.x + wall.width, wall.position.y + wall.height, wall.position.x + wall.width - borderRadius, wall.position.y + wall.height, borderRadius);
 				ctx.lineTo(wall.position.x + borderRadius, wall.position.y + wall.height);
-				// ctx.lineTo(wall.position.x, wall.position.y + wall.height - borderRadius);
 				ctx.arcTo(wall.position.x, wall.position.y + wall.height, wall.position.x, wall.position.y + wall.height - borderRadius, borderRadius);
 				ctx.lineTo(wall.position.x, wall.position.y + borderRadius);
 				ctx.arcTo(wall.position.x, wall.position.y, wall.position.x + borderRadius, wall.position.y, borderRadius);
@@ -393,7 +407,7 @@ const engine = {
 		move: function (direction, fromPortal) { // Moves player in specified direction
 			const player = engine.player;
 
-			if (player.moving || !player.alive) return;
+			if (player.moving && !fromPortal || !player.alive) return;
 
 			// - Make normalized vec from direction
 			let dir = new vec(0, 0);
@@ -420,7 +434,7 @@ const engine = {
 					
 					if (dir.x !== 0) { // moving horizontally
 						let dist = Math.abs(bodyPos.y - playerPos.y);
-						if (dist < body.height / 2 + 16 && (bodyPos.x - playerPos.x) * dir.x > 0) {
+						if (dist < body.height / 2 + 15 && (bodyPos.x - playerPos.x) * dir.x > 0) {
 							if ((body.type !== "portal" && body.type !== "spike") || -dir.x === body.direction.x) { // check if you're going into the portal
 								let insideBody = (Math.abs((body.position.x + body.width/2) - (player.position.x + 16)) < body.width/2 + 16) && (Math.abs((body.position.y + body.height/2) - (player.position.y + 16)) < body.height/2 + 16);
 								if (body.type !== "spike" || !insideBody) { // check you're not inside spikes
@@ -431,7 +445,7 @@ const engine = {
 					}
 					else if (dir.y !== 0) { // moving vertically
 						let dist = Math.abs(bodyPos.x - playerPos.x);
-						if (dist < body.width / 2 + 16 && (bodyPos.y - playerPos.y) * dir.y > 0) {
+						if (dist < body.width / 2 + 15 && (bodyPos.y - playerPos.y) * dir.y > 0) {
 							if ((body.type !== "portal" && body.type !== "spike") || -dir.y === body.direction.y) { // Check if you're going into the portal
 								let insideBody = (Math.abs((body.position.x + body.width/2) - (player.position.x + 16)) < body.width/2 + 16) && (Math.abs((body.position.y + body.height/2) - (player.position.y + 16)) < body.height/2 + 16);
 								if (body.type !== "spike" || !insideBody) { // check you're not inside spikes
@@ -531,10 +545,10 @@ const engine = {
 			let toDeath = collisionBody === undefined || collisionBody.type === "spike";
 			if (!toDeath && collisionBody.type === "portal") {
 				if (fromPortal === true) {
-					animations.move(player.position, finalPos, ease.linear, 1.2);	
+					animations.move(player.position, finalPos, ease.linear, 1.2, true);	
 				}
 				else {
-					animations.move(player.position, finalPos, ease.in, 0.8);	
+					animations.move(player.position, finalPos, ease.in, 0.8, true);	
 				}
 
 				setTimeout(() => {
