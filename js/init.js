@@ -188,7 +188,7 @@ function reset() {
 	level.createWall(new vec(0, 0), 329, 480, 1);
 	level.createWall(new vec(633, 0), 99, 140, 1);
 
-	level.createSpike(new vec(329, 186), 224, 1, new vec(1, 0));
+	level.createSpike(new vec(329, 186), 150, 1, new vec(1, 0));
 })();
 (function initLevel9() {
 	let level = World.create(World.worlds.length, new vec(384, 365), new vec(44, 93));
@@ -497,8 +497,8 @@ function reset() {
 	level.createSpike(new vec(281, 254), 44, 2, new vec(1, 0));
 	level.createSpike(new vec(385, 197), 104, 2, new vec(-1, 0));
 })();
-(function initLevel10() {
-	let level = World.create(World.worlds.length, new vec(384, 111), new vec(464, 75));
+(function initLevel16() {
+	let level = World.create(World.worlds.length, new vec(384, 111), new vec(460, 167));
 
 	level.createLayer("#F09D3C");
 	level.createLayer("#9F51DC");
@@ -520,7 +520,7 @@ function reset() {
 
 	level.createSpike(new vec(90, 143), 130, 0, new vec(1, 0));
 	level.createSpike(new vec(153, 310), 130, 0, new vec(1, 0));
-	level.createSpike(new vec(153, 0), 111, 0, new vec(1, 0));
+	level.createSpike(new vec(153, 3), 108, 0, new vec(1, 0));
 	
 	// Layer 1
 	level.createWall(new vec(340, 124), 200, 103, 1);
