@@ -28,24 +28,25 @@ class Particle {
 		this.position = position;
 		this.velocity = velocity;
 		this.options = mergeObj(this.options, options);
+		this.creationTime = performance.now();
 	}
 }
 
-function addBodyParticles(body, direction, pos, adjustPos = true) {
+function addBodyParticles(body, direction, pos, adjustPos = false) {
 	body.particles = [];
 
 	let alongX = direction.x !== 0;
-	for (let i = 0; i < 6; i++) {
+	for (let i = 0; i < 12; i++) {
 		let position;
 		let velocity;
 
 		if (alongX) {
 			position = pos.add({ x: 0, y: Math.random() * 50 });
-			velocity = direction.mult({ x: Math.random() * 5, y: 0 });
+			velocity = direction.mult({ x: Math.random() ** 1.2 * 5, y: 0 });
 		}
 		else {
 			position = pos.add({ y: 0, x: Math.random() * 50 });
-			velocity = direction.mult({ y: Math.random() * 5, x: 0 });
+			velocity = direction.mult({ y: Math.random() ** 1.2 * 5, x: 0 });
 		}
 
 		if (adjustPos) {
@@ -55,7 +56,7 @@ function addBodyParticles(body, direction, pos, adjustPos = true) {
 
 		body.particles.push(new Particle(position, velocity, {
 			color: body.color,
-			decaySpeed: velocity.length / 300 + 0.01,
+			decaySpeed: velocity.length / 350 + 0.008,
 		}));
 		body.lastParticleUpdate = Performance.lastUpdate;
 	}
@@ -64,11 +65,12 @@ function updateBodyParticles(body) {
 	let particles = body.particles;
 	const fps = Performance.fps;
 
+	/*
 	if (Performance.lastUpdate - body.lastParticleUpdate > 40) {
 		delete body.lastParticleUpdate;
 		delete body.particles;
 		return;
-	}
+	}*/
 	body.lastParticleUpdate = Performance.lastUpdate;
 
 	for (let i = 0; i < particles.length; i++) {
@@ -89,15 +91,29 @@ function updateBodyParticles(body) {
 	}
 }
 
-function updatePortalParticles() {
-	let portals = World.curWorld.layer.portals;
+function updatePortalParticles(portal) {
+	if (portal.particles === undefined) portal.particles = [];
 
-	for (let i = 0; i < portals.length; i++) {
-		let portal = portals[i];
-		if (portal.particles === undefined) portal.particles = [];
+	const len = Math.max(portal.width, portal.height) - 5;
+	if (portal.particles.length < 12 && (portal.particles.length == 0 || performance.now() - portal.particles[portal.particles.length - 1].creationTime > 130 / len * 130)) {
+		let alongX = portal.direction.x !== 0;
+		let position;
+		let velocity;
+	
+		if (alongX) {
+			position = portal.position.add({ x: 0, y: Math.random() * len });
+			velocity = portal.direction.mult({ x: Math.random() * 0.3 + 0.15, y: 0 });
+		}
+		else {
+			position = portal.position.add({ y: 0, x: Math.random() * len });
+			velocity = portal.direction.mult({ y: Math.random() * 0.3 + 0.15, x: 0 });
+		}
 
-		// if (portal)
+		portal.particles.push(new Particle(position, velocity, {
+			color: portal.color,
+			opacity: 0.4,
+			decaySpeed: (velocity.length * 0.01 + 0.003) / 3.5,
+			friction: 0.995,
+		}));
 	}
 }
-
-Render.on("beforeRender", updatePortalParticles);

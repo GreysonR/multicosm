@@ -240,13 +240,6 @@ const engine = {
 
 			Render.trigger("beforeRender");
 
-			// Render player
-			if (player.render && curViewingLayer === curLayer) {
-				const player = engine.player;
-				ctx.fillStyle = "#FF537D";
-				ctx.fillRect(player.position.x, player.position.y, 32, 32);
-			}
-
 			// Render Portals
 			for (let i = 0; i < portals.length; i++) {
 				let portal = portals[i];
@@ -254,6 +247,7 @@ const engine = {
 				ctx.fillRect(portal.position.x, portal.position.y, portal.width, portal.height);
 				
 				// Render particles
+				updatePortalParticles(portal);
 				if (portal.particles) {
 					updateBodyParticles(portal);
 
@@ -268,19 +262,14 @@ const engine = {
 					}
 				}
 			}
-			for (let i = 0; i < spikes.length; i++) {
-				let spike = spikes[i];
-				let verts = spike.vertices;
-				ctx.fillStyle = "#F44545";
-				
-				ctx.beginPath();
-				ctx.moveTo(verts[0].x, verts[0].y);
-				for (let i = 1; i < verts.length; i++) {
-					ctx.lineTo(verts[i].x, verts[i].y);
-				}
-				ctx.closePath();
-				ctx.fill();
+
+			// Render player
+			if (player.render && curViewingLayer === curLayer) {
+				const player = engine.player;
+				ctx.fillStyle = "#FF537D";
+				ctx.fillRect(player.position.x, player.position.y, 32, 32);
 			}
+
 			
 			// Render End
 			if (curViewingLayer === end.layer) {
@@ -303,6 +292,21 @@ const engine = {
 					}
 					ctx.globalAlpha = 1;
 				}
+			}
+
+			// Render spikes
+			for (let i = 0; i < spikes.length; i++) {
+				let spike = spikes[i];
+				let verts = spike.vertices;
+				ctx.fillStyle = "#F44545";
+				
+				ctx.beginPath();
+				ctx.moveTo(verts[0].x, verts[0].y);
+				for (let i = 1; i < verts.length; i++) {
+					ctx.lineTo(verts[i].x, verts[i].y);
+				}
+				ctx.closePath();
+				ctx.fill();
 			}
 
 			// Render Walls
@@ -588,18 +592,23 @@ const engine = {
 			// - Lose if didn't hit a body
 			if (toDeath) {
 				player.alive = false;
-				player.render = false;
 
 				setTimeout(() => {
-					player.alive = true;
-					player.render = true;
-					curWorld.curLayer = 0;
-					player.position = new vec(curWorld.start);
-				}, 900);
-
-				setTimeout(() => {
+					// death particles
 					let particlePosition = new vec(Math.max(0, Math.min(800, finalPos.x)), Math.max(0, Math.min(480, finalPos.y)));
-					addBodyParticles(player, dir.inverse(), particlePosition, false);
+					particlePosition.sub2({ x: 16, y: 16 });
+					addBodyParticles(player, dir.inverse(), particlePosition, collisionBody !== undefined);
+
+					// stop rendering player
+					player.render = false;
+
+					// wait a bit before resetting
+					setTimeout(() => {
+						player.alive = true;
+						player.render = true;
+						curWorld.curLayer = 0;
+						player.position = new vec(curWorld.start);
+					}, 900);
 				}, player.animation.duration);
 			}
 			// - Win if hit the end

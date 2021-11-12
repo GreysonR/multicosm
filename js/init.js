@@ -491,8 +491,8 @@ function reset() {
 	level.createSpike(new vec(243, 307), 64, 0, new vec(1, 0));
 	level.createSpike(new vec(90, 136), 125, 0, new vec(1, 0));
 	level.createSpike(new vec(125, 428), 89, 0, new vec(0, -1));
-	level.createSpike(new vec(104, 40), 91, 0, new vec(0, 1));
-	level.createSpike(new vec(90, 40), 34, 0, new vec(1, 0));
+	level.createSpike(new vec(88, 40), 108, 0, new vec(0, 1));
+	level.createSpike(new vec(90, 37), 40, 0, new vec(1, 0));
 	
 	// Layer 1
 	level.createWall(new vec(760, 0), 40, 400, 1);
