@@ -17,12 +17,6 @@
 		<div id="tutorial" class="active"></div>
 
 		<canvas id="canv" width="800" height="480"></canvas>
-
-		<div id="layerButtons">
-			<div id="layer2" class="" style="background-color: #9F51DC"></div>
-			<div id="layer1" class="" style="background-color: #F09D3C"></div>
-			<div id="layer0" class="active viewing" style="background-color: #DDE2ED"></div>
-		</div>
 	</div>
 
 	<!-- dev -->
@@ -41,7 +35,6 @@
 
 		document.getElementById("win").style.transform = `scale(${ pr })`;
 		document.getElementById("tutorial").style.transform = `scale(${ pr })`;
-		document.getElementById("layerButtons").style.transform = `scale(${ 1 / scale })`;
 	}
 	rescaleCanv();
 	window.addEventListener("resize", rescaleCanv);
@@ -59,6 +52,9 @@
 <script src="./js/particles.js"></script>
 <script src="./js/animations.js"></script>
 <script src="./js/trail.js"></script>
+
+<!-- in canvas ui -->
+<script src="./js/layerView.js"></script>
 
 <script>
 	// Start engine after everything has loaded

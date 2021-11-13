@@ -116,11 +116,11 @@ const animations = {
 		let gradient;
 		if (from.x - to.x) {
 			let dx = Math.sign(from.x - to.x);
-			gradient = ctx.createLinearGradient(200*dx, 0, -200*dx,0);
+			gradient = ctx.createLinearGradient(200*dx + 32, 0, -200*dx + 32,0);
 		}
 		else {
 			let dy = Math.sign(from.y - to.y);
-			gradient = ctx.createLinearGradient(0,200*dy, 0,-200*dy);
+			gradient = ctx.createLinearGradient(0,200*dy + 32, 0,-200*dy + 32);
 		}
 		gradient.addColorStop(0, "#FF537D00");
 		gradient.addColorStop(1, "#FF537D");
@@ -142,4 +142,22 @@ const animations = {
 			},
 		});
 	},
+	cameraShake: function(from, to, duration, callback) {
+		let diff = to.sub(from);
+
+		return animate.create({
+			duration: duration,
+			curve: ease.linear,
+			callback: (p) => {
+				Render.position = from.add(diff.mult(p));
+			},
+			onend: () => {
+				Render.position = to;
+
+				if (callback) {
+					callback();
+				}
+			},
+		});
+	}
 }

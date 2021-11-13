@@ -141,4 +141,13 @@ class vec {
 		}
 		return false;
 	}
+
+	toString(round = false) {
+		if (round) {
+			return `(${ Math.round(this.x) }, ${ Math.round(this.y) })`;
+		}
+		else {
+			return `(${ this.x }, ${ this.y })`;
+		}
+	}
 }

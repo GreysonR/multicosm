@@ -19,9 +19,10 @@ class Particle {
 	velocity = new vec(0, 0);
 	options = {
 		size: 6,
-		color: "#F09D3C",
+		color: "#F48D43",
 		friction: 0.95,
 		opacity: 1,
+		decayTime: 1900,
 	};
 
 	constructor(position, velocity, options) {
@@ -36,17 +37,17 @@ function addBodyParticles(body, direction, pos, adjustPos = false) {
 	body.particles = [];
 
 	let alongX = direction.x !== 0;
-	for (let i = 0; i < 12; i++) {
+	for (let i = 0; i < 13; i++) {
 		let position;
 		let velocity;
 
 		if (alongX) {
 			position = pos.add({ x: 0, y: Math.random() * 50 });
-			velocity = direction.mult({ x: Math.random() ** 1.2 * 5, y: 0 });
+			velocity = direction.mult({ x: Math.random() ** 1.2 * 6, y: 0 });
 		}
 		else {
 			position = pos.add({ y: 0, x: Math.random() * 50 });
-			velocity = direction.mult({ y: Math.random() ** 1.2 * 5, x: 0 });
+			velocity = direction.mult({ y: Math.random() ** 1.2 * 6, x: 0 });
 		}
 
 		if (adjustPos) {
@@ -57,6 +58,8 @@ function addBodyParticles(body, direction, pos, adjustPos = false) {
 		body.particles.push(new Particle(position, velocity, {
 			color: body.color,
 			decaySpeed: velocity.length / 350 + 0.008,
+			decayTime: 3000,
+			size: Math.round(Math.random() * 2 + 5),
 		}));
 		body.lastParticleUpdate = Performance.lastUpdate;
 	}
@@ -114,6 +117,7 @@ function updatePortalParticles(portal) {
 			opacity: 0.4,
 			decaySpeed: (velocity.length * 0.01 + 0.003) / 3.5,
 			friction: 0.995,
+			size: Math.random() + 5,
 		}));
 	}
 }

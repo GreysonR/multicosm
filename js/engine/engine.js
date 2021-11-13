@@ -36,10 +36,8 @@ const engine = {
 					return world._curLayer;
 				},
 				set curLayer(val) {
-					document.getElementById("layer" + world._curLayer).className = "";
 					world._curLayer = val;
 					world.curViewingLayer = val;
-					document.getElementById("layer" + val).className = "active viewing";
 				},
 				_curLayer: 0,
 				curViewingLayer: 0,
@@ -81,6 +79,8 @@ const engine = {
 						height: height,
 						to: layerTo,
 						direction: direction,
+						points: [],
+						sizes: [],
 						
 						color: world.layers[layerTo].color,
 					}
@@ -94,10 +94,66 @@ const engine = {
 						height: height,
 						to: layerIn,
 						direction: flipped ? direction : direction.inverse(),
+						points: [],
+						sizes: [],
 						
 						color: world.layers[layerIn].color,
 					}
 					world.layers[layerTo].portals.push(portal2);
+
+					function genPoints(portal) { // generates points for each part of rendered portal (basically caches the points)
+						function rotV(vert) { // rotates vertice to correct position
+							vert.x = (vert.x / 100) * Math.max(width, height);
+							let direction = portal.direction;
+
+							if (direction.x !== 0) {
+								let tmp = vert.x;
+								vert.x = vert.y;
+								vert.y = tmp;
+	
+								if (direction.x > 0) {
+									vert.x = vert.x * -1 + 5;
+								}
+								else {
+									vert.x -= 6;
+								}
+							}
+							if (direction.y > 0) {
+								vert.y = vert.y * -1 + 5;
+							}
+							else if (direction.y < 0) {
+								vert.y -= 6;
+							}
+
+							return vert;
+						}
+						function rotS(vert) {
+							let direction = portal.direction;
+							vert.x = (vert.x / 100) * Math.max(width, height);
+							if (direction.x !== 0) {
+								let tmp = vert.x;
+								vert.x = vert.y;
+								vert.y = tmp;
+							}
+							return vert;
+						}
+
+						// sizes
+						portal.sizes.push(rotS(new vec(92, 6)));
+						portal.sizes.push(rotS(new vec(100, 7)));
+						portal.sizes.push(rotS(new vec(15,  7)));
+						portal.sizes.push(rotS(new vec(42,  7)));
+						portal.sizes.push(rotS(new vec(15,  7)));
+
+						// points
+						portal.points.push(rotV(new vec(4,  0)));
+						portal.points.push(rotV(new vec(0,  6)));
+						portal.points.push(rotV(new vec(0,  6)));
+						portal.points.push(rotV(new vec(29, 6)));
+						portal.points.push(rotV(new vec(85, 6)));
+					}
+					genPoints(portal1);
+					genPoints(portal2);
 
 					portal1.sibling = portal2;
 					portal2.sibling = portal1;
@@ -129,7 +185,7 @@ const engine = {
 					let num = Math.floor((len - 24) / 12); // 24px for start and end, 12px "wavelength"
 					let scale = len / ((num + 2) * 12);
 					
-					function rotV(vert) { // rotates vertice to corret position
+					function rotV(vert) { // rotates vertice to correct position
 						if (direction.x !== 0) {
 							let tmp = vert.x;
 							vert.x = vert.y;
@@ -163,7 +219,7 @@ const engine = {
 				} 
 			}
 			// Create default layer
-			world.createLayer("#DDE2ED");
+			world.createLayer("#F7ECE1"); // DDE2ED
 
 			// Add to global worlds
 			this.worlds[index] = world;
@@ -179,37 +235,12 @@ const engine = {
 			// Reset player
 			engine.player.position = new vec(this.curWorld.start);
 
-			// Update UI
-			let layerButtons = document.getElementById("layerButtons");
-			layerButtons.innerHTML = "";
-
-			for (let i = 0; i < this.curWorld.layers.length; i++) {
-				let button = document.createElement("div");
-				button.id = "layer" + i;
-				button.style.backgroundColor = this.curWorld.layers[i].color;
-
-				if (i === 0) {
-					button.className = "active viewing";
-				}
-
-				button.onclick = function() {
-					let World = engine.World;
-					if (World.curWorld.curViewingLayer !== i) {
-						World.switchView(i);
-					}
-				}
-
-				layerButtons.prepend(button);
-			}
-
 			if (engine.player.trail) {
 				engine.player.trail.lastPositions.length = 0;
 			}
 		},
 		switchView: function(index) {
-			document.getElementById("layer" + this.curWorld.curViewingLayer).classList.remove("viewing");
 			this.curWorld.curViewingLayer = index;
-			document.getElementById("layer" + index).classList.add("viewing");
 		}
 	},
 	Render: (() => {
@@ -233,6 +264,9 @@ const engine = {
 			ctx.clearRect(0, 0, canv.width, canv.height);
 
 			ctx.save();
+			ctx.translate(Render.position.x, Render.position.y)
+			// ctx.translate(-8 + Render.position.x, -5 + Render.position.y)
+			// ctx.scale(1.02, 1.02);
 			
 			// Render Background
 			ctx.fillStyle = layer.color;
@@ -240,49 +274,83 @@ const engine = {
 
 			Render.trigger("beforeRender");
 
-			// Render Portals
-			for (let i = 0; i < portals.length; i++) {
-				let portal = portals[i];
-				ctx.fillStyle = portal.color;
-				ctx.fillRect(portal.position.x, portal.position.y, portal.width, portal.height);
-				
-				// Render particles
-				updatePortalParticles(portal);
-				if (portal.particles) {
-					updateBodyParticles(portal);
-
-					if (portal.particles) {
-						for (let j = 0; j < portal.particles.length; j++) {
-							let p = portal.particles[j];
-							ctx.globalAlpha = p.options.opacity;
-							ctx.fillStyle = p.options.color;
-							ctx.fillRect(p.position.x, p.position.y, p.options.size, p.options.size);
-						}
-						ctx.globalAlpha = 1;
-					}
-				}
-			}
-
 			// Render player
 			if (player.render && curViewingLayer === curLayer) {
 				const player = engine.player;
 				ctx.fillStyle = "#FF537D";
 				// ctx.fillRect(player.position.x, player.position.y, 32, 32);
+				Render.roundedRect(player.position.x, player.position.y, 32, 32, 2);
+			}
 
-				let borderRadius = 2;
-				ctx.beginPath();
-				ctx.moveTo(player.position.x + borderRadius, player.position.y);
-				ctx.lineTo(player.position.x + 32 - borderRadius, player.position.y);
-				ctx.arcTo(player.position.x + 32, player.position.y, player.position.x + 32, player.position.y + borderRadius, borderRadius);
-				ctx.lineTo(player.position.x + 32, player.position.y + 32 - borderRadius);
-				ctx.arcTo(player.position.x + 32, player.position.y + 32, player.position.x + 32 - borderRadius, player.position.y + 32, borderRadius);
-				ctx.lineTo(player.position.x + borderRadius, player.position.y + 32);
-				ctx.arcTo(player.position.x, player.position.y + 32, player.position.x, player.position.y + 32 - borderRadius, borderRadius);
-				ctx.lineTo(player.position.x, player.position.y + borderRadius);
-				ctx.arcTo(player.position.x, player.position.y, player.position.x + borderRadius, player.position.y, borderRadius);
+			// Render Portals
+			for (let i = 0; i < portals.length; i++) {
+				let portal = portals[i];
 
-				ctx.closePath();
-				ctx.fill();
+				// render particles
+				updatePortalParticles(portal);
+				if (portal.particles) {
+					updateBodyParticles(portal);
+
+					if (portal.particles) {
+						let now = performance.now();
+						for (let j = 0; j < portal.particles.length; j++) {
+							let p = portal.particles[j];
+							let decay = Math.max(0, 1 - (now - p.creationTime) / p.options.decayTime);
+
+							ctx.globalAlpha = p.options.opacity;
+							ctx.fillStyle = p.options.color;
+							ctx.fillRect(p.position.x, p.position.y, p.options.size * decay, p.options.size * decay);
+						}
+						ctx.globalAlpha = 1;
+					}
+				}
+
+				// simple portal
+				/*ctx.fillStyle = portal.color;
+				ctx.fillRect(portal.position.x, portal.position.y, portal.width, portal.height);
+				/* */
+
+				// decent portal
+				/*
+				let rounds;
+				let ra = 4;
+				if (portal.direction.x > 0) rounds = [ 0, ra, ra, 0 ];
+				else if (portal.direction.x < 0) rounds = [ ra, 0, 0, ra ];
+				else if (portal.direction.y > 0) rounds = [ 0, 0, ra, ra ];
+				else if (portal.direction.y < 0) rounds = [ ra, ra, 0, 0 ];
+				ctx.fillStyle = portal.color;
+				Render.roundedRect(portal.position.x, portal.position.y, portal.width, portal.height, rounds);
+				/* */
+
+				// fancy portal
+				let { position, points, sizes } = portal;
+				let colors = [ portal.color, "#4F4F4F", "#3D3D3D", "#3D3D3D", "#3D3D3D" ];
+				for (let i = 0; i < points.length; i++) {
+					ctx.fillStyle = colors[i];
+					let pt = points[i];
+					let size = sizes[i];
+
+					if (i <= 1) {
+						let rounds;
+						let ra = 3;
+						if (portal.direction.x > 0) rounds = [ 0, ra, ra, 0 ];
+						else if (portal.direction.x < 0) rounds = [ ra, 0, 0, ra ];
+						else if (portal.direction.y > 0) rounds = [ 0, 0, ra, ra ];
+						else if (portal.direction.y < 0) rounds = [ ra, ra, 0, 0 ];
+						Render.roundedRect(position.x + pt.x, position.y + pt.y, size.x, size.y, rounds);
+					}
+					else {
+						/*
+						let rounds;
+						let ra = 3;
+						if (portal.direction.x > 0) rounds = [ 0, ra, ra, 0 ];
+						else if (portal.direction.x < 0) rounds = [ ra, 0, 0, ra ];
+						else if (portal.direction.y > 0) rounds = [ 0, 0, ra, ra ];
+						else if (portal.direction.y < 0) rounds = [ ra, ra, 0, 0 ];*/
+
+						Render.roundedRect(position.x + pt.x, position.y + pt.y, size.x, size.y, 4);
+					}
+				}
 				/* */
 			}
 
@@ -290,7 +358,7 @@ const engine = {
 			// Render End
 			if (curViewingLayer === end.layer) {
 				ctx.fillStyle = "#6BCB6F";
-				ctx.fillRect(end.position.x, end.position.y, 32, 32);
+				Render.roundedRect(end.position.x, end.position.y, 32, 32, 3);
 			}
 
 			// Render particles
@@ -315,6 +383,8 @@ const engine = {
 				let spike = spikes[i];
 				let verts = spike.vertices;
 				ctx.fillStyle = "#F44545";
+				ctx.strokeStyle = "#F44545";
+				ctx.lineWidth = 0.5;
 				
 				ctx.beginPath();
 				ctx.moveTo(verts[0].x, verts[0].y);
@@ -323,6 +393,7 @@ const engine = {
 				}
 				ctx.closePath();
 				ctx.fill();
+				ctx.stroke();
 			}
 
 			// Render Walls
@@ -330,36 +401,69 @@ const engine = {
 			for (let i = 0; i < walls.length; i++) {
 				let wall = walls[i];
 				// ctx.fillRect(wall.position.x - 0.5, wall.position.y - 0.5, wall.width + 0.5, wall.height + 0.5);
-
-				// Rounds corners - almost as slow as bogosort
-				
-				let borderRadius = 3;
-				ctx.beginPath();
-				ctx.moveTo(wall.position.x + borderRadius, wall.position.y);
-				ctx.lineTo(wall.position.x + wall.width - borderRadius, wall.position.y);
-				ctx.arcTo(wall.position.x + wall.width, wall.position.y, wall.position.x + wall.width, wall.position.y + borderRadius, borderRadius);
-				ctx.lineTo(wall.position.x + wall.width, wall.position.y + wall.height - borderRadius);
-				ctx.arcTo(wall.position.x + wall.width, wall.position.y + wall.height, wall.position.x + wall.width - borderRadius, wall.position.y + wall.height, borderRadius);
-				ctx.lineTo(wall.position.x + borderRadius, wall.position.y + wall.height);
-				ctx.arcTo(wall.position.x, wall.position.y + wall.height, wall.position.x, wall.position.y + wall.height - borderRadius, borderRadius);
-				ctx.lineTo(wall.position.x, wall.position.y + borderRadius);
-				ctx.arcTo(wall.position.x, wall.position.y, wall.position.x + borderRadius, wall.position.y, borderRadius);
-
-				ctx.closePath();
-				ctx.fill();
-				/**/
+				Render.roundedRect(wall.position.x, wall.position.y, wall.width, wall.height, 3);
 			}
 
-
-			ctx.restore();
 			Render.trigger("afterRender");
+			ctx.restore();
 		}
 		Render.pixelRatio = 1;
 		Render.layer = 0;
 		Render.enabled = true;
+		Render.position = new vec(0, 0);
 
-		Render.setup = function() {
+		// ~ useful function for rendering
+		Render.roundedRect = function(x, y, width, height, radius) {
+			ctx.beginPath();
+
+			let ra, rb, rc, rd;
+			if (typeof radius === "object") {
+				ra = radius[1];
+				rb = radius[2];
+				rc = radius[3];
+				rd = radius[0];
+			}
+			else {
+				ra = rb = rc = rd = radius;
+			}
+
+			ctx.moveTo(x + rd, y);
+			ctx.lineTo(x + width - ra, y);
+			ctx.arcTo(x + width, y, x + width, y + ra, ra);
+			ctx.lineTo(x + width, y + height - rb);
+			ctx.arcTo(x + width, y + height, x + width - rb, y + height, rb);
+			ctx.lineTo(x + rc, y + height);
+			ctx.arcTo(x, y + height, x, y + height - rc, rc);
+			ctx.lineTo(x, y + rd);
+			ctx.arcTo(x, y, x + rd, y, rd);
+
+			ctx.closePath();
+			ctx.fill();
 		}
+		Render.cameraShake = function(dx = 15, dy = 15, times = 10, duration = 30) {
+			let i = 0;
+			function shake() {
+				let m = i % 2 == 0 ? 1 : -1;
+				let x = dx * m * (1 - i / times);
+				let y = dy * m * (1 - i / times);
+				let randomness = 0.5;
+				let amt = (Math.random() * randomness + (1 - randomness));
+				let pos = new vec(amt * x, amt * y);
+
+				animations.cameraShake(Render.position, pos, duration, () => {
+					i++;
+					if (i < times - 1) {
+						shake();
+					}
+					else {
+						animations.cameraShake(Render.position, new vec(0, 0), duration);
+					}
+				});
+			}
+			shake();
+		}
+
+		// ~ resolution / pixel ratio stuff
 		Render.setPixelRatio = function(pr) {
 			Render.pixelRatio = pr;
 			canv.width = 800 * pr;
@@ -370,6 +474,16 @@ const engine = {
 		}
 		Render.setPixelRatio(window.devicePixelRatio * 1.2);
 
+		// ~ images
+		Render.images = {}
+		Render.loadImg = function(name) {
+			let img = new Image();
+			img.src = "./images/" + name;
+
+			img.onload = function() {
+				Render.images[name.split(".")[0]] = img;
+			}
+		}
 		
 		// ~ events
 		Render.events = {
@@ -603,6 +717,12 @@ const engine = {
 						animations.move(player.position, finalPos);
 					}
 				}
+			}
+
+			if (toDeath) {
+				setTimeout(() => {
+					Render.cameraShake(8 * dir.x, 8 * dir.y, 3, 45);
+				}, player.animation.duration);
 			}
 
 			// Set camera to current layer when moved

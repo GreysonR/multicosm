@@ -128,7 +128,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 			if (iStart > index) {
 				// define color vars
 				let wall = "#494949";
-				let portals = [ "#DDE2ED", "#F09D3C", "#9F51DC" ];
+				let portals = [ "#DDE2ED", "#F48D43", "#7A51D3" ];
 				let spikes = "#F44545";
 
 				// get string of current rect
