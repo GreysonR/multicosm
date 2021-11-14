@@ -79,7 +79,7 @@ const animate = {
 		quintic: x => x ** 5,
 		exponential: x => x === 0 ? 0 : pow(2, 10 * x - 10),
 		circular: x => 1 - Math.sqrt(1 - Math.pow(x, 2)),
-		back: x => { const c1 = 1.70158; const c3 = c1 + 1; return c3 * x ** 3 - c1 ** 2; }
+		back: x => { const c1 = 1.70158; const c3 = c1 + 1; return c3 * x ** 3 - c1 * x ** 2; }
 	},
 	out: {
 		sine: x => Math.sin((x * Math.PI) / 2),
@@ -89,7 +89,7 @@ const animate = {
 		quintic: x => 1 - Math.pow(1 - x, 5),
 		exponential: x => x === 1 ? 1 : 1 - Math.pow(2, -10 * x),
 		circular: x => Math.sqrt(1 - Math.pow(x - 1, 2)),
-		back: x => { const c1 = 1.70158; const c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+		back: x => { const c1 = 2; const c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
 	},
 	inOut: {
 		sine: x => -(Math.cos(Math.PI * x) - 1) / 2,
@@ -109,7 +109,7 @@ const animations = {
 	move: function(from, to, curveType = ease.inOut, durationMult = 1.2, keepMoving = false) {
 		let diff = to.sub(from);
 		let m = 0.38;
-		let duration = Math.min(160, diff.length * m) * durationMult; // 160, 0.38
+		let duration = Math.min(200, diff.length * m) * durationMult; // 160, 0.38
 		let curve = typeof curveType === "function" ? curveType : curveType.quartic;
 
 
@@ -159,5 +159,75 @@ const animations = {
 				}
 			},
 		});
-	}
+	},
+	buttonDown: function(button) {
+		let to = button.direction.mult(-6);
+
+		return animate.create({
+			duration: 150,
+			delay: 20,
+			curve: ease.out.back,
+			callback: (p) => {
+				button.offset = to.mult(p);
+			},
+			onend: () => {
+				button.offset = to;
+			},
+		});
+	},
+	buttonUp: function(button) {
+		let diff = button.direction.mult(6);
+		let from = new vec(button.offset);
+
+		return animate.create({
+			duration: 100,
+			delay: 20,
+			curve: ease.out.cubic,
+			callback: (p) => {
+				button.offset = from.add(diff.mult(p));
+			},
+			onend: () => {
+				button.offset = new vec(0, 0);
+			},
+		});
+	},
+	pistonOff: function(piston, duration = 400, delay = 0) {
+		let from = new vec(piston.offset);
+		let diff = piston.direction.mult(-Math.max(piston.width, piston.height)).sub(from);
+
+		let anim = animate.create({
+			delay: delay,
+			duration: duration,
+			curve: ease.out.cubic,
+			callback: (p) => {
+				piston.offset = from.add(diff.mult(p));
+			},
+			onend: () => {
+				piston.offset = from.add(diff);
+				delete piston.animation;
+			},
+		});
+
+		if (piston.animation) piston.animation.stop();
+		piston.animation = anim;
+	},
+	pistonOn: function(piston, duration = 400, delay = 0) {
+		let from = new vec(piston.offset);
+		let diff = piston.direction.mult(Math.max(piston.width, piston.height));
+
+		let anim = animate.create({
+			delay: delay,
+			duration: duration,
+			curve: ease.out.cubic,
+			callback: (p) => {
+				piston.offset = from.add(diff.mult(p));
+			},
+			onend: () => {
+				piston.offset = from.add(diff);
+				delete piston.animation;
+			},
+		});
+		if (piston.animation) piston.animation.stop();
+		piston.animation = anim;
+	},
 }

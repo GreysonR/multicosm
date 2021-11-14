@@ -29,7 +29,8 @@ class Particle {
 		this.position = position;
 		this.velocity = velocity;
 		this.options = mergeObj(this.options, options);
-		this.creationTime = performance.now();
+		this.creationTime = options.creationTime ?? performance.now();
+		this.emissive = options.emissive ?? false;
 	}
 }
 
@@ -97,18 +98,22 @@ function updateBodyParticles(body) {
 function updatePortalParticles(portal) {
 	if (portal.particles === undefined) portal.particles = [];
 
+	if (!portal.lastEmissiveParticle) portal.lastEmissiveParticle = 0;
+
 	const len = Math.max(portal.width, portal.height) - 5;
-	if (portal.particles.length < 12 && (portal.particles.length == 0 || performance.now() - portal.particles[portal.particles.length - 1].creationTime > 130 / len * 130)) {
+	if (performance.now() - portal.lastEmissiveParticle > 120) {
+		portal.lastEmissiveParticle = performance.now();
+
 		let alongX = portal.direction.x !== 0;
 		let position;
 		let velocity;
 	
 		if (alongX) {
-			position = portal.position.add({ x: 0, y: Math.random() * len });
+			position = portal.position.add({ x: 0, y: Math.random() * (len - 10) + 5 });
 			velocity = portal.direction.mult({ x: Math.random() * 0.3 + 0.15, y: 0 });
 		}
 		else {
-			position = portal.position.add({ y: 0, x: Math.random() * len });
+			position = portal.position.add({ y: 0, x: Math.random() * (len - 10) + 5 });
 			velocity = portal.direction.mult({ y: Math.random() * 0.3 + 0.15, x: 0 });
 		}
 
@@ -118,6 +123,7 @@ function updatePortalParticles(portal) {
 			decaySpeed: (velocity.length * 0.01 + 0.003) / 3.5,
 			friction: 0.995,
 			size: Math.random() + 5,
+			emissive: true,
 		}));
 	}
 }
