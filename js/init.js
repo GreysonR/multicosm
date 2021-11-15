@@ -15,7 +15,7 @@ function reset() {
 // init levels
 (function initLevelTest() {
 	let level = World.create(World.worlds.length, new vec(135, 364), new vec(631, 348));
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	// level.createLayer("#7A51D3");
 
 	level.end.layer = 1;
@@ -62,7 +62,8 @@ function reset() {
 })();
 (function initLevelTest2() {
 	let level = World.create(World.worlds.length, new vec(125, 310), new vec(158, 342));
-	// level.createLayer("#F48D43");
+	level.layers[0].color = "#DAD9E3";
+	// level.createLayer("#F08E47");
 
 	// ~ layer 0
 	level.createWall(new vec(0, 0), 800, 64, 0);
@@ -76,12 +77,12 @@ function reset() {
 
 	// complex group 2
 	let wire1 = level.createWire([ new vec(42, 107), new vec(24, 107), new vec(24, 60), new vec(46, 37), new vec(205, 37), new vec(205, 51) ], 0);
-	let wire0 = level.createWire([ new vec(98, 247), new vec(24, 247), new vec(24, 107) ], 0);
+	let wire0 = level.createWire([ new vec(98, 247), new vec(42, 247), new vec(24, 223), new vec(24, 107) ], 0);
 	let piston2 = level.createPiston(new vec(116, 237), 78, 20, 0, new vec(1, 0)).setDefault(false);
 	let piston1 = level.createPiston(new vec(194, 64), 20, 128, 0, new vec(0, 1)).setDefault(false);
 	let button0 = level.createButton(new vec(50, 66), 11, 82, 0, new vec(1, 0));
 	// complex group 1
-	let wire2 = level.createWire([ new vec(410, 48), new vec(410, 32), new vec(776, 32), new vec(776, 451), new vec(707, 451), new vec(707, 439) ], 0);
+	let wire2 = level.createWire([ new vec(410, 48), new vec(410, 32), new vec(748, 32), new vec(776, 62), new vec(776, 424), new vec(754, 451), new vec(707, 451), new vec(707, 439) ], 0);
 	let piston0 = level.createPiston(new vec(400, 64), 20, 85, 0, new vec(0, 1)).setDefault(false);
 	let button1 = level.createButton(new vec(663, 419), 82, 11, 0, new vec(0, -1));
 
@@ -138,7 +139,7 @@ function reset() {
 (function initLevel5() {
 	let level = World.create(World.worlds.length, new vec(146, 148), new vec(614, 389));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(654, 0), 146, 480, 0);
@@ -161,7 +162,7 @@ function reset() {
 (function initLevel6() {
 	let level = World.create(World.worlds.length, new vec(256, 358), new vec(698, 388));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(730, 0), 70, 480, 0);
@@ -188,7 +189,7 @@ function reset() {
 (function initLevel7() {
 	let level = World.create(World.worlds.length, new vec(170, 170), new vec(170, 278));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(0, 0), 151, 480, 0);
@@ -208,7 +209,7 @@ function reset() {
 (function initLevel8() {
 	let level = World.create(World.worlds.length, new vec(97, 70), new vec(671, 318));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(0, 410), 800, 70, 0);
@@ -238,7 +239,7 @@ function reset() {
 (function initLevel9() {
 	let level = World.create(World.worlds.length, new vec(384, 365), new vec(44, 93));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(354, 0), 199, 226, 0);
@@ -266,7 +267,7 @@ function reset() {
 (function initLevel10() {
 	let level = World.create(World.worlds.length, new vec(130, 360), new vec(698, 50));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	// World.set(level.index);
 	
@@ -301,7 +302,7 @@ function reset() {
 (function initLevel11() {
 	let level = World.create(World.worlds.length, new vec(384, 244), new vec(694, 50));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	
 	// ~ layer 0
@@ -340,7 +341,7 @@ function reset() {
 (function initLevel12() {
 	let level = World.create(World.worlds.length, new vec(96, 282), new vec(170, 40));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	
 	// ~ layer 0
@@ -385,7 +386,7 @@ function reset() {
 (function initLevel13() {
 	let level = World.create(World.worlds.length, new vec(207, 408), new vec(416, 275));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	
 	// ~ layer 0
@@ -452,7 +453,7 @@ function reset() {
 (function initLevel14() {
 	let level = World.create(World.worlds.length, new vec(154, 181), new vec(93, 307));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	
 	// ~ layer 0
@@ -529,7 +530,7 @@ function reset() {
 (function initLevel15() {
 	let level = World.create(World.worlds.length, new vec(384, 224), new vec(519, 80));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	
 	// ~ layer 0
@@ -611,7 +612,7 @@ function reset() {
 (function initLevel16() {
 	let level = World.create(World.worlds.length, new vec(384, 111), new vec(460, 167));
 
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	level.createLayer("#7A51D3");
 	// World.set(level.index);
 	
@@ -689,7 +690,7 @@ function reset() {
 (function initLevel0() {
 	let level = World.create(World.worlds.length, new vec(384, 224), new vec(668, 361));
 	
-	level.createLayer("#F48D43");
+	level.createLayer("#F08E47");
 	
 	// ~ layer 0
 	level.createWall(new vec(0, 0), 43, 480, 0);

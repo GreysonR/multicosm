@@ -370,7 +370,7 @@ const engine = {
 			
 			// Render End
 			if (curViewingLayer === end.layer) {
-				ctx.fillStyle = "#6BCB6F";
+				ctx.fillStyle = end.color || "#6BCB6F";
 				Render.roundedRect(end.position.x, end.position.y, 32, 32, 2);
 			}
 
@@ -421,7 +421,7 @@ const engine = {
 				Render.roundedRect(obj.position.x + obj.offset.x, obj.position.y + obj.offset.y, obj.width, obj.height, Render.getRounds(obj.direction, 4));
 			}
 			// Render Pistons
-			ctx.fillStyle = "#706A64";
+			ctx.fillStyle = "#383838";
 			for (let i = 0; i < pistons.length; i++) {
 				let obj = pistons[i];
 

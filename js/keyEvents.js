@@ -121,10 +121,10 @@ document.getElementById("mapInput").addEventListener("input", event => {
 			if (iStart > index) {
 				// define color vars
 				let wall = "#494949";
-				let portals = [ "#DDE2ED", "#F48D43", "#7A51D3" ];
+				let portals = [ "#DDE2ED", "#F08E47", "#7A51D3" ];
 				let spike = "#F44545";
 				let button = "#FE4A49";
-				let piston = "#706A64";
+				let piston = "#383838";
 
 				// get string of current rect
 				let rectText = res.slice(iStart + 5, iEnd);
