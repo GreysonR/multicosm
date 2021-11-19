@@ -62,7 +62,7 @@ body {
 	font-size: 22px;
 	color: #616161;
 
-	background-color: #F7ECE1;
+	background-color: #F6EEE5;
 	border-radius: 5px;
 	padding: 3px;
 }
@@ -81,7 +81,7 @@ body {
 	font-size: 30px;
 	color: #353535;
 
-	background-color: #F7ECE1;
+	background-color: #F6EEE5;
 	border-radius: 5px;
 	padding: 3px;
 }
@@ -111,7 +111,7 @@ body {
 #layerButtons>div {
 	width: 44px;
 	height: 44px;
-	background-color: #F7ECE1;
+	background-color: #F6EEE5;
 
 	margin: 6px;
 	/* border: 3px solid #49494990; */

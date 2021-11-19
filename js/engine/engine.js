@@ -19,13 +19,19 @@ const engine = {
 	},
 	World: {
 		worlds: [],
-		curWorld: undefined,
+		get curWorld() {
+			return this.worlds[this.worldIndex];
+		},
 		worldIndex: -1,
 		
-		create: function(index = this.worlds.length, start, end) {
+		create: function(index = -1, start, end) {
+			index = index === -1 ? this.worlds.length : index;
+
 			let world = {
 				index: index,
 				start: start,
+				numCoins: 0,
+				collectedCoins: [],
 				end: {
 					position: end,
 					layer: 0,
@@ -54,6 +60,8 @@ const engine = {
 						color: color,
 						// index: index,
 						walls: [],
+						internalCorners: [],
+						coins: [],
 						portals: [],
 						spikes: [],
 
@@ -72,6 +80,48 @@ const engine = {
 						width: width,
 						height: height,
 					});
+				},
+				createInternalCorner: function(position, dir, layer) {
+					let offset = { x: -1, y: -1 };
+					if (dir >= 2) offset.y = 1;
+					if (dir === 1 || dir === 2) offset.x = 1;
+
+					let inWall2 = 0;
+					let inWall3 = 0;
+
+					for (let i = 0; i < world.layers[layer].walls.length; i++) {
+						let wall = world.layers[layer].walls[i];
+						let w = wall.width / 2;
+						let h = wall.height / 2;
+						let pos = wall.position.add({ x: w, y: h });
+
+						if (w > 22 && h > 22 && Math.abs(pos.x - (position.x + offset.x * 16)) <= w - 16 && Math.abs(pos.y - (position.y + offset.y * 16)) <= h - 16) {
+							inWall2++;
+						}
+						if (w > 55 && h > 55 && Math.abs(pos.x - (position.x + offset.x * 45)) <= w - 45 && Math.abs(pos.y - (position.y + offset.y * 45)) <= h - 45) {
+							inWall3++;
+						}
+					}
+
+					world.layers[layer].internalCorners.push({
+						type: "internalCorner",
+						position: position,
+						direction: dir,
+						inset1: inWall2 >= 2,
+						inset2: inWall2 >= 2 && inWall3 >= 2,
+					});
+				},
+				createCoin: function(position, layer) {
+					world.layers[layer].coins.push({
+						type: "coin",
+						position: position,
+						width: 25,
+						height: 25,
+						collected: false,
+						collectedPrev: false,
+						id: world.numCoins,
+					});
+					world.numCoins++;
 				},
 				createPortal: function(position, width, height, layerIn, layerTo, direction, flipped = false) {
 					// Portal in layerIn
@@ -250,7 +300,7 @@ const engine = {
 				},
 			}
 			// Create default layer
-			world.createLayer("#F7ECE1"); // DDE2ED
+			world.createLayer("#F6EEE5"); // DDE2ED
 
 			// Add to global worlds
 			this.worlds[index] = world;
@@ -259,16 +309,25 @@ const engine = {
 		},
 		set: function(index) {
 			// Set world
-			index = Math.min(index, this.worlds.length - 1);
 			this.worldIndex = index;
-			this.curWorld = this.worlds[index];
+			allWorlds.levelIndex = index;
 
 			// Reset player
-			engine.player.position = new vec(this.curWorld.start);
-
+			let curWorld = this.curWorld;
+			engine.player.position = new vec(curWorld.start);
 			if (engine.player.trail) {
 				engine.player.trail.lastPositions.length = 0;
 			}
+
+			// Load coins
+			curWorld.layers.forEach(layer => {
+				layer.coins.forEach(coin => {
+					let coins = data.worlds[allWorlds.worldIndex].coins;
+					if (coins[allWorlds.levelIndex] && coins[allWorlds.levelIndex][coin.id] === true) { 
+						coin.collectedPrev = true;
+					}
+				});
+			});
 		},
 		switchView: function(index) {
 			this.curWorld.curViewingLayer = index;
@@ -278,34 +337,65 @@ const engine = {
 		const Render = function() {
 			requestAnimationFrame(Render);
 			engine.Performance.update();
+
+			Render.trigger("beforeTick");
 			
 			// Check if renderer is enabled
-			if (Render.enabled !== true) return;
+			if (Render.enabled !== true) {
+				Render.trigger("afterTick");
+				return
+			};
 
 			// Check if the world exists
 			const { World } = engine;
 			const { curWorld } = World;
-			const pr = Render.pixelRatio; // pixel ratio
 			if (!curWorld) return;
 
 			// Get the current layer
 			const { end, viewingLayer:layer, curLayer, curViewingLayer } = curWorld;
-			const { walls, portals, spikes, buttons, wires, pistons } = layer;
+			const { walls, internalCorners, coins, portals, spikes, buttons, wires, pistons } = layer;
 
 			ctx.clearRect(0, 0, canv.width, canv.height);
 
 			ctx.save();
-			ctx.translate(Render.position.x, Render.position.y)
+			ctx.translate(Render.position.x, Render.position.y);
 			// ctx.translate(-8 + Render.position.x, -5 + Render.position.y)
 			// ctx.scale(1.02, 1.02);
 			
+			
 			// Render Background
 			ctx.fillStyle = layer.color;
-			ctx.fillRect(0, 0, canv.width / pr, canv.height / pr);
+			ctx.fillRect(0, 0, 800, 480);
+
+			/*
+			if (Render.lastBackground !== layer.color) {
+				Render.lastBackground = layer.color;
+				canv.style.background = layer.color;
+			}
+			*/
 
 			Render.trigger("beforeRender");
 
-			// Render player
+			// ~ Render coins
+			ctx.fillStyle = "#FFD465";
+			ctx.strokeStyle = "#F0B542";
+			ctx.lineWidth = 3.5;
+			for (let i = 0; i < coins.length; i++) {
+				let coin = coins[i];
+
+				if (!coin.collected) {
+					if (coin.collectedPrev) ctx.globalAlpha = 0.5;
+
+					ctx.beginPath();
+					Render.roundedRect(coin.position.x + 1.5, coin.position.y + 1.5, 17, 17, 4);
+					ctx.fill();
+					ctx.stroke();
+
+					if (coin.collectedPrev) ctx.globalAlpha = 1;
+				}
+			}
+
+			// ~ Render player
 			if (player.render && curViewingLayer === curLayer) {
 				const player = engine.player;
 				ctx.fillStyle = "#FF537D";
@@ -313,7 +403,7 @@ const engine = {
 				Render.roundedRect(player.position.x, player.position.y, 32, 32, 2);
 			}
 
-			// Render Portals
+			// ~ Render Portals
 			for (let i = 0; i < portals.length; i++) {
 				let portal = portals[i];
 
@@ -368,13 +458,13 @@ const engine = {
 			}
 
 			
-			// Render End
+			// ~ Render End
 			if (curViewingLayer === end.layer) {
 				ctx.fillStyle = end.color || "#6BCB6F";
 				Render.roundedRect(end.position.x, end.position.y, 32, 32, 2);
 			}
 
-			// Render particles
+			// ~ Render particles
 			if (player.particles) {
 				updateBodyParticles(player);
 
@@ -395,7 +485,7 @@ const engine = {
 				}
 			}
 
-			// Render spikes
+			// ~ Render spikes
 			for (let i = 0; i < spikes.length; i++) {
 				let spike = spikes[i];
 				let verts = spike.vertices;
@@ -413,14 +503,14 @@ const engine = {
 				ctx.stroke();
 			}
 
-			// Render Buttons
+			// ~ Render buttons
 			ctx.fillStyle = "#FE4A49";
 			for (let i = 0; i < buttons.length; i++) {
 				let obj = buttons[i];
 
 				Render.roundedRect(obj.position.x + obj.offset.x, obj.position.y + obj.offset.y, obj.width, obj.height, Render.getRounds(obj.direction, 4));
 			}
-			// Render Pistons
+			// ~ Render pistons
 			ctx.fillStyle = "#383838";
 			for (let i = 0; i < pistons.length; i++) {
 				let obj = pistons[i];
@@ -436,15 +526,76 @@ const engine = {
 				Render.roundedRect(pos.x, pos.y, w + Math.abs(dir.x) * 5, h + Math.abs(dir.y) * 5, Render.getRounds(dir, 6));
 			}
 
-			// Render Walls
+			// ~ Render internal corners
 			ctx.fillStyle = "#494949";
+			for (let i = 0; i < internalCorners.length; i++) {
+				let corner = internalCorners[i];
+				ctx.beginPath();
+				Render.corner(corner.position.x, corner.position.y, corner.direction, 5);
+				ctx.fill();
+			}
+
+			// ~ Render walls
+			ctx.fillStyle = "#494949";
+			ctx.beginPath();
 			for (let i = 0; i < walls.length; i++) {
 				let wall = walls[i];
 				// ctx.fillRect(wall.position.x - 0.5, wall.position.y - 0.5, wall.width + 0.5, wall.height + 0.5);
-				Render.roundedRect(wall.position.x, wall.position.y, wall.width, wall.height, 3);
+				Render.roundedRect(wall.position.x, wall.position.y, wall.width, wall.height, 8, false);
 			}
+			ctx.strokeStyle = "#494949";
+			ctx.lineWidth = 1;
+			ctx.stroke();
+			ctx.fill();
 
-			// Render Wires
+			// inset stuff
+			ctx.beginPath();
+			ctx.fillStyle = "#404040";
+			let insetAmt = 18;
+			for (let i = 0; i < walls.length; i++) {
+				let wall = walls[i];
+				if (wall.width > insetAmt * 2 + 10 && wall.height > insetAmt*2 + 10) {
+					Render.roundedRect(wall.position.x + insetAmt, wall.position.y + insetAmt, wall.width - insetAmt*2, wall.height - insetAmt*2, 8, false);
+				}
+			}
+			for (let i = 0; i < internalCorners.length; i++) {
+				let corner = internalCorners[i];
+				if (corner.inset1) {
+					let offset = { x: -1, y: -1 };
+					let dir = corner.direction;
+					if (dir >= 2) offset.y = 1;
+					if (dir === 1 || dir === 2) offset.x = 1;
+					Render.corner(corner.position.x + insetAmt * offset.x, corner.position.y + insetAmt * offset.y, corner.direction, 8);
+				}
+			}
+			ctx.fill();
+			
+			ctx.beginPath();
+			ctx.fillStyle = "#3a3a3a";
+			insetAmt = 45;
+			for (let i = 0; i < walls.length; i++) {
+				let wall = walls[i];
+				if (wall.width > insetAmt * 2 + 16 && wall.height > insetAmt*2 + 16) {
+					Render.roundedRect(wall.position.x + insetAmt, wall.position.y + insetAmt, wall.width - insetAmt*2, wall.height - insetAmt*2, 10, false);
+				}
+			}
+			ctx.fill();
+
+			ctx.beginPath();
+			for (let i = 0; i < internalCorners.length; i++) {
+				let corner = internalCorners[i];
+				if (corner.inset2) {
+					let offset = { x: -1, y: -1 };
+					let dir = corner.direction;
+					if (dir >= 2) offset.y = 1;
+					if (dir === 1 || dir === 2) offset.x = 1;
+					Render.corner(corner.position.x + insetAmt * offset.x, corner.position.y + insetAmt * offset.y, corner.direction, 8);
+				}
+			}
+			ctx.fill();
+			/* */
+
+			// ~ Render Wires
 			ctx.lineWidth = 4;
 			ctx.lineJoin = "round";
 			ctx.lineCap = "round";
@@ -466,13 +617,28 @@ const engine = {
 				ctx.stroke();
 			}
 
+
 			Render.trigger("afterRender");
 			ctx.restore();
+			Render.trigger("afterTick");
 		}
 		Render.pixelRatio = 1;
 		Render.layer = 0;
 		Render.enabled = true;
+		Render.lastBackground = "";
 		Render.position = new vec(0, 0);
+
+		Render.fancyCorners = false;
+		
+		/*
+		try {
+			ctx.getImageData(0, 0, 1, 1);
+			Render.fancyCorners = true;
+		}
+		catch(err) {
+			Render.fancyCorners = false;
+		}
+		/**/
 
 		// ~ useful function for rendering
 		Render.getRounds = function(direction, amount) {
@@ -484,8 +650,8 @@ const engine = {
 
 			return rounds;
 		}
-		Render.roundedRect = function(x, y, width, height, radius) {
-			ctx.beginPath();
+		Render.roundedRect = function(x, y, width, height, radius, fill=true) {
+			if (fill) ctx.beginPath();
 
 			let ra, rb, rc, rd;
 			if (typeof radius === "object") {
@@ -508,8 +674,30 @@ const engine = {
 			ctx.lineTo(x, y + rd);
 			ctx.arcTo(x, y, x + rd, y, rd);
 
+			if (fill) {
+				ctx.closePath();
+				ctx.fill();
+			}
+		}
+		Render.corner = function(x, y, dir, radius) {
+			if (dir === 0) {
+				ctx.moveTo(x, y + radius);
+				ctx.arcTo(x, y, x + radius, y, radius);
+			}
+			if (dir === 1) {
+				ctx.moveTo(x - radius, y);
+				ctx.arcTo(x, y, x, y + radius, radius);
+			}
+			if (dir === 2) {
+				ctx.moveTo(x, y - radius);
+				ctx.arcTo(x, y, x - radius, y, radius);
+			}
+			if (dir === 3) {
+				ctx.moveTo(x, y - radius);
+				ctx.arcTo(x, y, x + radius, y, radius);
+			}
+			ctx.lineTo(x, y);
 			ctx.closePath();
-			ctx.fill();
 		}
 		Render.cameraShake = function(dx = 15, dy = 15, times = 10, duration = 30) {
 			let i = 0;
@@ -560,6 +748,8 @@ const engine = {
 		Render.events = {
 			beforeRender: [],
 			afterRender: [],
+			beforeTick: [],
+			afterTick: [],
 		}
 		Render.on = function(event, callback) {
 			if (Render.events[event]) {
@@ -575,9 +765,10 @@ const engine = {
 		}
 		Render.trigger = function(event) {
 			// Trigger each event
-			Render.events[event].forEach(callback => {
-				callback();
-			});
+			let events = Render.events[event];
+			for (let i = 0; i < events.length; i++) {
+				events[i]();
+			}
 		}
 
 		return Render;
@@ -592,7 +783,7 @@ const engine = {
 		move: function (direction, fromPortal) { // Moves player in specified direction
 			const player = engine.player;
 
-			if (player.moving && !fromPortal || !player.alive) return;
+			if (player.moving && !fromPortal || !player.alive || !Render.enabled) return;
 
 			// - Make normalized vec from direction
 			let dir = new vec(0, 0);
@@ -602,16 +793,15 @@ const engine = {
 			if (direction === "right") dir.x = 1;
 
 			// ~ Do a collision check to find closest body in line of player
-			// very funky, don't question it
 			let playerPos = player.position.add(new vec(16, 16));
 
 			let bodies = [];
 			let curWorld = World.curWorld;
 			let curLayer = curWorld.curLayer;
 			let layer = curWorld.layer;
-			let { walls, portals, spikes, buttons, pistons } = layer;
+			let { walls, coins, portals, spikes, buttons, pistons } = layer;
 
-			// - find all bodies in line with player AND in the movement direction
+			// - find all bodies in line with player in the movement direction
 			function getBodies(allBodies) {
 				for (let i = 0; i < allBodies.length; i++) {
 					let body = allBodies[i];
@@ -630,7 +820,7 @@ const engine = {
 						if (dist < body.height / 2 + 15 && (bodyPos.x - playerPos.x) * dir.x > 0) {
 							if (!strictAngles.includes(body.type) || -dir.x === body.direction.x) { // check if you're going into the portal
 								let insideBody = (Math.abs((pos.x + body.width/2) - (player.position.x + 16)) < body.width/2 + 16) && (Math.abs((pos.y + body.height/2) - (player.position.y + 16)) < body.height/2 + 16);
-								if ((body.type !== "spike" && body.type !== "button") || !insideBody) { // check you're not inside spikes
+								if ((body.type !== "spike") || !insideBody) { // check you're not inside spikes
 									bodies.push(body);
 								}
 							}
@@ -641,7 +831,7 @@ const engine = {
 						if (dist < body.width / 2 + 15 && (bodyPos.y - playerPos.y) * dir.y > 0) {
 							if (!strictAngles.includes(body.type) || -dir.y === body.direction.y) { // Check if you're going into the portal
 								let insideBody = (Math.abs((pos.x + body.width/2) - (player.position.x + 16)) < body.width/2 + 16) && (Math.abs((pos.y + body.height/2) - (player.position.y + 16)) < body.height/2 + 16);
-								if ((body.type !== "spike" && body.type !== "button") || !insideBody) { // check you're not inside spikes
+								if ((body.type !== "spike") || !insideBody) { // check you're not inside spikes
 									bodies.push(body);
 								}
 							}
@@ -663,7 +853,8 @@ const engine = {
 				let body = bodies[i];
 				let dist;
 				let bodyPos = body.position.add({ x: body.width/2, y: body.height/2 });
-				let playerPos = player.position.add({ x: 16, y: 16 });
+				bodyPos.add2(dir.mult({ x: -body.width/2, y: -body.height/2 }));
+				let playerPos = player.position.add({ x: 16, y: 16 }).add(dir.mult({ x: -16, y: -16 }));
 
 				if (body.offset) bodyPos.add2(body.offset);
 
@@ -758,14 +949,18 @@ const engine = {
 				finalPos = new vec(collisionBody.position);
 			}
 
+			// - get coins in path
+			bodies = [];
+			getBodies(coins);
+
 			// - run animation to move to final position
 			let toDeath = collisionBody === undefined || collisionBody.type === "spike";
 			if (!toDeath && collisionBody.type === "portal") {
 				if (fromPortal === true) {
-					animations.move(player.position, finalPos, ease.linear, 1.2, true);	
+					animations.move(player.position, finalPos, bodies, ease.linear, 1.2, true);	
 				}
 				else {
-					animations.move(player.position, finalPos, ease.in, 0.8, true);	
+					animations.move(player.position, finalPos, bodies, ease.in, 0.8, true);	
 				}
 
 				setTimeout(() => {
@@ -806,18 +1001,18 @@ const engine = {
 			else {
 				if (fromPortal === true) {
 					if (toDeath) {
-						animations.move(player.position, finalPos, ease.linear, 0.8);
+						animations.move(player.position, finalPos, bodies, ease.linear, 0.8);
 					}
 					else {
-						animations.move(player.position, finalPos, ease.out, 1.6);
+						animations.move(player.position, finalPos, bodies, ease.out, 1.6);
 					}
 				}
 				else {
 					if (collisionBody === undefined) {
-						animations.move(player.position, finalPos, ease.linear, 1);
+						animations.move(player.position, finalPos, bodies, ease.linear, 1);
 					}
 					else {
-						animations.move(player.position, finalPos);
+						animations.move(player.position, finalPos, bodies);
 					}
 				}
 			}

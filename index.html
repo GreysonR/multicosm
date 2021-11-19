@@ -5,11 +5,15 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Multicosm</title>
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/home.css">
 </head>
 <body>
-	
 	<div id="inGame">
 		<div id="winText">You won!</div>
 		<div id="enterContinue" class="active">Press Enter to continue</div>
@@ -17,6 +21,58 @@
 		<div id="tutorial" class="active"></div>
 
 		<canvas id="canv" width="800" height="480"></canvas>
+	</div>
+	<div id="home" class="">
+		<div id="coinCount">69</div>
+		<div id="worldSelect">
+			<h1>Select a world</h1>
+			<div id="worlds">
+				<p id="worldLabel" class="label">World 1</p>
+				<p id="coinCost">420</p>
+				<svg id="worldsBackground" width="800" height="480" viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="158" cy="240" r="16" fill="#6BCB6F"/>
+					<path d="M177 240L236 240" stroke="#6BCB6F" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="256" cy="240" r="16" fill="#6BCB6F"/>
+					<path d="M274 240L333 240" stroke="#F08E47" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="352" cy="240" r="12" stroke="#F08E47" stroke-width="8"/>
+					<path d="M370 240L429 240" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="449" cy="240" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M468 240H527" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="546" cy="240" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M546 259L546 318" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="546" cy="337" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M566 337H625" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="643" cy="337" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M449 162L449 221" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="449" cy="143" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M468 143H527" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="546" cy="143" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M566 143H625" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="643" cy="143" r="13.5" stroke="#989898" stroke-width="5"/>
+					<path d="M643 162L643 221" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
+					<circle cx="643" cy="240" r="13.5" stroke="#989898" stroke-width="5"/>
+				</svg>
+			</div>
+		</div>
+		<div id="levelSelect" class="active">
+			<h1>Select a level</h1>
+			<p id="levelLabel" class="label">Level 1</p>
+			<div id="levels">
+				<div class="level complete"></div>
+				<div class="coin complete"></div>
+				<div class="coin"></div>
+				<div class="level unlocked"></div>
+				<div class="coin complete"></div>
+				<div class="coin complete"></div>
+				<div class="coin"></div>
+				<div class="level"></div>
+				<div class="coin"></div>
+				<div class="coin"></div>
+				<div class="level"></div>
+				<div class="coin"></div>
+				<div class="coin"></div>
+			</div>
+		</div>
 	</div>
 
 	<!-- dev -->
@@ -32,6 +88,7 @@
 		let scale = width / canv.width * (width < 800 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
 		scale = Math.min(scale, window.innerHeight / canv.height);
 		document.getElementById("inGame").style.transform = `translate(-50%, -50%) scale(${ scale })`;
+		document.getElementById("home").style.transform = `translate(-400px, -241px) scale(${ scale * canv.width / 800 })`;
 
 		document.getElementById("win").style.transform = `scale(${ pr })`;
 		document.getElementById("tutorial").style.transform = `scale(${ pr })`;
@@ -55,7 +112,9 @@
 <script src="./js/trail.js"></script>
 
 <!-- in canvas ui -->
-<script src="./js/layerView.js"></script>
+<script src="./js/ui/sideMenu.js"></script>
+<script src="./js/ui/layerView.js"></script>
+<script src="./js/ui/homeMenu.js"></script>
 
 <script>
 	// Start engine after everything has loaded
