@@ -1,7 +1,13 @@
 <svg width="800" height="480" viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect y="249" width="487" height="231" fill="#494949"/>
-<rect width="50" height="275" fill="#494949"/>
-<rect width="487" height="139" fill="#494949"/>
-<rect x="462" width="207" height="57" fill="#494949"/>
-<rect x="644" width="156" height="249" fill="#494949"/>
+<rect x="-193" y="249" width="680" height="394" fill="#494949"/>
+<rect x="-122" width="172" height="480" fill="#494949"/>
+<rect x="-210" y="-223" width="697" height="362" fill="#494949"/>
+<rect x="331" y="-188" width="469" height="245" fill="#494949"/>
+<rect x="644" y="-178" width="283" height="427" fill="#494949"/>
+<rect x="447" y="225" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="495" y="110" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect opacity="0.1" x="50" y="139" width="10" height="10" fill="#494949"/>
+<rect opacity="0.1" x="50" y="239" width="10" height="10" rx="3" fill="#494949"/>
+<rect opacity="0.1" x="487" y="57" width="10" height="10" fill="#494949"/>
+<rect opacity="0.1" x="634" y="57" width="10" height="10" rx="1" fill="#494949"/>
 </svg>

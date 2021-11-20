@@ -1,0 +1,269 @@
+#home {
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-400px, -240px);
+
+	width: 800px;
+	height: 480px;
+
+	background-color: #F6EEE5;
+
+	user-select: none;
+}
+#home.active {
+	display: block;
+}
+#home h1 {
+	position: absolute;
+	top: 60px;
+	left: 60px;
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-size: 36px;
+	color: #565656;
+	font-weight: 400;
+
+	margin: 0;
+}
+
+#home #coinCount {
+	position: absolute;
+	top: 50px;
+	right: 60px;
+	margin: 0;
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-size: 30px;
+	color: #DFA73A;
+	font-weight: 400;
+	text-align: right;
+}
+#home #coinCount::before {
+	content: "";
+	display: inline-block;
+	width:  28px;
+	height: 28px;
+
+	position: relative;
+	left: -5px;
+	top: 2px;
+
+	background-image: url("../images/coin.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+#worldSelect:not(.active) {
+	display: none;
+}
+#worldSelect #worlds {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#worldSelect #worlds circle {
+	transition: r, fill, stroke, stroke-width;
+	transition-duration: 300ms;
+	transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+#worldSelect #worlds circle:hover {
+	cursor: pointer
+}
+#worldSelect #worlds circle:not(.unlocked):not(.complete) {
+	stroke: #989898;
+	fill: transparent;
+	r: 13.5;
+	stroke-width: 5;
+}
+#worldSelect #worlds path:not(.unlocked):not(.complete) {
+	stroke: #989898;
+}
+#worldSelect #worlds circle.unlocked {
+	stroke: #F08E47;
+	fill: transparent;
+	r: 12;
+	stroke-width: 8;
+}
+#worldSelect #worlds circle.complete {
+	stroke: transparent;
+	fill: #6BCB6F;
+	r: 16;
+}
+#worldSelect #worlds path.unlocked {
+	stroke: #F08E47;
+}
+#worldSelect #worlds path.complete {
+	stroke: #6BCB6F;
+}
+.label {
+	position: absolute;
+	display: inline-block;
+	width: max-content;
+	pointer-events: none;
+
+	transform: translate(400px, 170px);
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-size: 20px;
+	color: #6D6D6D;
+	font-weight: 400;
+
+	opacity: 0;
+	transition: opacity 150ms;
+
+	background: #F6EEE5;
+}
+.label.active {
+	opacity: 1;
+	transition: opacity 150ms 50ms, transform 100ms;
+}
+
+#coinCost {
+	position: absolute;
+	display: inline-block;
+	width: auto;
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-size: 20px;
+	color: #DFA73A;
+	font-weight: 400;
+	text-align: right;
+
+	opacity: 0;
+	transition: opacity 150ms;
+
+	background: #F6EEE5;
+}
+#coinCost.active {
+	opacity: 1;
+}
+#coinCost::before {
+	content: "";
+	display: inline-block;
+	width:  18px;
+	height: 18px;
+
+	position: relative;
+	left: -2px;
+	top: 1px;
+
+	background-image: url("../images/coin.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+
+#levelSelect:not(.active) {
+	display: none;
+}
+#levelSelect #levels {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+
+	display: flex;
+	align-items: center;
+	/*
+	max-width: 500px;
+	flex-wrap: wrap;
+	row-gap: 20px;/**/
+}
+#levelSelect #levels .level {
+	display: inline-block;
+	margin: 0;
+	width:  24px;
+	height: 24px;
+	border-radius: 50%;
+
+	border: 6px solid #7E7E7E;
+
+	margin-left: 22px;
+}
+#levelSelect #levels .level.unlocked {
+	border: 8px solid #F08E47;
+	width:  20px;
+	height: 20px;
+	cursor: pointer;
+}
+#levelSelect #levels .level.complete {
+	border: none;
+	width:  30px;
+	height: 30px;
+
+	background: #6BCB6F;
+	cursor: pointer;
+}
+#levelSelect #levels .coin {
+	display: inline-block;
+	width:  12px;
+	height: 12px;
+	border-radius: 8px;
+	z-index: -2;
+
+	border: 4px solid #989898;
+	background: #9898983d;
+
+	margin-left: 7px;
+}
+#levelSelect #levels .coin::before {
+	content: "";
+	display: block;
+
+	position: relative;
+	top:  7px;
+	left: -23px;
+	z-index: -2;
+
+	width:  20px;
+
+	/* border-top: 4px dashed #989898; */
+}
+#levelSelect #levels .coin.complete {
+	border: none;
+	border-radius: 8px;
+
+	
+	width:  14px;
+	height: 14px;
+	background-color: #FFD465;
+	border: 4px solid #F0B542;/**/
+	
+	/*
+	width:  23px;
+	height: 23px;
+	border-radius: 0px;
+	background-image: url("../images/coin.png");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;/**/
+}
+
+#backLevel {
+	position: absolute;
+	bottom: 50px;
+	left: 60px;
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-size: 20px;
+	color: #565656;
+	font-weight: 400;
+
+	padding: 4px;
+	padding-left:  10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	border: 2.5px solid transparent;
+
+	transition: background 150ms, border 150ms;
+}
+#backLevel:hover {
+	cursor: pointer;
+	color: #525252;
+
+	background: #50505004;
+	border: 2.5px solid #50505010;
+}

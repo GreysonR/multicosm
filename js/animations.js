@@ -106,11 +106,21 @@ const ease = animate;
 
 
 const animations = {
-	move: function(from, to, curveType = ease.inOut, durationMult = 1.2, keepMoving = false) {
+	move: function(from, to, coins=[], curveType = ease.inOut, durationMult = 1.2, keepMoving = false) {
+		if (Array.isArray(durationMult)) {
+			coins = durationMult;
+			durationMult = 1.2;
+		}
+		if (Array.isArray(curveType)) {
+			coins = curveType;
+			curveType = ease.inOut;
+		}
+
 		let diff = to.sub(from);
+		let dir = diff.normalized();
 		let m = 0.38;
 		let duration = Math.min(200, diff.length * m) * durationMult; // 160, 0.38
-		let curve = typeof curveType === "function" ? curveType : curveType.quartic;
+		let curve = typeof curveType === "function" ? curveType : curveType.cubic;
 
 
 		let gradient;
@@ -125,13 +135,27 @@ const animations = {
 		gradient.addColorStop(0, "#FF537D00");
 		gradient.addColorStop(1, "#FF537D");
 
+
 		player.moving = true;
 		Trail.addBody(player, gradient);
+
 		player.animation = animate.create({
 			duration: duration,
 			curve: curve,
 			callback: (p) => {
 				player.position = from.add(diff.mult(p));
+
+				for (let i = 0; i < coins.length; i++) {
+					let coin = coins[i];
+					let d = player.position.add(16).sub(coin.position.add(12.5)).mult(dir);
+					if (!coin.collected && (d.x > 0 || d.y > 0)) { // pick up coin
+						coin.collected = true;
+
+						if (!coin.collectedPrev) {
+							World.curWorld.collectedCoins.push(coin.id);
+						}
+					}
+				}
 			},
 			onend: () => {
 				player.position = to;

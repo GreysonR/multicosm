@@ -1,25 +1,31 @@
 "use strict";
 
 const events = {
-	up: [ function(keydown) { if (keydown) player.move("up") } ],
-	down: [ function(keydown) { if (keydown) player.move("down") } ],
-	left: [ function(keydown) { if (keydown) player.move("left") } ],
-	right: [ function(keydown) { if (keydown) player.move("right") } ],
-	reset: [ function(keydown) {
-		if (keydown && !player.moving) {
+	up: function(keydown) { if (keydown) player.move("up") },
+	down: function(keydown) { if (keydown) player.move("down") },
+	left: function(keydown) { if (keydown) player.move("left") },
+	right: function(keydown) { if (keydown) player.move("right") },
+	reset: function(keydown, resetPlayer = true) {
+		if (keydown && !player.moving && !document.getElementById("winText").classList.contains("active")) {
 			let world = World.curWorld;
 
 			// reset player
-			player.alive = true;
-			player.render = true;
-			world.curLayer = 0;
-			player.position = new vec(world.start);
+			if (resetPlayer) {
+				player.alive = true;
+				player.render = true;
+				world.curLayer = 0;
+				player.position = new vec(world.start);
+			}
 			
-			// reset buttons / wires
+			// reset coins / buttons
+			World.curWorld.collectedCoins.length = 0;
 			for (let l = 0; l < world.layers.length; l++) {
 				let layer = world.layers[l];
-				let { buttons, pistons, wires } = layer;
+				let { coins, buttons, pistons } = layer;
 				
+				for (let i = 0; i < coins.length; i++) {
+					coins[i].collected = false;
+				}
 				for (let i = 0; i < pistons.length; i++) {
 					pistons[i].reset();
 				}
@@ -28,8 +34,8 @@ const events = {
 				}
 			}
 		}
-	} ],
-	enter: [ function(keydown) {
+	},
+	enter: function(keydown) {
 		if (keydown) {
 			let enterText = document.getElementById("enterContinue");
 			if (!enterText.classList.contains("active")) return;
@@ -48,23 +54,34 @@ const events = {
 					win.classList.add("active");
 				}
 				else {
-					World.set(World.worldIndex + 1);
-					player.alive = true;
-					curLevel = World.worldIndex;
-					save();
+					nextLevel();
 				}
 			}
 		}
-	} ],
+	},
 
 	trigger: function(event, value) {
-		let curEvents = events[event];
-		if (curEvents && curEvents.length > 0) {
-			for (let i = 0; i < curEvents.length; i++) {
-				curEvents[i](value);
-			}
+		let curEvent = events[event];
+		if (curEvent) {
+			curEvent(value);
 		}
 	}
+}
+function nextLevel() {
+	let levelData = data.worlds[allWorlds.worldIndex];
+
+	events.reset(true, false);
+
+	if (allWorlds.levelIndex < allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index) {
+		World.set(World.worldIndex + 1);
+		player.alive = true;
+		data.level = World.worldIndex;
+	}
+	else {
+		levelData.completed = true;
+		openHome();
+	}
+	save();
 }
 window.addEventListener("keydown", event => {
 	const key = event.key.toLowerCase();
@@ -90,6 +107,7 @@ window.addEventListener("keyup", event => {
 	if (key === "d" || key === "arrowright") events.trigger("right", false);
 
 	if (key === "x") reset();
+	if (key === "escape") openHome();
 });
 
 
@@ -121,6 +139,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 			if (iStart > index) {
 				// define color vars
 				let wall = "#494949";
+				let coin = "#FFD465";
 				let portals = [ "#DDE2ED", "#F08E47", "#7A51D3" ];
 				let spike = "#F44545";
 				let button = "#FE4A49";
@@ -153,7 +172,19 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				}
 
 				if (!rect.fill || rect.fill === wall) { // export as wall
-					out += `\n\tlevel.createWall(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, ${ rect.height }, ${ layer });`;
+					if (!rect.opacity || rect.opacity === 1) {
+						out += `\n\t\t\t\tlevel.createWall(new vec(${ rect.x }, ${ rect.y }), ${ rect.width }, ${ rect.height }, ${ layer });`;
+					}
+					else {
+						let dir = rect.rx;
+						if (dir >= 2) rect.y += 10;
+						if (dir === 1 || dir === 2) rect.x += 10;
+						
+						out += `\n\t\t\t\tlevel.createInternalCorner(new vec(${ rect.x }, ${ rect.y }), ${ dir }, ${ layer });`;
+					}
+				}
+				else if (rect.fill === coin) {
+					out += `\n\t\t\t\tlevel.createCoin(new vec(${ rect.x }, ${ rect.y }), ${ layer });`;
 				}
 				else if (portals.includes(rect.fill) && portals.indexOf(rect.fill) > layer) { // export as teleporter
 					let vecStr = "1, 0";
@@ -174,7 +205,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 						rect.y -= direction.y;
 					}
 
-					outPortal += `\n\tlevel.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ alongY ? 6 : rect.width }, ${ alongY ? rect.height : 6 }, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vecStr })${ reflective ? ", true" : "" });`;
+					outPortal += `\n\t\t\t\tlevel.createPortal(new vec(${ rect.x }, ${ rect.y }), ${ alongY ? 6 : rect.width }, ${ alongY ? rect.height : 6 }, ${ layer }, ${ portals.indexOf(rect.fill) }, new vec(${ vecStr })${ reflective ? ", true" : "" });`;
 				}
 				else if (rect.fill === spike) {
 					let vec = "1, 0";
@@ -187,7 +218,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 						else vec = "0, -1";
 					}
 
-					outSpike += `\n\tlevel.createSpike(new vec(${ rect.x }, ${ rect.y }), ${ Math.max(rect.width, rect.height) }, ${ layer }, new vec(${ vec }));`;
+					outSpike += `\n\t\t\t\tlevel.createSpike(new vec(${ rect.x }, ${ rect.y }), ${ Math.max(rect.width, rect.height) }, ${ layer }, new vec(${ vec }));`;
 				}
 				else if (rect.fill === button) {
 					let vecStr = "1, 0";
@@ -204,17 +235,17 @@ document.getElementById("mapInput").addEventListener("input", event => {
 					let name = "button" + numButtons++;
 					let group = Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
 					let comment = "// complex group " + group;
-					let text = `\n\tlet ${ name } = level.createButton(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }));`;
+					let text = `\n\t\t\t\tlet ${ name } = level.createButton(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }));`;
 
 					if (!group) {
-						outComplex += "\n\t" + text;
+						outComplex += "\n\t\t\t\t" + text;
 					}
 					else if (outComplex.includes(comment)) {
 						let i = outComplex.indexOf(comment) + comment.length;
 						outComplex = outComplex.slice(0, i) + text + outComplex.slice(i);
 					}
 					else {
-						outComplex += "\n\t" + comment + text;
+						outComplex += "\n\t\t\t\t" + comment + text;
 					}
 				}
 				else if (rect.fill === piston) {
@@ -230,22 +261,20 @@ document.getElementById("mapInput").addEventListener("input", event => {
 					}
 
 					let setDefault = rect.opacity && rect.opacity === 0.5 ? ".setDefault(false)" : "";
-					console.log(rect.opacity);
-
 					let name = "piston" + numPistons++;
 					let group = Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
 					let comment = "// complex group " + group;
-					let text = `\n\tlet ${ name } = level.createPiston(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }))${ setDefault };`;
+					let text = `\n\t\t\t\tlet ${ name } = level.createPiston(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }))${ setDefault };`;
 
 					if (!group) {
-						outComplex += "\n\t" + text;
+						outComplex += "\n\t\t\t\t" + text;
 					}
 					else if (outComplex.includes(comment)) {
 						let i = outComplex.indexOf(comment) + comment.length;
 						outComplex = outComplex.slice(0, i) + text + outComplex.slice(i);
 					}
 					else {
-						outComplex += "\n\t" + comment + text;
+						outComplex += "\n\t\t\t\t" + comment + text;
 					}
 				}
 
@@ -318,17 +347,17 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				let wireName = "wire" + numWires++;
 				let group = Math.round((Number(wireObj["stroke-width"]) - 4) * 100);
 				let comment = "// complex group " + group;
-				let newText = `\n\tlet ${ wireName } = level.createWire([ ${ path.join(", ") } ], ${ layer });`;
+				let newText = `\n\t\t\t\tlet ${ wireName } = level.createWire([ ${ path.join(", ") } ], ${ layer });`;
 
 				if (!group) {
-					outComplex += "\n\t" + text;
+					outComplex += "\n\t\t\t\t" + text;
 				}
 				else if (outComplex.includes(comment)) {
 					let i = outComplex.indexOf(comment) + comment.length;
 					outComplex = outComplex.slice(0, i) + newText + outComplex.slice(i);
 				}
 				else {
-					outComplex += "\n\t" + comment + newText;
+					outComplex += "\n\t\t\t\t" + comment + newText;
 				}
 			}
 			else {
@@ -351,7 +380,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 		out += outSpike ? "\n" + outSpike : "";
 		out += outComplex ? "\n" + outComplex : "";
 
-		out = "\n\t" + out.trim();
+		out = "\n\t\t\t\t" + out.trim();
 
 		navigator.clipboard.writeText(out);
 		console.log(out);
