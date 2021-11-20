@@ -117,6 +117,7 @@ const animations = {
 		}
 
 		let diff = to.sub(from);
+		let dir = diff.normalized();
 		let m = 0.38;
 		let duration = Math.min(200, diff.length * m) * durationMult; // 160, 0.38
 		let curve = typeof curveType === "function" ? curveType : curveType.cubic;
@@ -146,11 +147,12 @@ const animations = {
 
 				for (let i = 0; i < coins.length; i++) {
 					let coin = coins[i];
-					if (!coin.collected && player.position.add(16).sub(coin.position.add(12.5)).length < 22) { // pick up coin
+					let d = player.position.add(16).sub(coin.position.add(12.5)).mult(dir);
+					if (!coin.collected && (d.x > 0 || d.y > 0)) { // pick up coin
 						coin.collected = true;
 
 						if (!coin.collectedPrev) {
-							World.curWorld.collectedCoins[coin.id] = true;
+							World.curWorld.collectedCoins.push(coin.id);
 						}
 					}
 				}

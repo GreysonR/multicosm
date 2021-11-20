@@ -320,10 +320,12 @@ const engine = {
 			}
 
 			// Load coins
+			let levelIndex = allWorlds.relLevelIndex;
+			let coins = data.worlds[allWorlds.worldIndex].coins;
 			curWorld.layers.forEach(layer => {
 				layer.coins.forEach(coin => {
-					let coins = data.worlds[allWorlds.worldIndex].coins;
-					if (coins[allWorlds.levelIndex] && coins[allWorlds.levelIndex][coin.id] === true) { 
+					// console.log(coins[levelIndex], coin.id)
+					if (coins[levelIndex] && coins[levelIndex].includes(coin.id)) { 
 						coin.collectedPrev = true;
 					}
 				});
@@ -384,7 +386,7 @@ const engine = {
 				let coin = coins[i];
 
 				if (!coin.collected) {
-					if (coin.collectedPrev) ctx.globalAlpha = 0.5;
+					if (coin.collectedPrev) ctx.globalAlpha = 0.4;
 
 					ctx.beginPath();
 					Render.roundedRect(coin.position.x + 1.5, coin.position.y + 1.5, 17, 17, 4);
@@ -531,7 +533,7 @@ const engine = {
 			for (let i = 0; i < internalCorners.length; i++) {
 				let corner = internalCorners[i];
 				ctx.beginPath();
-				Render.corner(corner.position.x, corner.position.y, corner.direction, 5);
+				Render.corner(corner.position.x, corner.position.y, corner.direction, 7);
 				ctx.fill();
 			}
 
@@ -1060,6 +1062,39 @@ const engine = {
 					document.getElementById("enterContinue").classList.add("active");
 					document.getElementById("winText").classList.add("active");
 					player.alive = false;
+
+					// ~ update stats
+					let curWorld = World.curWorld;
+					let levelData = data.worlds[allWorlds.worldIndex];
+
+					if (!levelData.completedLevels.includes(World.worldIndex)) levelData.completedLevels.push(World.worldIndex);
+
+					if (curWorld.collectedCoins.length > 0) {
+						let coins = levelData.coins;
+						let levelIndex = allWorlds.relLevelIndex;
+
+						if (!coins[levelIndex]) coins[levelIndex] = [];
+
+						for (let i = 0; i < curWorld.collectedCoins.length; i++) {
+							let coin = curWorld.collectedCoins[i];
+							if (!coins[levelIndex].includes(coin)) {
+								coins[levelIndex].push(coin);
+							}
+						}
+
+
+						data.coins += curWorld.collectedCoins.length;
+					}
+
+					for (let i = 0; i < curWorld.layers.length; i++) {
+						let layer = curWorld.layers[i];
+						for (let j = 0; j < layer.coins.length; j++) {
+							let coin = layer.coins[j];
+							if (coin.collected) {
+								coin.collectedPrev = true;
+							}
+						}
+					}
 					
 					window.dispatchEvent(new CustomEvent("levelWin"));
 				}, player.animation.duration);

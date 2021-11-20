@@ -1,19 +1,5 @@
 "use strict";
 
-function mergeObj(obj1, obj2) { // Merges obj2 over obj1
-	Object.keys(obj2).forEach(key => {
-		if (typeof obj2[key] === "object" && !Array.isArray(obj2[key])) {
-			if (!obj1[key]) obj1[key] = {};
-			mergeObj(obj1[key], obj2[key]);
-		}
-		else {
-			obj1[key] = obj2[key];
-		}
-	});
-
-	return obj1;
-}
-
 class Particle {
 	position = new vec(0, 0);
 	velocity = new vec(0, 0);

@@ -6,7 +6,7 @@ const events = {
 	left: function(keydown) { if (keydown) player.move("left") },
 	right: function(keydown) { if (keydown) player.move("right") },
 	reset: function(keydown, resetPlayer = true) {
-		if (keydown && !player.moving) {
+		if (keydown && !player.moving && !document.getElementById("winText").classList.contains("active")) {
 			let world = World.curWorld;
 
 			// reset player
@@ -68,32 +68,7 @@ const events = {
 	}
 }
 function nextLevel() {
-	let curWorld = World.curWorld;
 	let levelData = data.worlds[allWorlds.worldIndex];
-
-	if (!levelData.completedLevels.includes(World.worldIndex)) levelData.completedLevels.push(World.worldIndex);
-
-	if (curWorld.collectedCoins.length > 0) {
-		let coins = levelData.coins;
-		if (!coins[allWorlds.levelIndex]) coins[allWorlds.levelIndex] = [];
-		for (let i = 0; i < curWorld.collectedCoins.length; i++) {
-			if (curWorld.collectedCoins[i] === true && !coins[allWorlds.levelIndex][i]) {
-				coins[allWorlds.levelIndex][i] = true;
-			}
-		}
-
-		data.coins += curWorld.collectedCoins.reduce((t, v) => t + (v || 0));
-	}
-
-	for (let i = 0; i < curWorld.layers.length; i++) {
-		let layer = curWorld.layers[i];
-		for (let j = 0; j < layer.coins.length; j++) {
-			let coin = layer.coins[j];
-			if (coin.collected) {
-				coin.collectedPrev = true;
-			}
-		}
-	}
 
 	events.reset(true, false);
 
@@ -132,6 +107,7 @@ window.addEventListener("keyup", event => {
 	if (key === "d" || key === "arrowright") events.trigger("right", false);
 
 	if (key === "x") reset();
+	if (key === "escape") openHome();
 });
 
 

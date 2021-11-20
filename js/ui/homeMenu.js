@@ -62,20 +62,22 @@ function loadLevelSelect(index) {
 	let levelUI = document.getElementById("levels");
 	let worldData = data.worlds[index];
 	let world = allWorlds[index];
+	let title = document.getElementById("levelSelectTitle");
+	let levelLabel = document.getElementById("levelLabel");
 
 	allWorlds.worldIndex = index;
 
 	levelSelect.classList.add("active");
 	worldSelect.classList.remove("active");
 
+	title.innerHTML = worldData.name || "Select a level";
 	levelUI.innerHTML = "";
 	
 	for (let i = 0; i < world.levels.length; i++) {
 		let level = world.levels[i];
 		let unlocked = i === 0 ? true : worldData.completedLevels.includes(level.index - 1);
 		let completed = worldData.completedLevels.includes(level.index);
-
-		console.log(worldData, i);
+		let index = level.index - world.levels[0].index;
 
 		let levelDiv = document.createElement("div");
 		levelDiv.classList.add("level");
@@ -89,13 +91,23 @@ function loadLevelSelect(index) {
 				closeHome();
 			}
 		}
+		levelDiv.onmouseover = function() {
+			if (unlocked) {
+				levelLabel.innerHTML = "Level " + (index + 1);
+				levelLabel.style.transform = `translate(${ levelDiv.offsetLeft + 400 - levelUI.clientWidth / 2 - levelLabel.clientWidth/4 }px, ${ levelUI.offsetTop - 70 }px)`;
+				levelLabel.classList.add("active");
+			}
+		}
+		levelDiv.onmouseout = function() {
+			levelLabel.classList.remove("active");
+		}
 
 		levelUI.appendChild(levelDiv);
 
 		for (let c = 0; c < level.numCoins; c++) {
 			let coinDiv = document.createElement("div");
 			coinDiv.classList.add("coin");
-			if (worldData.coins[i] && worldData.coins[i][c] === true) coinDiv.classList.add("complete");
+			if (worldData.coins[i] && worldData.coins[i].includes(c)) coinDiv.classList.add("complete");
 			
 			levelUI.appendChild(coinDiv);
 		}
@@ -113,11 +125,11 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 		let index = Array.prototype.indexOf.call(elem.parentNode.children, elem) / 2;
 		let title = document.getElementById("worldLabel");
 		let costUI = document.getElementById("coinCost");
-		let titleY = 65;
+		let titleY = 70;
 
 		// Update ui showing cost of world
 		let world = data.worlds[index];
-		if (world && !world.unlocked && world.cost && data.worlds[world.prev].unlocked) {
+		if (world && !world.unlocked && world.cost && data.worlds[world.prev].completed) {
 			let costPos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: 70 });
 			costUI.innerHTML = world.cost;
 			costUI.classList.add("active");
@@ -128,7 +140,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 
 		// Update title 
 		let pos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: titleY });
-		title.innerHTML = world && (!world.prev || data.worlds[world.prev].unlocked) ? "World " + (index + 1) : "???";
+		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed) ? (world.name || "World " + (index + 1)) : "???";
 		title.classList.add("active");
 		title.style.transform = `translate(${ pos.x }px, ${ pos.y }px) translateX(-50%)`;
 
@@ -144,13 +156,14 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 			if (world.unlocked) { // go to level select menu
 				loadLevelSelect(index);
 			}
-			else if (data.worlds[world.prev].unlocked) { // attempt to buy world
+			else if (data.worlds[world.prev].completed) { // attempt to buy world
 				if (!world.cost || data.coins >= world.cost) {
 					if (world.cost) data.coins -= world.cost;
 					document.getElementById("coinCount").innerHTML = data.coins;
 
 					world.unlocked = true;
 					elem.classList.add("unlocked");
+					costUI.classList.remove("active");
 					
 					save();
 				}

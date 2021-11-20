@@ -9,10 +9,11 @@
 <rect x="486" y="-87" width="409" height="127" fill="#494949"/>
 <rect x="467" y="104" width="38" height="210" fill="#494949"/>
 <rect x="659" y="274" width="40" height="68" fill="#494949"/>
-<rect x="689" y="-103" width="243" height="268" fill="#494949"/>
+<rect x="699" y="-103" width="233" height="268" fill="#494949"/>
 <rect x="760" y="-76" width="123" height="634" fill="#494949"/>
 <rect x="467" y="274" width="232" height="40" fill="#494949"/>
 <rect x="659" y="241" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect opacity="0.1" x="222" y="40" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="96" y="420" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="361" y="40" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="505" y="264" width="10" height="10" rx="3" fill="#494949"/>
