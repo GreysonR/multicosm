@@ -164,8 +164,13 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 
+
 	display: flex;
 	align-items: center;
+	/*
+	max-width: 500px;
+	flex-wrap: wrap;
+	row-gap: 20px;/**/
 }
 #levelSelect #levels .level {
 	display: inline-block;

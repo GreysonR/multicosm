@@ -9,6 +9,10 @@ function openHome() {
 	document.getElementById("home").classList.add("active");
 	document.getElementById("coinCount").innerHTML = data.coins;
 
+	
+	document.getElementById("enterContinue").classList.remove("active");
+	document.getElementById("winText").classList.remove("active");
+
 	loadWorldSelect();
 	// loadLevelSelect(0);
 }
@@ -140,7 +144,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 
 		// Update title 
 		let pos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: titleY });
-		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed) ? (world.name || "World " + (index + 1)) : "???";
+		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed || world.unlocked) ? (world.name || "World " + (index + 1)) : "???";
 		title.classList.add("active");
 		title.style.transform = `translate(${ pos.x }px, ${ pos.y }px) translateX(-50%)`;
 
