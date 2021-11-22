@@ -6,8 +6,11 @@ const events = {
 	left: function(keydown) { if (keydown) player.move("left") },
 	right: function(keydown) { if (keydown) player.move("right") },
 	reset: function(keydown, resetPlayer = true) {
-		if (keydown && !player.moving && !document.getElementById("winText").classList.contains("active")) {
+		if (keydown && !player.moving) {
 			let world = World.curWorld;
+
+			document.getElementById("winText").classList.remove("active");
+			document.getElementById("enterContinue").classList.remove("active");
 
 			// reset player
 			if (resetPlayer) {

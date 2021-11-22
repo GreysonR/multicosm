@@ -879,10 +879,10 @@ const engine = {
 			let finalPos = new vec(player.position);
 			if (!collisionBody) {
 				if (dir.x !== 0) { // moving horizontally
-					finalPos.x = canv.width/2 + (canv.width/2 + 100) * dir.x;
+					finalPos.x = 400 + 450 * dir.x;
 				}
 				else if (dir.y !== 0) { // moving vertically
-					finalPos.y = canv.height/2 + (canv.height/2 + 100) * dir.y;
+					finalPos.y = 240 + 290 * dir.y;
 				}
 			}
 			else if (collisionBody.type === "spike") {
@@ -1003,27 +1003,20 @@ const engine = {
 			else {
 				if (fromPortal === true) {
 					if (toDeath) {
-						animations.move(player.position, finalPos, bodies, ease.linear, 0.8);
+						animations.move(player.position, finalPos, bodies, ease.inOut.cubic);
 					}
 					else {
-						animations.move(player.position, finalPos, bodies, ease.out, 1.6);
+						animations.move(player.position, finalPos, bodies, ease.out.cubic, 1.6);
 					}
 				}
 				else {
 					if (collisionBody === undefined) {
-						animations.move(player.position, finalPos, bodies, ease.linear, 1);
+						animations.move(player.position, finalPos, bodies, ease.inOut.cubic);
 					}
 					else {
 						animations.move(player.position, finalPos, bodies);
 					}
 				}
-			}
-
-			// Camera shake on death
-			if (toDeath) {
-				setTimeout(() => {
-					Render.cameraShake(8 * dir.x, 8 * dir.y, 3, 45);
-				}, player.animation.duration);
 			}
 
 			// Toggle button
@@ -1046,6 +1039,9 @@ const engine = {
 					let particlePosition = new vec(Math.max(0, Math.min(800, finalPos.x)), Math.max(0, Math.min(480, finalPos.y)));
 					particlePosition.sub2({ x: 16, y: 16 });
 					addBodyParticles(player, dir.inverse(), particlePosition, collisionBody !== undefined);
+
+					// camera shake
+					Render.cameraShake(8 * dir.x, 8 * dir.y, 3, 45);
 
 					// stop rendering player
 					player.render = false;
@@ -1095,6 +1091,8 @@ const engine = {
 							}
 						}
 					}
+
+					save();
 					
 					window.dispatchEvent(new CustomEvent("levelWin"));
 				}, player.animation.duration);
