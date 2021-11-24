@@ -44,19 +44,23 @@ function loadWorldSelect() {
 
 			let node = nodes[i];
 			let world = data.worlds[i];
+			let prevWorld = data.worlds[world.prev];
+
+			node.classList.remove("unlocked");
+			node.classList.remove("complete");
+			node.classList.remove("buyable");
 
 			if (world.completed) {
 				node.classList.add("complete");
-				node.classList.remove("unlocked");
 			}
 			else if (world.unlocked) {
 				node.classList.add("unlocked");
-				node.classList.remove("complete");
 			}
-			else {
-				node.classList.remove("unlocked");
-				node.classList.remove("complete");
+			else if (world.cost <= data.coins && (!prevWorld || prevWorld.unlocked && prevWorld.completed)) {
+				node.classList.add("buyable");
+				console.log(node);
 			}
+			
 		}
 	}
 }
@@ -167,7 +171,12 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 
 					world.unlocked = true;
 					elem.classList.add("unlocked");
+					elem.classList.remove("buyable");
 					costUI.classList.remove("active");
+					
+					title.style.transform = `translate(${ pos.x }px, ${ Number(elem.getAttribute("cy")) - 70 }px) translateX(-50%)`;
+
+					loadWorldSelect();
 					
 					save();
 				}

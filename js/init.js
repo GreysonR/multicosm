@@ -1092,6 +1092,7 @@ var allWorlds = {
 				level.createInternalCorner(new vec(40, 253), 0, 1);
 				level.createCoin(new vec(677, 51), 1);
 				level.createCoin(new vec(620, 293), 1);
+				level.createCoin(new vec(423, 248), 1);
 
 				level.createPortal(new vec(678, 129), 80, 6, 1, 2, new vec(0, -1));
 				level.createPortal(new vec(39, 256), 6, 100, 1, 2, new vec(1, 0), true);
@@ -1134,7 +1135,6 @@ var allWorlds = {
 				level.createInternalCorner(new vec(207, 450), 3, 2);
 				level.createInternalCorner(new vec(40, 359), 3, 2);
 				level.createInternalCorner(new vec(358, 450), 2, 2);
-				level.createCoin(new vec(295, 138), 2);
 
 				level.createSpike(new vec(333, 152), 71, 2, new vec(0, -1));
 				level.createSpike(new vec(718, 378), 42, 2, new vec(0, -1));
