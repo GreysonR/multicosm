@@ -55,6 +55,9 @@
 	background-size: contain;
 }
 
+/* #worldLabel {
+	color: #565656;
+} */
 #worldSelect:not(.active) {
 	display: none;
 }
