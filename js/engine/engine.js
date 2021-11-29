@@ -54,10 +54,11 @@ const engine = {
 					return world.layers[world.curViewingLayer];
 				},
 
-				createLayer: function(color) {
+				createLayer: function(color, portalColor = false) {
 					let index = world.layers.length;
 					let layer = {
 						color: color,
+						portalColor: portalColor || color,
 						// index: index,
 						walls: [],
 						internalCorners: [],
@@ -135,7 +136,7 @@ const engine = {
 						points: [],
 						sizes: [],
 						
-						color: world.layers[layerTo].color,
+						color: world.layers[layerTo].portalColor,
 					}
 					world.layers[layerIn].portals.push(portal1);
 					
@@ -150,7 +151,7 @@ const engine = {
 						points: [],
 						sizes: [],
 						
-						color: world.layers[layerIn].color,
+						color: world.layers[layerIn].portalColor,
 					}
 					world.layers[layerTo].portals.push(portal2);
 
@@ -380,7 +381,7 @@ const engine = {
 
 			// ~ Render coins
 			ctx.fillStyle = "#FFD465";
-			ctx.strokeStyle = "#F0B542";
+			ctx.strokeStyle = "#E2A734";// F0B542
 			ctx.lineWidth = 3.5;
 			for (let i = 0; i < coins.length; i++) {
 				let coin = coins[i];
@@ -402,7 +403,11 @@ const engine = {
 				const player = engine.player;
 				ctx.fillStyle = "#FF537D";
 				// ctx.fillRect(player.position.x, player.position.y, 32, 32);
-				Render.roundedRect(player.position.x, player.position.y, 32, 32, 2);
+				let sw = 7;
+				Render.roundedRect(player.position.x + sw/2, player.position.y + sw/2, 32 - sw, 32 - sw, 1);
+				ctx.strokeStyle = "#FF537D";
+				ctx.lineWidth = sw;
+				ctx.stroke();
 			}
 
 			// ~ Render Portals
@@ -782,10 +787,13 @@ const engine = {
 		render: true,
 		width: 32,
 		height: 32,
-		move: function (direction, fromPortal) { // Moves player in specified direction
+		looping: false,
+		move: function (direction, fromPortal, teleports = 0) { // Moves player in specified direction
 			const player = engine.player;
 
 			if (player.moving && !fromPortal || !player.alive || !Render.enabled) return;
+			
+			let lastLooping = player.looping;
 
 			// - Make normalized vec from direction
 			let dir = new vec(0, 0);
@@ -966,44 +974,50 @@ const engine = {
 				}
 
 				setTimeout(() => {
-					let sibDir = collisionBody.sibling.direction;
-					let initPos = new vec(finalPos);
-					if (!sibDir.equals(collisionBody.direction)) {
-						// ~ Move player to other side of portal
-						if (dir.x === 1) {
-							initPos.x = collisionBody.position.x + collisionBody.width;
-							initPos.y = Math.max(collisionBody.position.y, Math.min(collisionBody.position.y + collisionBody.height - 32, initPos.y));
+					if (lastLooping === player.looping) {
+						let sibDir = collisionBody.sibling.direction;
+						let initPos = new vec(finalPos);
+						if (!sibDir.equals(collisionBody.direction)) {
+							// ~ Move player to other side of portal
+							if (dir.x === 1) {
+								initPos.x = collisionBody.position.x + collisionBody.width;
+								initPos.y = Math.max(collisionBody.position.y, Math.min(collisionBody.position.y + collisionBody.height - 32, initPos.y));
+							}
+							if (dir.x === -1) {
+								initPos.x = collisionBody.position.x - 32;
+								initPos.y = Math.max(collisionBody.position.y, Math.min(collisionBody.position.y + collisionBody.height - 32, initPos.y));
+							}
+							if (dir.y === 1) {
+								initPos.y = collisionBody.position.y + collisionBody.height;
+								initPos.x = Math.max(collisionBody.position.x, Math.min(collisionBody.position.x + collisionBody.width - 32, initPos.x));
+							}
+							if (dir.y === -1) {
+								initPos.y = collisionBody.position.y - 32;
+								initPos.x = Math.max(collisionBody.position.x, Math.min(collisionBody.position.x + collisionBody.width - 32, initPos.x));
+							}
+							player.position = initPos;
 						}
-						if (dir.x === -1) {
-							initPos.x = collisionBody.position.x - 32;
-							initPos.y = Math.max(collisionBody.position.y, Math.min(collisionBody.position.y + collisionBody.height - 32, initPos.y));
-						}
-						if (dir.y === 1) {
-							initPos.y = collisionBody.position.y + collisionBody.height;
-							initPos.x = Math.max(collisionBody.position.x, Math.min(collisionBody.position.x + collisionBody.width - 32, initPos.x));
-						}
-						if (dir.y === -1) {
-							initPos.y = collisionBody.position.y - 32;
-							initPos.x = Math.max(collisionBody.position.x, Math.min(collisionBody.position.x + collisionBody.width - 32, initPos.x));
-						}
-						player.position = initPos;
-					}
 
-					// ~ Swap layers
-					curWorld.curLayer = collisionBody.to;
+						// ~ Swap layers
+						curWorld.curLayer = collisionBody.to;
 
-					// ~ Create particles
-					addBodyParticles(collisionBody.sibling, collisionBody.sibling.direction, initPos);
+						// ~ Create particles
+						addBodyParticles(collisionBody.sibling, collisionBody.sibling.direction, initPos);
 					
-					// ~ Move again
-					let newDir = sibDir.x === -1 ? "left" : sibDir.x === 1 ? "right" : sibDir.y === 1 ? "down" : "up";
-					player.move(newDir, true);
+						// ~ Move again
+						if (teleports >= 3) {
+							player.looping = true;
+						}
+						
+						let newDir = sibDir.x === -1 ? "left" : sibDir.x === 1 ? "right" : sibDir.y === 1 ? "down" : "up";
+						player.move(newDir, true, ++teleports);
+					}
 				}, player.animation.duration + engine.Performance.delta * 2);
 			}
 			else {
 				if (fromPortal === true) {
-					if (toDeath) {
-						animations.move(player.position, finalPos, bodies, ease.inOut.cubic);
+					if (toDeath && collisionBody) {
+						animations.move(player.position, finalPos, bodies, ease.out.sine, 1.3);
 					}
 					else {
 						animations.move(player.position, finalPos, bodies, ease.out.cubic, 1.6);
@@ -1057,7 +1071,10 @@ const engine = {
 				setTimeout(() => {
 					document.getElementById("enterContinue").classList.add("active");
 					document.getElementById("winText").classList.add("active");
+					document.getElementById("enterContinue").style.background = World.curWorld.layers[0].color;
+					document.getElementById("winText").style.background = World.curWorld.layers[0].color;
 					player.alive = false;
+
 
 					// ~ update stats
 					let curWorld = World.curWorld;

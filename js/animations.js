@@ -139,6 +139,14 @@ const animations = {
 		player.moving = true;
 		Trail.addBody(player, gradient);
 
+		function stop() {
+			player.position = to;
+			delete player.animation;
+
+			player.moving = keepMoving;
+			Trail.removeBody(player);
+		}
+
 		player.animation = animate.create({
 			duration: duration,
 			curve: curve,
@@ -157,13 +165,8 @@ const animations = {
 					}
 				}
 			},
-			onend: () => {
-				player.position = to;
-				delete player.animation;
-
-				player.moving = keepMoving;
-				Trail.removeBody(player);
-			},
+			onend: stop,
+			oncancel: stop,
 		});
 	},
 	cameraShake: function(from, to, duration, callback) {

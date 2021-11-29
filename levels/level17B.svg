@@ -34,6 +34,7 @@
 <rect opacity="0.1" x="750" y="125" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="682" y="381" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="40" y="253" width="10" height="10" fill="#494949"/>
-<rect x="683" y="49" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
-<rect x="631" y="293" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="677" y="51" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="620" y="293" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="423" y="248" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
 </svg>

@@ -32,9 +32,10 @@ function loadWorldSelect() {
 	levelSelect.classList.remove("active");
 
 	for (let i = 0; i < nodes.length; i++) {
-		if (allWorlds[i]) {
-			if (!data.worlds[i]) {
-				data.worlds[i] = {
+		let name = worldNames[i];
+		if (allWorlds[name]) {
+			if (!data.worlds[name]) {
+				data.worlds[name] = {
 					unlocked: false,
 					completed: false,
 					completedLevels: [],
@@ -43,7 +44,7 @@ function loadWorldSelect() {
 			}
 
 			let node = nodes[i];
-			let world = data.worlds[i];
+			let world = data.worlds[name];
 			let prevWorld = data.worlds[world.prev];
 
 			node.classList.remove("unlocked");
@@ -58,7 +59,6 @@ function loadWorldSelect() {
 			}
 			else if (world.cost <= data.coins && (!prevWorld || prevWorld.unlocked && prevWorld.completed)) {
 				node.classList.add("buyable");
-				console.log(node);
 			}
 			
 		}
@@ -131,12 +131,14 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 
 	if (elem.tagName === "circle" && elem.onmouseleave == null) {
 		let index = Array.prototype.indexOf.call(elem.parentNode.children, elem) / 2;
+		let worldName = worldNames[index];
 		let title = document.getElementById("worldLabel");
 		let costUI = document.getElementById("coinCost");
 		let titleY = 70;
 
+
 		// Update ui showing cost of world
-		let world = data.worlds[index];
+		let world = data.worlds[worldName];
 		if (world && !world.unlocked && world.cost && data.worlds[world.prev].completed) {
 			let costPos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: 70 });
 			costUI.innerHTML = world.cost;
@@ -148,7 +150,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 
 		// Update title 
 		let pos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: titleY });
-		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed || world.unlocked) ? (world.name || "World " + (index + 1)) : "???";
+		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed || world.unlocked) ? (world.name || (typeof worldName === "number" ? "World " + (index + 1) : worldName)) : "???";
 		title.classList.add("active");
 		title.style.transform = `translate(${ pos.x }px, ${ pos.y }px) translateX(-50%)`;
 
@@ -162,7 +164,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 			if (!world) return;
 
 			if (world.unlocked) { // go to level select menu
-				loadLevelSelect(index);
+				loadLevelSelect(worldName);
 			}
 			else if (data.worlds[world.prev].completed) { // attempt to buy world
 				if (!world.cost || data.coins >= world.cost) {

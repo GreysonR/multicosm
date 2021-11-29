@@ -6,8 +6,14 @@ const events = {
 	left: function(keydown) { if (keydown) player.move("left") },
 	right: function(keydown) { if (keydown) player.move("right") },
 	reset: function(keydown, resetPlayer = true) {
-		if (keydown && !player.moving) {
+		if (keydown && (!player.moving || player.looping)) {
 			let world = World.curWorld;
+
+			if (player.animation) {
+				player.animation.stop();
+				player.looping = false;
+				player.moving = false;
+			}
 
 			document.getElementById("winText").classList.remove("active");
 			document.getElementById("enterContinue").classList.remove("active");
@@ -18,6 +24,13 @@ const events = {
 				player.render = true;
 				world.curLayer = 0;
 				player.position = new vec(world.start);
+
+				requestAnimationFrame(() => {
+					player.alive = true;
+					player.render = true;
+					world.curLayer = 0;
+					player.position = new vec(world.start);
+				});
 			}
 			
 			// reset coins / buttons

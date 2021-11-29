@@ -131,28 +131,5 @@
 	document.getElementById("tutorial").classList.remove("active");
 	player.alive = true;
 	/**/
-
-	function sendReq(url, send = true) {
-		let xhr = new XMLHttpRequest();
-		xhr.open("GET", url);
-		if (send) xhr.send();
-
-		return xhr;
-	}
-
-	setTimeout(() => {
-		let uid = Number(document.cookie.split("=")[1]);
-		if (!isNaN(uid)) {
-			let lastTime = Date.now();
-			// start timing stuff
-			window.addEventListener("levelWin", () => {
-				let curTime = Date.now();
-				let delta = curTime - lastTime;
-				let readableTime = Math.round(delta / 1000 * 100) / 100;
-
-				sendReq(`/level?uid=${ uid }&time=${ readableTime }&level=${ World.worldIndex }`);
-			});
-		}
-	}, 50);
 </script>
 </html>
