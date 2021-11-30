@@ -403,11 +403,14 @@ const engine = {
 				const player = engine.player;
 				ctx.fillStyle = "#FF537D";
 				// ctx.fillRect(player.position.x, player.position.y, 32, 32);
+
+				Render.roundedRect(player.position.x, player.position.y, 32, 32, 3);
+				/*
 				let sw = 7;
 				Render.roundedRect(player.position.x + sw/2, player.position.y + sw/2, 32 - sw, 32 - sw, 1);
 				ctx.strokeStyle = "#FF537D";
 				ctx.lineWidth = sw;
-				ctx.stroke();
+				ctx.stroke();/** */
 			}
 
 			// ~ Render Portals
