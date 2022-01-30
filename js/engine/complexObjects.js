@@ -107,7 +107,7 @@ class Piston {
 		if (obj.active) this.power += obj.power;
 		else this.power -= obj.power;
 
-		if (this.power >= this.maxPower) {
+		if (this.power === this.maxPower) {
 			this.trigger(!this.default);
 		}
 		else if (this.active !== this.default) {
@@ -117,7 +117,7 @@ class Piston {
 	trigger(active = !this.active, instant = false) {
 		if (this.active !== active) {
 			this.active = active;
-	
+
 			if (!active) {
 				if (instant) animations.pistonOff(this, 0, 0);
 				else animations.pistonOff(this);
@@ -157,10 +157,14 @@ class Wire {
 
 	connectIn(obj) {
 		if (obj.type) {
-			this.in.push(obj);
+			if (!this.in.includes(obj)) {
+				this.in.push(obj);
+			}
 
-			if (obj.type === "wire") obj.out.push(this);
-			else obj.out = this;
+			if (obj.type !== "wire" || !obj.out.includes(this)) {
+				if (obj.type === "wire") obj.out.push(this);
+				else obj.out = this;
+			}
 		}
 		else {
 			console.error("connected obj does not have type: ");

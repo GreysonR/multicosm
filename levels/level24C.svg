@@ -1,0 +1,17 @@
+<svg width="800" height="480" viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="-96" y="-85" width="474" height="292" fill="#494949"/>
+<rect x="-86" y="128" width="168" height="448" fill="#494949"/>
+<rect x="-73" y="80" width="315" height="247" fill="#494949"/>
+<rect x="360" y="307" width="44" height="238" fill="#494949"/>
+<rect x="360" y="352" width="395" height="181" fill="#494949"/>
+<rect x="624" y="-79" width="295" height="638" fill="#494949"/>
+<rect x="574" y="-65" width="158" height="237" fill="#494949"/>
+<rect x="82" y="360" width="7" height="80" fill="#F6EEE5"/>
+<rect x="242" y="207" width="6" height="100" rx="1" fill="#F08E47"/>
+<rect x="378" y="274" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
+<rect opacity="0.1" x="242" y="207" width="10" height="10" fill="#494949"/>
+<rect opacity="0.1" x="82" y="327" width="10" height="10" fill="#494949"/>
+<rect opacity="0.1" x="404" y="342" width="10" height="10" rx="3" fill="#494949"/>
+<rect opacity="0.1" x="614" y="342" width="10" height="10" rx="2" fill="#494949"/>
+<rect opacity="0.1" x="614" y="172" width="10" height="10" rx="1" fill="#494949"/>
+</svg>

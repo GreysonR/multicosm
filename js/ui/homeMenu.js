@@ -95,7 +95,7 @@ function loadLevelSelect(index) {
 		levelDiv.onclick = function() {
 			if (unlocked) {
 				World.set(level.index);
-				events.reset(true);
+				events.reset(true, true, true);
 				closeHome();
 			}
 		}

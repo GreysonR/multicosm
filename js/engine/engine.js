@@ -518,7 +518,9 @@ const engine = {
 			for (let i = 0; i < buttons.length; i++) {
 				let obj = buttons[i];
 
+				if (!obj.permanentPress) ctx.fillStyle = "#35ABEE";
 				Render.roundedRect(obj.position.x + obj.offset.x, obj.position.y + obj.offset.y, obj.width, obj.height, Render.getRounds(obj.direction, 4));
+				if (!obj.permanentPress) ctx.fillStyle = "#FE4A49";
 			}
 			// ~ Render pistons
 			ctx.fillStyle = "#383838";
@@ -532,6 +534,12 @@ const engine = {
 
 				if (dir.x < 0) pos.x += 5 * dir.x; 
 				if (dir.y < 0) pos.y += 5 * dir.y; 
+
+				if (obj.active) {
+					pos.add2(dir.mult(-5));
+					w += Math.abs(dir.x * 5);
+					h += Math.abs(dir.y * 5);
+				}
 
 				Render.roundedRect(pos.x, pos.y, w + Math.abs(dir.x) * 5, h + Math.abs(dir.y) * 5, Render.getRounds(dir, 6));
 			}
@@ -622,9 +630,15 @@ const engine = {
 				ctx.strokeStyle = "#676767";
 				ctx.stroke();
 				
-				let opacity = (Math.round(Math.min(1, (obj.power / obj.maxPower) ** 1.5) * 255)).toString(16).toUpperCase().padStart(2, "0");
-				ctx.strokeStyle = "#32B4D0" + opacity;
-				ctx.stroke();
+				if (obj.power > obj.maxPower) {
+					ctx.strokeStyle = "#F83F3F";
+					ctx.stroke();
+				}
+				else {
+					let opacity = (Math.round(Math.min(1, (obj.power / obj.maxPower) ** 1.5) * 255)).toString(16).toUpperCase().padStart(2, "0");
+					ctx.strokeStyle = "#32B4D0" + opacity;
+					ctx.stroke();
+				}
 			}
 
 
@@ -791,6 +805,7 @@ const engine = {
 		width: 32,
 		height: 32,
 		looping: false,
+		onMoveEnd: false,
 		move: function (direction, fromPortal, teleports = 0) { // Moves player in specified direction
 			const player = engine.player;
 
@@ -962,6 +977,10 @@ const engine = {
 				finalPos = new vec(collisionBody.position);
 			}
 
+			if (collisionBody && collisionBody.type === "piston") {
+				finalPos.add2(collisionBody.offset.mult(dir.abs()));
+			}
+
 			// - get coins in path
 			bodies = [];
 			getBodies(coins);
@@ -1036,6 +1055,16 @@ const engine = {
 				}
 			}
 
+			// Run onMoveEnd event
+			if (!toDeath && collisionBody.type !== "portal") {
+				setTimeout(() => {
+					if (typeof player.onMoveEnd === "function") {
+						player.onMoveEnd();
+						player.onMoveEnd = false;
+					}
+				}, player.animation.duration + engine.Performance.delta * 2);
+			}
+
 			// Toggle button
 			if (!toDeath && collisionBody.type === "button" && player.position.sub(finalPos).length > 6 && (!collisionBody.permanentPress || !collisionBody.pressed)) {
 				setTimeout(() => {
@@ -1044,10 +1073,10 @@ const engine = {
 				}, Math.max(0, player.animation.duration - 50));
 			}
 
-			// Set camera to current layer when moved
+			// Set camera to current layer when moving
 			engine.World.switchView(curLayer);
 
-			// - Lose if didn't hit a body
+			// - Lose
 			if (toDeath) {
 				player.alive = false;
 
@@ -1065,7 +1094,7 @@ const engine = {
 
 					// wait a bit before resetting
 					setTimeout(() => {
-						events.trigger("reset", true);
+						events.reset(true, true, true);
 					}, 900);
 				}, player.animation.duration);
 			}

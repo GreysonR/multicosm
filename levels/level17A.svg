@@ -11,8 +11,8 @@
 <rect x="153" y="3" width="12" height="108" fill="#F44545"/>
 <rect x="333" y="145" width="7" height="80" rx="1" fill="#F08E47"/>
 <rect x="350" y="227" width="100" height="7" fill="#F08E47"/>
-<rect x="753" y="249" width="7" height="80" rx="1" fill="#7A51D3"/>
-<rect x="416" y="383" width="80" height="7" rx="1" fill="#7A51D3"/>
+<rect x="753" y="249" width="7" height="80" rx="1" fill="#7C5DBE"/>
+<rect x="416" y="383" width="80" height="7" rx="1" fill="#7C5DBE"/>
 <rect opacity="0.1" x="90" y="143" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="90" y="297" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="153" y="430" width="10" height="10" rx="3" fill="#494949"/>

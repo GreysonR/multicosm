@@ -5,8 +5,8 @@ const events = {
 	down: function(keydown) { if (keydown) player.move("down") },
 	left: function(keydown) { if (keydown) player.move("left") },
 	right: function(keydown) { if (keydown) player.move("right") },
-	reset: function(keydown, resetPlayer = true) {
-		if (keydown && (!player.moving || player.looping)) {
+	reset: function(keydown, resetPlayer = true, ignoreDead = false) {
+		if (keydown && (!player.moving || player.looping) && (player.alive || ignoreDead) || document.getElementById("winText").classList.contains("active")) {
 			let world = World.curWorld;
 
 			if (player.animation) {
@@ -32,6 +32,9 @@ const events = {
 					player.position = new vec(world.start);
 				});
 			}
+
+			events.queued = false;
+			player.onMoveEnd = false;
 			
 			// reset coins / buttons
 			World.curWorld.collectedCoins.length = 0;
@@ -76,21 +79,31 @@ const events = {
 		}
 	},
 
+	queued: false,
 	trigger: function(event, value) {
 		let curEvent = events[event];
 		if (curEvent) {
-			curEvent(value);
+			let moveEvents = [ "up", "down", "left", "right" ];
+			if (value && !this.queued && moveEvents.includes(event) && player.animation) {
+				this.queued = true;
+				player.onMoveEnd = function() {
+					curEvent(value);
+					events.queued = false;
+				}
+			}
+			else {
+				curEvent(value);
+			}
 		}
 	}
 }
 function nextLevel() {
 	let levelData = data.worlds[allWorlds.worldIndex];
 
-	events.reset(true, false);
-
 	if (allWorlds.levelIndex < allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index) {
 		World.set(World.worldIndex + 1);
 		player.alive = true;
+		events.reset(true, true);
 		data.level = World.worldIndex;
 	}
 	else {
@@ -156,9 +169,10 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				// define color vars
 				let wall = "#494949";
 				let coin = "#FFD465";
-				let portals = [ "#DDE2ED", "#F08E47", "#7A51D3" ];
+				let portals = [ "#DDE2ED", "#F08E47", "#7C5DBE" ];
 				let spike = "#F44545";
 				let button = "#FE4A49";
+				let toggleButton = "#35ABEE";
 				let piston = "#383838";
 
 				// get string of current rect
@@ -236,7 +250,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 
 					outSpike += `\n\t\t\t\tlevel.createSpike(new vec(${ rect.x }, ${ rect.y }), ${ Math.max(rect.width, rect.height) }, ${ layer }, new vec(${ vec }));`;
 				}
-				else if (rect.fill === button) {
+				else if (rect.fill === button || rect.fill === toggleButton) {
 					let vecStr = "1, 0";
 					let alongY = rect.width < rect.height;
 					if (alongY) {
@@ -249,9 +263,13 @@ document.getElementById("mapInput").addEventListener("input", event => {
 					}
 
 					let name = "button" + numButtons++;
-					let group = Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
+					let group = rect["stroke-width"] ? Math.round(Number(rect["stroke-width"]) * 100) : Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
 					let comment = "// complex group " + group;
-					let text = `\n\t\t\t\tlet ${ name } = level.createButton(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }));`;
+					let text = `\n\t\t\t\tvar ${ name } = level.createButton(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }));`;
+
+					if (rect.fill === toggleButton) {
+						text += `\n\t\t\t\t${ name }.permanentPress = false;`;
+					}
 
 					if (!group) {
 						outComplex += "\n\t\t\t\t" + text;
@@ -278,9 +296,9 @@ document.getElementById("mapInput").addEventListener("input", event => {
 
 					let setDefault = rect.opacity && rect.opacity === 0.5 ? ".setDefault(false)" : "";
 					let name = "piston" + numPistons++;
-					let group = Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
+					let group = rect["stroke-width"] ? Math.round(Number(rect["stroke-width"]) * 100) : Math.round(Math.abs(Number(rect.transform ? rect.transform.replace("rotate(", "").split(" ")[0] : 0)) * 100);
 					let comment = "// complex group " + group;
-					let text = `\n\t\t\t\tlet ${ name } = level.createPiston(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }))${ setDefault };`;
+					let text = `\n\t\t\t\tvar ${ name } = level.createPiston(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }))${ setDefault };`;
 
 					if (!group) {
 						outComplex += "\n\t\t\t\t" + text;
@@ -363,7 +381,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				let wireName = "wire" + numWires++;
 				let group = Math.round((Number(wireObj["stroke-width"]) - 4) * 100);
 				let comment = "// complex group " + group;
-				let newText = `\n\t\t\t\tlet ${ wireName } = level.createWire([ ${ path.join(", ") } ], ${ layer });`;
+				let newText = `\n\t\t\t\tvar ${ wireName } = level.createWire([ ${ path.join(", ") } ], ${ layer });`;
 
 				if (!group) {
 					outComplex += "\n\t\t\t\t" + text;
@@ -392,8 +410,8 @@ document.getElementById("mapInput").addEventListener("input", event => {
 			n++;
 		}
 
-		out += outPortal ? "\n" + outPortal : "";
-		out += outSpike ? "\n" + outSpike : "";
+		out += outPortal ? outPortal : "";
+		out += (outPortal ? "" : "\n") + outSpike;
 		out += outComplex ? "\n" + outComplex : "";
 
 		out = "\n\t\t\t\t" + out.trim();

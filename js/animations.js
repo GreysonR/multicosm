@@ -156,7 +156,7 @@ const animations = {
 				for (let i = 0; i < coins.length; i++) {
 					let coin = coins[i];
 					let d = player.position.add(16).sub(coin.position.add(12.5)).mult(dir);
-					if (!coin.collected && (d.x > 0 || d.y > 0)) { // pick up coin
+					if (!coin.collected && Math.min(d.x, d.y) > -1) { // pick up coin
 						coin.collected = true;
 
 						if (!coin.collectedPrev) {
@@ -219,6 +219,8 @@ const animations = {
 		});
 	},
 	pistonOff: function(piston, duration = 400, delay = 0) {
+		if (piston.animation) piston.animation.stop();
+
 		let from = new vec(piston.offset);
 		let diff = piston.direction.mult(-Math.max(piston.width, piston.height)).sub(from);
 
@@ -233,12 +235,17 @@ const animations = {
 				piston.offset = from.add(diff);
 				delete piston.animation;
 			},
+			oncancel: () => {
+				piston.offset = from.add(diff);
+				delete piston.animation;
+			}
 		});
 
-		if (piston.animation) piston.animation.stop();
 		piston.animation = anim;
 	},
 	pistonOn: function(piston, duration = 400, delay = 0) {
+		if (piston.animation) piston.animation.stop();
+
 		let from = new vec(piston.offset);
 		let diff = piston.direction.mult(Math.max(piston.width, piston.height));
 
@@ -253,8 +260,11 @@ const animations = {
 				piston.offset = from.add(diff);
 				delete piston.animation;
 			},
+			oncancel: () => {
+				piston.offset = from.add(diff);
+				delete piston.animation;
+			}
 		});
-		if (piston.animation) piston.animation.stop();
 		piston.animation = anim;
 	},
 }

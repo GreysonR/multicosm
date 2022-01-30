@@ -2,7 +2,7 @@
 <rect x="358" y="390" width="157" height="154" fill="#494949"/>
 <rect x="670" y="390" width="226" height="171" fill="#494949"/>
 <rect x="760" y="14" width="136" height="486" fill="#494949"/>
-<rect x="-77" y="-70" width="284" height="234" fill="#494949"/>
+<rect x="-77" y="-70" width="284" height="287" fill="#494949"/>
 <rect x="60" y="-126" width="211" height="255" fill="#494949"/>
 <rect x="358" y="307" width="53" height="216" fill="#494949"/>
 <rect x="326" y="164" width="85" height="53" fill="#494949"/>
@@ -33,5 +33,4 @@
 <rect opacity="0.1" x="207" y="440" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="40" y="349" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="348" y="440" width="10" height="10" rx="2" fill="#494949"/>
-<rect x="295" y="138" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
 </svg>

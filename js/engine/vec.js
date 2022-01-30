@@ -135,6 +135,9 @@ class vec {
 	round(x1 = 1) {
 		return new vec(Math.round(this.x / x1) * x1, Math.round(this.y / x1) * x1);
 	}
+	abs() {
+		return new vec(Math.abs(this.x), Math.abs(this.y));
+	}
 	equals(vec2) {
 		if (vec2 && this.x === vec2.x && this.y === vec2.y) {
 			return true;
