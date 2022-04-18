@@ -193,7 +193,7 @@ const engine = {
 						}
 
 						// sizes
-						portal.sizes.push(rotS(new vec(92, 6)));
+						portal.sizes.push(rotS(new vec(92, 6.5)));
 						portal.sizes.push(rotS(new vec(100, 7)));
 						portal.sizes.push(rotS(new vec(15,  7)));
 						portal.sizes.push(rotS(new vec(42,  7)));

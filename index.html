@@ -82,7 +82,7 @@
 	function rescaleCanv() {
 		let pr = window["Render"] ? Render.pixelRatio : window.devicePixelRatio * 1.2
 		let width = window.innerWidth;
-		let scale = width / canv.width * (width < 800 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
+		let scale = width / canv.width * (width < 810 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
 		scale = Math.min(scale, window.innerHeight / canv.height);
 		document.getElementById("inGame").style.transform = `translate(-50%, -50%) scale(${ scale })`;
 		document.getElementById("home").style.transform = `translate(-400px, -241px) scale(${ scale * canv.width / 800 })`;

@@ -97,6 +97,7 @@ const events = {
 		}
 	}
 }
+
 function nextLevel() {
 	let levelData = data.worlds[allWorlds.worldIndex];
 
@@ -112,6 +113,7 @@ function nextLevel() {
 	}
 	save();
 }
+// keyboard events
 window.addEventListener("keydown", event => {
 	const key = event.key.toLowerCase();
 
@@ -137,6 +139,46 @@ window.addEventListener("keyup", event => {
 
 	if (key === "x") reset();
 	if (key === "escape") openHome();
+});
+
+// touch events
+var touchX = 0;
+var touchY = 0;
+let touchMoved = false;
+window.addEventListener("touchstart", event => {
+	touchX = event.touches[0].clientX;
+	touchY = event.touches[0].clientY;
+});
+window.addEventListener("touchmove", event => {
+	if (!touchMoved && !engine.lost) {
+		let x = event.touches[0].clientX;
+		let y = event.touches[0].clientY;
+		x -= touchX;
+		y -= touchY;
+		
+		if (Math.sqrt(x * x + y * y) > 100) {
+			touchMoved = true;
+			if (Math.abs(x) > Math.abs(y)) {
+				if (x > 0) { // right
+					events.trigger("right", true);
+				}
+				else { // left
+					events.trigger("left", true);
+				}
+			}
+			else {
+				if (y > 0) { // down
+					events.trigger("down", true);
+				}
+				else { // up
+					events.trigger("up", true);
+				}
+			}
+		}
+	}
+});
+window.addEventListener("touchend", () => {
+	touchMoved = false;
 });
 
 
