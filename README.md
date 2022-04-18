@@ -1,1 +1,1 @@
-greysonr.github.io/multicosm/
+https://greysonr.github.io/multicosm/
