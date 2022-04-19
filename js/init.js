@@ -36,7 +36,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "New Dimensions",
 				prev: "0",
 				cost: 5,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -45,7 +45,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Lateral Theory",
 				prev: "1",
 				cost: 11,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -54,8 +54,8 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Crossroads",
 				prev: "2",
 				cost: 10,
-				unlocked: false,
-				completed: false,
+				unlocked: true,
+				completed: true,
 				completedLevels: [],
 				coins: [],
 			},
@@ -63,7 +63,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Groves",
 				prev: "Crossroads",
 				cost: 7,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -72,7 +72,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Machinery",
 				prev: "Crossroads",
 				cost: 12,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -81,7 +81,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Intermission",
 				prev: "Machinery",
 				cost: 1,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -90,7 +90,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Automation",
 				prev: "Crossroads",
 				cost: 17,
-				unlocked: false,
+				unlocked: true,
 				completed: false,
 				completedLevels: [],
 				coins: [],
@@ -605,15 +605,14 @@ var allWorlds = {
 				level.createWall(new vec(689, -103), 243, 268, 0);
 				level.createWall(new vec(760, -76), 123, 634, 0);
 				level.createWall(new vec(467, 274), 232, 40, 0);
-				level.createCoin(new vec(659, 241), 0);
 				level.createInternalCorner(new vec(232, 40), 1, 0);
 				level.createInternalCorner(new vec(96, 430), 3, 0);
 				level.createInternalCorner(new vec(361, 40), 0, 0);
 				level.createInternalCorner(new vec(505, 274), 3, 0);
 				level.createInternalCorner(new vec(760, 165), 1, 0);
-				level.createInternalCorner(new vec(699, 40), 1, 0);
+				level.createInternalCorner(new vec(689, 40), 1, 0);
 				level.createInternalCorner(new vec(659, 314), 1, 0);
-
+				level.createCoin(new vec(659, 241), 0);
 				level.createPortal(new vec(132, 424), 100, 6, 0, 1, new vec(0, -1), true);
 				level.createPortal(new vec(365, 424), 100, 6, 0, 1, new vec(0, -1), true);
 				level.createPortal(new vec(505, 165), 6, 100, 0, 1, new vec(1, 0));
@@ -945,7 +944,7 @@ var allWorlds = {
 				level.createInternalCorner(new vec(604, 424), 2, 0);
 				level.createInternalCorner(new vec(141, 424), 3, 0);
 				level.createInternalCorner(new vec(87, 391), 3, 0);
-				level.createCoin(new vec(237, 131), 0);
+				level.createCoin(new vec(237, 110), 0);
 				level.createPortal(new vec(439, 239), 6, 80, 0, 1, new vec(1, 0));
 				level.createPortal(new vec(572, 78), 80, 6, 0, 1, new vec(0, 1), true);
 				level.createPortal(new vec(740, 175), 6, 100, 0, 2, new vec(-1, 0), true);
