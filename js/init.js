@@ -55,7 +55,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				prev: "2",
 				cost: 10,
 				unlocked: false,
-				completed: true,
+				completed: false,
 				completedLevels: [],
 				coins: [],
 			},
