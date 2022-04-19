@@ -186,8 +186,3 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 		}
 	}
 });
-
-
-
-World.set(15);
-closeHome();
