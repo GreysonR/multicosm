@@ -4,7 +4,7 @@ var mouse = new vec(0, 0);
 Render.loadImg("x.svg");
 Render.loadImg("viewing.svg");
 
-let layerView = {
+const layerView = {
 	originalOpacity: 0.85,
 	opacity: 0.85,
 	hovering: false,
@@ -78,9 +78,6 @@ canv.addEventListener("mousemove", event => {
 
 	if (hovering !== false) {
 		canv.style.cursor = "pointer";
-	}
-	else {
-		canv.style.cursor = "";
 	}
 
 	layerView.hovering = hovering;

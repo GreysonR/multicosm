@@ -145,18 +145,17 @@ window.addEventListener("keyup", event => {
 var touchX = 0;
 var touchY = 0;
 let touchMoved = false;
+let swipe = 60;
 window.addEventListener("touchstart", event => {
 	touchX = event.touches[0].clientX;
 	touchY = event.touches[0].clientY;
 });
 window.addEventListener("touchmove", event => {
 	if (!touchMoved && !engine.lost) {
-		let x = event.touches[0].clientX;
-		let y = event.touches[0].clientY;
-		x -= touchX;
-		y -= touchY;
+		let x = event.touches[0].clientX - touchX;
+		let y = event.touches[0].clientY - touchY;
 		
-		if (Math.sqrt(x * x + y * y) > 100) {
+		if (Math.sqrt(x * x + y * y) > swipe) {
 			touchMoved = true;
 			if (Math.abs(x) > Math.abs(y)) {
 				if (x > 0) { // right
@@ -177,8 +176,15 @@ window.addEventListener("touchmove", event => {
 		}
 	}
 });
-window.addEventListener("touchend", () => {
+window.addEventListener("touchend", event => {
 	touchMoved = false;
+
+	let x = event.changedTouches[0].clientX - touchX;
+	let y = event.changedTouches[0].clientY - touchY;
+	if (Math.sqrt(x * x + y * y) < swipe) { // tap
+		events.trigger("enter", true);
+	}
+	
 });
 
 
