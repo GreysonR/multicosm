@@ -18,7 +18,7 @@
 <rect x="218.005" y="301.005" width="10.99" height="81.99" rx="0.995" fill="#FE4A49" stroke="black" stroke-width="0.01"/>
 <path d="M238.5 342H247.5V302H433" stroke="#676767" stroke-width="4.01" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="445.005" y="291.005" width="149.99" height="20.99" fill="#383838" stroke="black" stroke-width="0.01"/>
-<rect x="117.005" y="234.005" width="11.99" height="150.99" fill="#F44545" stroke="black" stroke-width="0.01"/>
+<rect x="117.005" y="234.005" width="11.99" height="67.99" fill="#F44545" stroke="black" stroke-width="0.01"/>
 <rect opacity="0.1" x="348" y="34" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="300" y="66" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="67" y="114" width="10" height="10" fill="#494949"/>

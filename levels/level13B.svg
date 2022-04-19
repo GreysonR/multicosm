@@ -19,7 +19,7 @@
 <rect x="274" y="382" width="7" height="89" rx="1" fill="#7C5DBE"/>
 <rect x="495" width="12" height="35" rx="1" fill="#F44545"/>
 <rect opacity="0.1" x="240" y="85" width="10" height="10" fill="#494949"/>
-<rect opacity="0.1" x="88" y="225" width="10" height="10" fill="#494949"/>
+<rect opacity="0.1" x="88" y="227" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="40" y="329" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="491" y="227" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="706" y="40" width="10" height="10" rx="1" fill="#494949"/>
@@ -28,5 +28,5 @@
 <rect opacity="0.1" x="706" y="119" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="88" y="440" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="40" y="404" width="10" height="10" rx="3" fill="#494949"/>
-<rect x="471" y="235" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="471" y="235" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
 </svg>

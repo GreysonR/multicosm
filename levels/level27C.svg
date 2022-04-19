@@ -7,8 +7,7 @@
 <rect x="240" y="146" width="112" height="108" fill="#494949"/>
 <rect x="-178" y="338" width="330" height="293" fill="#494949"/>
 <rect x="453" y="269" width="84" height="276" fill="#494949"/>
-<rect x="633" y="309" width="315" height="284" fill="#494949"/>
-<rect x="453" y="338" width="452" height="236" fill="#494949"/>
+<rect x="453" y="309" width="495" height="284" fill="#494949"/>
 <rect x="240" y="100" width="45" height="59" fill="#494949"/>
 <rect x="676" y="209" width="7" height="100" rx="1" fill="#F08E47"/>
 <rect x="117" y="114" width="100" height="7" rx="1" fill="#F6EEE5"/>
@@ -27,11 +26,10 @@
 <rect opacity="0.1" x="230" y="114" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="117" y="328" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="152" y="420" width="10" height="10" rx="3" fill="#494949"/>
-<rect opacity="0.1" x="537" y="328" width="10" height="10" rx="3" fill="#494949"/>
+<rect opacity="0.1" x="537" y="299" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="285" y="136" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="673" y="100" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="673" y="299" width="10" height="10" rx="2" fill="#494949"/>
-<rect opacity="0.1" x="623" y="328" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="443" y="420" width="10" height="10" rx="2" fill="#494949"/>
 <rect x="428" y="375" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
 </svg>

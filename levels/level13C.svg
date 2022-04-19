@@ -14,18 +14,15 @@
 <rect x="416" y="360" width="80" height="7" rx="1" fill="#F6EEE5"/>
 <rect x="709" y="40" width="7" height="89" rx="1" fill="#F08E47"/>
 <rect x="753" y="227" width="7" height="80" rx="1" fill="#F6EEE5"/>
-<rect x="60" y="40" width="140" height="12" fill="#F44545"/>
 <rect x="204" y="-29" width="12" height="64" fill="#F44545"/>
 <rect x="204" y="227" width="12" height="39" fill="#F44545"/>
-<rect x="96" y="107" width="12" height="159" rx="1" fill="#F44545"/>
 <rect x="308" y="-29" width="12" height="64" rx="1" fill="#F44545"/>
-<rect x="113" y="91" width="298" height="12" rx="1" fill="#F44545"/>
 <rect opacity="0.1" x="60" y="40" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="60" y="357" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="126" y="357" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="168" y="417" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="204" y="227" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="706" y="40" width="10" height="10" rx="1" fill="#494949"/>
-<rect x="72" y="341" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
-<rect x="176" y="396" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="72" y="341" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
+<rect x="176" y="396" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
 </svg>

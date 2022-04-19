@@ -15,5 +15,6 @@
 <rect opacity="0.1" x="693" y="221" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="623" y="400" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="329" y="400" width="10" height="10" rx="3" fill="#494949"/>
-<rect x="674" y="148" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="674" y="148" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
+<rect x="336" y="252" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
 </svg>
