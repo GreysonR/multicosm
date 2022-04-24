@@ -4,10 +4,10 @@
 <rect x="-117" y="-171" width="1034" height="231" fill="#494949"/>
 <rect x="141" y="269" width="434" height="60" fill="#494949"/>
 <rect x="297" width="139" height="480" fill="#494949"/>
-<rect x="271" y="269" width="304" height="211" fill="#494949"/>
+<rect x="271" y="269" width="304" height="310" fill="#494949"/>
 <rect x="222" y="-79" width="214" height="243" fill="#494949"/>
 <rect x="-89" y="420" width="978" height="201" fill="#494949"/>
-<rect x="448" y="240" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
+<rect x="448" y="240" width="17" height="17" rx="5" fill="#FFD465" stroke="#E2A734" stroke-width="3"/>
 <rect opacity="0.1" x="436" y="60" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="70" y="60" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="720" y="410" width="10" height="10" rx="2" fill="#494949"/>
