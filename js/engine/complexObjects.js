@@ -22,7 +22,7 @@ class Button {
 		}
 	}
 
-	permanentPress = true;
+	singlePress = true;
 	pressed = false;
 
 	constructor(options) {

@@ -518,9 +518,9 @@ const engine = {
 			for (let i = 0; i < buttons.length; i++) {
 				let obj = buttons[i];
 
-				if (!obj.permanentPress) ctx.fillStyle = "#35ABEE";
+				if (!obj.singlePress) ctx.fillStyle = "#35ABEE";
 				Render.roundedRect(obj.position.x + obj.offset.x, obj.position.y + obj.offset.y, obj.width, obj.height, Render.getRounds(obj.direction, 4));
-				if (!obj.permanentPress) ctx.fillStyle = "#FE4A49";
+				if (!obj.singlePress) ctx.fillStyle = "#FE4A49";
 			}
 			// ~ Render pistons
 			ctx.fillStyle = "#383838";
@@ -943,7 +943,7 @@ const engine = {
 			}
 			else if (collisionBody.type === "button") {
 				let pen;
-				if (!collisionBody.permanentPress) pen = insideBody ? collisionBody.active ? 7 : 1 : collisionBody.active ? 1 : 7;
+				if (!collisionBody.singlePress) pen = insideBody ? collisionBody.active ? 7 : 1 : collisionBody.active ? 1 : 7;
 				else pen = collisionBody.pressed ? collisionBody.active ? 7 : 1 : collisionBody.active ? 1 : 7;
 
 				if (dir.x === 1) {
@@ -1066,7 +1066,7 @@ const engine = {
 			}
 
 			// Toggle button
-			if (!toDeath && collisionBody.type === "button" && player.position.sub(finalPos).length > 6 && (!collisionBody.permanentPress || !collisionBody.pressed)) {
+			if (!toDeath && collisionBody.type === "button" && player.position.sub(finalPos).length > 6 && (!collisionBody.singlePress || !collisionBody.pressed)) {
 				setTimeout(() => {
 					collisionBody.pressed = true;
 					collisionBody.trigger();

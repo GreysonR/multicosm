@@ -316,7 +316,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 					let text = `\n\t\t\t\tvar ${ name } = level.createButton(new vec(${ Math.round(rect.x) }, ${ Math.round(rect.y) }), ${ rect.width }, ${ rect.height }, ${ layer }, new vec(${ vecStr }));`;
 
 					if (rect.fill === toggleButton) {
-						text += `\n\t\t\t\t${ name }.permanentPress = false;`;
+						text += `\n\t\t\t\t${ name }.singlePress = false;`;
 					}
 
 					if (!group) {
