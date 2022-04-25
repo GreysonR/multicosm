@@ -471,7 +471,7 @@ const engine = {
 			// ~ Render End
 			if (curViewingLayer === end.layer) {
 				ctx.fillStyle = end.color || "#6BCB6F";
-				Render.roundedRect(end.position.x, end.position.y, 32, 32, 2);
+				Render.roundedRect(end.position.x, end.position.y, 32, 32, 3);
 			}
 
 			// ~ Render particles

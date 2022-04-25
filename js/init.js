@@ -23,7 +23,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 	let defaultData = {
 		world: 0,
 		level: 0,
-		coins: 1,
+		coins: 0,
 		worlds: {
 			"0": {
 				name: "Introduction",
@@ -89,7 +89,16 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 			"Automation": {
 				name: "Automation",
 				prev: "Crossroads",
-				cost: 17,
+				cost: 20,
+				unlocked: false,
+				completed: false,
+				completedLevels: [],
+				coins: [],
+			},
+			"Extras": {
+				name: "Extras",
+				prev: "Automation",
+				cost: 10,
 				unlocked: false,
 				completed: false,
 				completedLevels: [],
@@ -101,7 +110,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 	data = mergeObj(defaultData, data);
 })();
 
-var worldNames = [ 0, 1, 2, "Crossroads", "Groves", "Machinery", "Intermission", "Automation" ];
+var worldNames = [ 0, 1, 2, "Crossroads", "Groves", "Machinery", "Intermission", "Automation", "Extras" ];
 var allWorlds = {
 	worldIndex: 0,
 	levelIndex: 0,
@@ -1846,110 +1855,6 @@ var allWorlds = {
 
 				return level;
 			})(),
-			(function initLevel26() {
-				let level = World.create(-1, new vec(557, 149), new vec(166, 280));
-			
-				level.createLayer("#F08E47");
-				level.createLayer("#7C5DBE");
-				
-				// ~ layer 0
-				level.createWall(new vec(-96, -126), 166, 662, 0);
-				level.createWall(new vec(-105, -101), 1010, 193, 0);
-				level.createWall(new vec(618, -91), 287, 654, 0);
-				level.createWall(new vec(520, 297), 405, 311, 0);
-				level.createWall(new vec(-105, 410), 358, 153, 0);
-				level.createWall(new vec(-77, 448), 982, 130, 0);
-				level.createWall(new vec(462, 385), 284, 188, 0);
-				level.createWall(new vec(198, 194), 184, 124, 0);
-				level.createWall(new vec(310, -41), 72, 359, 0);
-				level.createInternalCorner(new vec(70, 92), 0, 0);
-				level.createInternalCorner(new vec(382, 92), 0, 0);
-				level.createInternalCorner(new vec(618, 92), 1, 0);
-				level.createInternalCorner(new vec(310, 92), 1, 0);
-				level.createInternalCorner(new vec(618, 297), 2, 0);
-				level.createInternalCorner(new vec(462, 448), 2, 0);
-				level.createInternalCorner(new vec(520, 385), 2, 0);
-				level.createInternalCorner(new vec(310, 194), 2, 0);
-				level.createInternalCorner(new vec(70, 410), 3, 0);
-				level.createInternalCorner(new vec(253, 448), 3, 0);
-				level.createCoin(new vec(388, 420), 0);
-				level.createPortal(new vec(533, 291), 80, 6, 0, 1, new vec(0, -1), true);
-				level.createPortal(new vec(440, 91), 80, 6, 0, 1, new vec(0, 1), true);
-				level.createPortal(new vec(69, 92), 6, 70, 0, 2, new vec(1, 0), true);
-				level.createSpike(new vec(79, 92), 119, 0, new vec(0, 1));
-
-				// complex group 1
-				var wire3 = level.createWire([ new vec(364, 302), new vec(370, 307) ], 0);
-				var wire2 = level.createWire([ new vec(364, 303), new vec(270, 303) ], 0);
-				var wire1 = level.createWire([ new vec(322, 136), new vec(364, 136), new vec(364, 302) ], 0);
-				var wire0 = level.createWire([ new vec(270, 311), new vec(270, 303), new vec(210, 303), new vec(210, 204) ], 0);
-				var piston1 = level.createPiston(new vec(382, 297), 137.99, 20.99, 0, new vec(1, 0)).setDefault(false);
-				var piston0 = level.createPiston(new vec(198, 92), 20.99, 101.99, 0, new vec(0, -1)).setDefault(false);
-				var button1 = level.createButton(new vec(299, 95), 10.99, 81.99, 0, new vec(-1, 0));
-				var button0 = level.createButton(new vec(228, 318), 81.99, 10.99, 0, new vec(0, 1));
-				wire0.connectIn(button0);
-				wire0.connectOut(piston0);
-				wire0.connectOut(wire2);
-				wire2.connectOut(wire3);
-				wire1.connectOut(wire3);
-				wire3.connectOut(piston1);
-				wire1.connectIn(button1);
-
-				// ~ layer 1
-				level.createWall(new vec(382, -109), 526, 201, 1);
-				level.createWall(new vec(-86, -87), 225, 296, 1);
-				level.createWall(new vec(-144, 12), 252, 535, 1);
-				level.createWall(new vec(617, 267), 321, 329, 1);
-				level.createWall(new vec(666, -87), 282, 672, 1);
-				level.createWall(new vec(-110, -87), 709, 147, 1);
-				level.createWall(new vec(520, 297), 287, 323, 1);
-				level.createWall(new vec(-144, 372), 570, 232, 1);
-				level.createWall(new vec(170, 398), 584, 206, 1);
-				level.createInternalCorner(new vec(139, 60), 0, 1);
-				level.createInternalCorner(new vec(108, 209), 0, 1);
-				level.createInternalCorner(new vec(382, 60), 1, 1);
-				level.createInternalCorner(new vec(666, 92), 1, 1);
-				level.createInternalCorner(new vec(666, 267), 2, 1);
-				level.createInternalCorner(new vec(617, 297), 2, 1);
-				level.createInternalCorner(new vec(520, 398), 2, 1);
-				level.createInternalCorner(new vec(426, 398), 3, 1);
-				level.createInternalCorner(new vec(108, 372), 3, 1);
-				level.createCoin(new vec(488, 342), 1);
-				level.createPortal(new vec(302, 366), 80, 6, 1, 2, new vec(0, -1), true);
-
-				// complex group 2
-				var wire0 = level.createWire([ new vec(676, 226), new vec(683, 226), new vec(683, 325), new vec(545, 325), new vec(545, 383), new vec(532, 383) ], 1);
-				var piston0 = level.createPiston(new vec(426, 372), 93.98, 20.98, 1, new vec(-1, 0)).setDefault(false);
-				var button0 = level.createButton(new vec(655, 185), 10.98, 81.98, 1, new vec(-1, 0));
-				wire0.connectIn(button0);
-				wire0.connectOut(piston0);
-
-				// ~ layer 2
-				level.createWall(new vec(487, -149), 358, 241, 2);
-				level.createWall(new vec(-90, -140), 792, 185, 2);
-				level.createWall(new vec(-141, -87), 211, 487, 2);
-				level.createWall(new vec(-141, 173), 249, 416, 2);
-				level.createWall(new vec(196, 142), 146, 103, 2);
-				level.createWall(new vec(-103, -149), 211, 230, 2);
-				level.createWall(new vec(603, -140), 377, 760, 2);
-				level.createWall(new vec(541, 245), 377, 375, 2);
-				level.createWall(new vec(-160, 372), 577, 261, 2);
-				level.createWall(new vec(106, 440), 817, 164, 2);
-				level.createInternalCorner(new vec(108, 45), 0, 2);
-				level.createInternalCorner(new vec(70, 81), 0, 2);
-				level.createInternalCorner(new vec(487, 45), 1, 2);
-				level.createInternalCorner(new vec(603, 92), 1, 2);
-				level.createInternalCorner(new vec(541, 440), 2, 2);
-				level.createInternalCorner(new vec(603, 245), 2, 2);
-				level.createInternalCorner(new vec(417, 440), 3, 2);
-				level.createInternalCorner(new vec(108, 372), 3, 2);
-				level.createInternalCorner(new vec(70, 173), 3, 2);
-				level.createCoin(new vec(462, 220), 2);
-
-				level.createSpike(new vec(417, 428), 124, 2, new vec(0, -1));
-
-				return level;
-			})(),
 			(function initLevel27() {
 				let level = World.create(-1, new vec(686, 195), new vec(508, 398));
 			
@@ -2060,6 +1965,110 @@ var allWorlds = {
 				wire0.connectOut(wire2);
 				wire2.connectOut(piston1);
 				wire1.connectIn(button1);
+
+				return level;
+			})(),
+			(function initLevel26() {
+				let level = World.create(-1, new vec(557, 149), new vec(166, 280));
+			
+				level.createLayer("#F08E47");
+				level.createLayer("#7C5DBE");
+				
+				// ~ layer 0
+				level.createWall(new vec(-96, -126), 166, 662, 0);
+				level.createWall(new vec(-105, -101), 1010, 193, 0);
+				level.createWall(new vec(618, -91), 287, 654, 0);
+				level.createWall(new vec(520, 297), 405, 311, 0);
+				level.createWall(new vec(-105, 410), 358, 153, 0);
+				level.createWall(new vec(-77, 448), 982, 130, 0);
+				level.createWall(new vec(462, 385), 284, 188, 0);
+				level.createWall(new vec(198, 194), 184, 124, 0);
+				level.createWall(new vec(310, -41), 72, 359, 0);
+				level.createInternalCorner(new vec(70, 92), 0, 0);
+				level.createInternalCorner(new vec(382, 92), 0, 0);
+				level.createInternalCorner(new vec(618, 92), 1, 0);
+				level.createInternalCorner(new vec(310, 92), 1, 0);
+				level.createInternalCorner(new vec(618, 297), 2, 0);
+				level.createInternalCorner(new vec(462, 448), 2, 0);
+				level.createInternalCorner(new vec(520, 385), 2, 0);
+				level.createInternalCorner(new vec(310, 194), 2, 0);
+				level.createInternalCorner(new vec(70, 410), 3, 0);
+				level.createInternalCorner(new vec(253, 448), 3, 0);
+				level.createCoin(new vec(388, 420), 0);
+				level.createPortal(new vec(533, 291), 80, 6, 0, 1, new vec(0, -1), true);
+				level.createPortal(new vec(440, 91), 80, 6, 0, 1, new vec(0, 1), true);
+				level.createPortal(new vec(69, 92), 6, 70, 0, 2, new vec(1, 0), true);
+				level.createSpike(new vec(79, 92), 119, 0, new vec(0, 1));
+
+				// complex group 1
+				var wire3 = level.createWire([ new vec(364, 302), new vec(370, 307) ], 0);
+				var wire2 = level.createWire([ new vec(364, 303), new vec(270, 303) ], 0);
+				var wire1 = level.createWire([ new vec(322, 136), new vec(364, 136), new vec(364, 302) ], 0);
+				var wire0 = level.createWire([ new vec(270, 311), new vec(270, 303), new vec(210, 303), new vec(210, 204) ], 0);
+				var piston1 = level.createPiston(new vec(382, 297), 137.99, 20.99, 0, new vec(1, 0)).setDefault(false);
+				var piston0 = level.createPiston(new vec(198, 92), 20.99, 101.99, 0, new vec(0, -1)).setDefault(false);
+				var button1 = level.createButton(new vec(299, 95), 10.99, 81.99, 0, new vec(-1, 0));
+				var button0 = level.createButton(new vec(228, 318), 81.99, 10.99, 0, new vec(0, 1));
+				wire0.connectIn(button0);
+				wire0.connectOut(piston0);
+				wire0.connectOut(wire2);
+				wire2.connectOut(wire3);
+				wire1.connectOut(wire3);
+				wire3.connectOut(piston1);
+				wire1.connectIn(button1);
+
+				// ~ layer 1
+				level.createWall(new vec(382, -109), 526, 201, 1);
+				level.createWall(new vec(-86, -87), 225, 296, 1);
+				level.createWall(new vec(-144, 12), 252, 535, 1);
+				level.createWall(new vec(617, 267), 321, 329, 1);
+				level.createWall(new vec(666, -87), 282, 672, 1);
+				level.createWall(new vec(-110, -87), 709, 147, 1);
+				level.createWall(new vec(520, 297), 287, 323, 1);
+				level.createWall(new vec(-144, 372), 570, 232, 1);
+				level.createWall(new vec(170, 398), 584, 206, 1);
+				level.createInternalCorner(new vec(139, 60), 0, 1);
+				level.createInternalCorner(new vec(108, 209), 0, 1);
+				level.createInternalCorner(new vec(382, 60), 1, 1);
+				level.createInternalCorner(new vec(666, 92), 1, 1);
+				level.createInternalCorner(new vec(666, 267), 2, 1);
+				level.createInternalCorner(new vec(617, 297), 2, 1);
+				level.createInternalCorner(new vec(520, 398), 2, 1);
+				level.createInternalCorner(new vec(426, 398), 3, 1);
+				level.createInternalCorner(new vec(108, 372), 3, 1);
+				level.createCoin(new vec(488, 342), 1);
+				level.createPortal(new vec(302, 366), 80, 6, 1, 2, new vec(0, -1), true);
+
+				// complex group 2
+				var wire0 = level.createWire([ new vec(676, 226), new vec(683, 226), new vec(683, 325), new vec(545, 325), new vec(545, 383), new vec(532, 383) ], 1);
+				var piston0 = level.createPiston(new vec(426, 372), 93.98, 20.98, 1, new vec(-1, 0)).setDefault(false);
+				var button0 = level.createButton(new vec(655, 185), 10.98, 81.98, 1, new vec(-1, 0));
+				wire0.connectIn(button0);
+				wire0.connectOut(piston0);
+
+				// ~ layer 2
+				level.createWall(new vec(487, -149), 358, 241, 2);
+				level.createWall(new vec(-90, -140), 792, 185, 2);
+				level.createWall(new vec(-141, -87), 211, 487, 2);
+				level.createWall(new vec(-141, 173), 249, 416, 2);
+				level.createWall(new vec(196, 142), 146, 103, 2);
+				level.createWall(new vec(-103, -149), 211, 230, 2);
+				level.createWall(new vec(603, -140), 377, 760, 2);
+				level.createWall(new vec(541, 245), 377, 375, 2);
+				level.createWall(new vec(-160, 372), 577, 261, 2);
+				level.createWall(new vec(106, 440), 817, 164, 2);
+				level.createInternalCorner(new vec(108, 45), 0, 2);
+				level.createInternalCorner(new vec(70, 81), 0, 2);
+				level.createInternalCorner(new vec(487, 45), 1, 2);
+				level.createInternalCorner(new vec(603, 92), 1, 2);
+				level.createInternalCorner(new vec(541, 440), 2, 2);
+				level.createInternalCorner(new vec(603, 245), 2, 2);
+				level.createInternalCorner(new vec(417, 440), 3, 2);
+				level.createInternalCorner(new vec(108, 372), 3, 2);
+				level.createInternalCorner(new vec(70, 173), 3, 2);
+				level.createCoin(new vec(462, 220), 2);
+
+				level.createSpike(new vec(417, 428), 124, 2, new vec(0, -1));
 
 				return level;
 			})(),
@@ -2445,6 +2454,204 @@ var allWorlds = {
 				return level;
 			})(),
 		]
+	},
+	"Extras": {
+		levels: [
+			(function initLevel31() {
+				let level = World.create(-1, new vec(154, 181), new vec(93, 307));
+
+				level.layers[0].color = "#EBD2B4";
+				level.layers[0].portalColor = "#FFF3E5";
+				level.createLayer("#73C78F", "#45B069");
+				level.createLayer("#EFBACC", "#FF96BB");
+				
+				// ~ layer 0
+				level.createWall(new vec(732, -117), 169, 623, 0);
+				level.createWall(new vec(125, 307), 118, 64, 0);
+				level.createWall(new vec(-82, -87), 172, 348, 0);
+				level.createWall(new vec(210, -104), 153, 279, 0);
+				level.createWall(new vec(-68, 440), 936, 123, 0);
+				level.createWall(new vec(316, 400), 592, 163, 0);
+				level.createWall(new vec(-37, -104), 932, 144, 0);
+				level.createWall(new vec(417, 181), 209, 40, 0);
+				level.createWall(new vec(417, 80), 63, 63, 0);
+				level.createWall(new vec(527, 111), 98, 32, 0);
+				level.createWall(new vec(210, 221), 153, 40, 0);
+				level.createWall(new vec(313, 313), 92, 238, 0);
+				level.createWall(new vec(-93, 111), 118, 401, 0);
+				level.createWall(new vec(585, -38), 40, 116, 0);
+				level.createInternalCorner(new vec(90, 40), 0, 0);
+				level.createInternalCorner(new vec(210, 40), 1, 0);
+				level.createInternalCorner(new vec(25, 261), 0, 0);
+				level.createInternalCorner(new vec(25, 440), 3, 0);
+				level.createInternalCorner(new vec(313, 440), 2, 0);
+				level.createInternalCorner(new vec(405, 400), 3, 0);
+				level.createInternalCorner(new vec(732, 400), 2, 0);
+				level.createInternalCorner(new vec(625, 40), 0, 0);
+				level.createInternalCorner(new vec(363, 40), 0, 0);
+				level.createInternalCorner(new vec(585, 40), 1, 0);
+				level.createInternalCorner(new vec(732, 40), 1, 0);
+				level.createCoin(new vec(95, 189), 0);
+				level.createPortal(new vec(233, 434), 80, 6, 0, 2, new vec(0, -1), true);
+				level.createPortal(new vec(726, 143), 6, 117, 0, 2, new vec(-1, 0), true);
+				level.createPortal(new vec(204, 42), 6, 80, 0, 1, new vec(-1, 0), true);
+				level.createPortal(new vec(27, 434), 80, 6, 0, 1, new vec(0, -1), true);
+				level.createSpike(new vec(130, 295), 108, 0, new vec(0, -1));
+				level.createSpike(new vec(318, 301), 82, 0, new vec(0, -1));
+				level.createSpike(new vec(720, 40), 38, 0, new vec(-1, 0));
+				level.createSpike(new vec(301, 318), 82, 0, new vec(-1, 0));
+				level.createSpike(new vec(243, 312), 54, 0, new vec(1, 0));
+				level.createSpike(new vec(90, 136), 120, 0, new vec(1, 0));
+				level.createSpike(new vec(125, 428), 89, 0, new vec(0, -1));
+				level.createSpike(new vec(90, 40), 103, 0, new vec(0, 1));
+
+				// ~ layer 1
+				level.createWall(new vec(760, -76), 118, 632, 1);
+				level.createWall(new vec(210, -126), 127, 278, 1);
+				level.createWall(new vec(-82, 440), 318, 124, 1);
+				level.createWall(new vec(293, 440), 332, 124, 1);
+				level.createWall(new vec(560, 374), 318, 182, 1);
+				level.createWall(new vec(210, -154), 698, 204, 1);
+				level.createWall(new vec(-123, -119), 183, 375, 1);
+				level.createWall(new vec(-113, 122), 234, 216, 1);
+				level.createWall(new vec(-98, 240), 334, 118, 1);
+				level.createWall(new vec(-98, 420), 123, 128, 1);
+				level.createWall(new vec(594, -119), 305, 271, 1);
+				level.createWall(new vec(576, 240), 125, 86, 1);
+				level.createWall(new vec(293, 240), 217, 163, 1);
+				level.createWall(new vec(400, 114), 110, 38, 1);
+				level.createWall(new vec(-129, -146), 670, 186, 1);
+				level.createInternalCorner(new vec(760, 374), 2, 1);
+				level.createInternalCorner(new vec(760, 152), 1, 1);
+				level.createInternalCorner(new vec(594, 50), 1, 1);
+				level.createInternalCorner(new vec(210, 40), 1, 1);
+				level.createInternalCorner(new vec(60, 40), 0, 1);
+				level.createInternalCorner(new vec(560, 440), 2, 1);
+				level.createInternalCorner(new vec(337, 50), 0, 1);
+				level.createInternalCorner(new vec(60, 122), 3, 1);
+				level.createInternalCorner(new vec(121, 240), 3, 1);
+				level.createInternalCorner(new vec(25, 441), 3, 1);
+				level.createCoin(new vec(305, 414), 1);
+
+				level.createSpike(new vec(564, 245), 73, 1, new vec(-1, 0));
+				level.createSpike(new vec(582, 228), 113, 1, new vec(0, -1));
+				level.createSpike(new vec(405, 102), 100, 1, new vec(0, -1));
+				level.createSpike(new vec(405, 152), 100, 1, new vec(0, 1));
+				level.createSpike(new vec(510, 119), 28, 1, new vec(1, 0));
+				level.createSpike(new vec(388, 119), 28, 1, new vec(-1, 0));
+				level.createSpike(new vec(701, 245), 73, 1, new vec(1, 0));
+				level.createSpike(new vec(582, 326), 113, 1, new vec(0, 1));
+				level.createSpike(new vec(121, 152), 53, 1, new vec(1, 0));
+
+				// ~ layer 2
+				level.createWall(new vec(732, 134), 213, 134, 2);
+				level.createWall(new vec(170, 440), 630, 145, 2);
+				level.createWall(new vec(367, 353), 543, 213, 2);
+				level.createWall(new vec(-82, -186), 928, 236, 2);
+				level.createWall(new vec(367, 181), 277, 40, 2);
+				level.createWall(new vec(367, 114), 50, 176, 2);
+				level.createWall(new vec(170, 185), 100, 202, 2);
+				level.createWall(new vec(-91, -135), 191, 260, 2);
+				level.createWall(new vec(-182, 260), 409, 127, 2);
+				level.createInternalCorner(new vec(100, 50), 0, 2);
+				level.createInternalCorner(new vec(170, 260), 2, 2);
+				level.createInternalCorner(new vec(417, 181), 3, 2);
+				level.createInternalCorner(new vec(417, 221), 0, 2);
+				level.createInternalCorner(new vec(367, 440), 2, 2);
+
+				level.createSpike(new vec(417, 221), 222, 2, new vec(0, 1));
+				level.createSpike(new vec(644, 186), 30, 2, new vec(1, 0));
+
+				return level;
+			})(),
+			(function initLevel32() {
+				let level = World.create(-1, new vec(178, 218), new vec(308, 175));
+
+				level.layers[0].color = "#F3DABB";
+				level.layers[0].portalColor = "#FFF3E5";
+				level.createLayer("#73C78F", "#45B069");
+				level.createLayer("#EFBACC", "#FF96BB");
+				
+				// ~ layer 0
+				level.createWall(new vec(172, 331), 214, 40, 0);
+				level.createWall(new vec(377, 420), 554, 169, 0);
+				level.createWall(new vec(295, 207), 50, 55, 0);
+				level.createWall(new vec(-151, 170), 230, 201, 0);
+				level.createWall(new vec(156, -117), 83, 200, 0);
+				level.createWall(new vec(156, -149), 189, 199, 0);
+				level.createWall(new vec(504, -149), 146, 199, 0);
+				level.createWall(new vec(726, 371), 215, 184, 0);
+				level.createWall(new vec(726, -97), 154, 212, 0);
+				level.createWall(new vec(760, 176), 202, 293, 0);
+				level.createWall(new vec(490, 279), 147, 84, 0);
+				level.createWall(new vec(-131, 83), 174, 489, 0);
+				level.createWall(new vec(437, 176), 200, 50, 0);
+				level.createInternalCorner(new vec(239, 50), 0, 0);
+				level.createInternalCorner(new vec(760, 371), 2, 0);
+				level.createInternalCorner(new vec(726, 420), 2, 0);
+				level.createInternalCorner(new vec(43, 371), 0, 0);
+				level.createInternalCorner(new vec(43, 170), 3, 0);
+				level.createCoin(new vec(691, 56), 0);
+				level.createPortal(new vec(42, 374), 6, 80, 0, 1, new vec(1, 0), true);
+				level.createPortal(new vec(240, 49), 100, 6, 0, 2, new vec(0, 1), true);
+				level.createPortal(new vec(242, 325), 135, 6, 0, 2, new vec(0, -1));
+				level.createPortal(new vec(551, 170), 80, 6, 0, 1, new vec(0, -1));
+				level.createSpike(new vec(283, 213), 43, 0, new vec(-1, 0));
+
+				// ~ layer 1
+				level.createWall(new vec(-83, 120), 355, 133, 1);
+				level.createWall(new vec(-83, 456), 207, 161, 1);
+				level.createWall(new vec(192, 334), 80, 86, 1);
+				level.createWall(new vec(-111, -162), 362, 415, 1);
+				level.createWall(new vec(0, -162), 631, 205, 1);
+				level.createWall(new vec(377, -162), 254, 230, 1);
+				level.createWall(new vec(377, 120), 261, 50, 1);
+				level.createWall(new vec(509, -128), 334, 169, 1);
+				level.createWall(new vec(721, -162), 211, 338, 1);
+				level.createWall(new vec(-129, 68), 172, 589, 1);
+				level.createWall(new vec(377, 120), 174, 214, 1);
+				level.createWall(new vec(641, 424), 355, 167, 1);
+				level.createInternalCorner(new vec(251, 43), 0, 1);
+				level.createInternalCorner(new vec(377, 43), 1, 1);
+				level.createInternalCorner(new vec(721, 41), 1, 1);
+				level.createInternalCorner(new vec(631, 41), 0, 1);
+				level.createInternalCorner(new vec(551, 170), 0, 1);
+				level.createInternalCorner(new vec(43, 253), 0, 1);
+				level.createInternalCorner(new vec(43, 456), 3, 1);
+				level.createInternalCorner(new vec(251, 120), 3, 1);
+				level.createCoin(new vec(346, 264), 1);
+				level.createPortal(new vec(636, 40), 80, 6, 1, 2, new vec(0, 1), true);
+				level.createSpike(new vec(709, 53), 112, 1, new vec(-1, 0));
+				level.createSpike(new vec(638, 125), 34, 1, new vec(1, 0));
+				level.createSpike(new vec(272, 209), 38, 1, new vec(1, 0));
+
+				// ~ layer 2
+				level.createWall(new vec(-114, -116), 233, 259, 2);
+				level.createWall(new vec(-87, 100), 222, 43, 2);
+				level.createWall(new vec(213, 219), 226, 106, 2);
+				level.createWall(new vec(-87, 410), 419, 166, 2);
+				level.createWall(new vec(245, 446), 515, 124, 2);
+				level.createWall(new vec(0, -133), 367, 169, 2);
+				level.createWall(new vec(213, -108), 418, 158, 2);
+				level.createWall(new vec(721, -152), 220, 272, 2);
+				level.createWall(new vec(213, 177), 85, 148, 2);
+				level.createWall(new vec(559, -141), 234, 182, 2);
+				level.createWall(new vec(-93, 380), 238, 183, 2);
+				level.createWall(new vec(673, 219), 248, 383, 2);
+				level.createInternalCorner(new vec(119, 36), 0, 2);
+				level.createInternalCorner(new vec(213, 36), 1, 2);
+				level.createInternalCorner(new vec(721, 41), 1, 2);
+				level.createInternalCorner(new vec(673, 446), 2, 2);
+				level.createInternalCorner(new vec(332, 446), 3, 2);
+				level.createInternalCorner(new vec(145, 410), 3, 2);
+				level.createInternalCorner(new vec(298, 219), 3, 2);
+				level.createInternalCorner(new vec(631, 41), 0, 2);
+				level.createInternalCorner(new vec(119, 100), 3, 2);
+				level.createCoin(new vec(355, 416), 2);
+
+				return level;
+			})(),
+		],
 	},
 }
 

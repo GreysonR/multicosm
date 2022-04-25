@@ -152,7 +152,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 		let pos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy"))).sub({ x: 0, y: titleY });
 		title.innerHTML = world && (!world.prev || data.worlds[world.prev].completed || world.unlocked) ? (world.name || (typeof worldName === "number" ? "World " + (index + 1) : worldName)) : "???";
 		title.classList.add("active");
-		title.style.transform = `translate(${ pos.x*1.06 }px, ${ pos.y*1.06 }px) translateX(-50%)`;
+		title.style.transform = `translate(${ pos.x }px, ${ pos.y }px) translateX(-50%)`;
 
 		elem.onmouseleave = function() {
 			elem.onmouseleave = null;
@@ -176,7 +176,7 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 					elem.classList.remove("buyable");
 					costUI.classList.remove("active");
 					
-					title.style.transform = `translate(${ pos.x }px, ${ Number(elem.getAttribute("cy")) - 70 }px) translateX(-50%)`;
+					title.style.transform = `translate(${ pos.x }px, ${ (Number(elem.getAttribute("cy")) - 70) }px) translateX(-50%)`;
 
 					loadWorldSelect();
 					

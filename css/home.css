@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.12,
+* Autoprefixer: v10.4.4
+* Browsers: last 4 version
+*/
+
 #home {
 	display: none;
 	position: absolute;
@@ -9,7 +16,13 @@
 
 	background-color: #F6EEE5;
 
-	user-select: none;
+	-webkit-user-select: none;
+
+	   -moz-user-select: none;
+
+	    -ms-user-select: none;
+
+	        user-select: none;
 }
 #home.active {
 	display: block;
@@ -66,9 +79,15 @@
 	left: 0;
 }
 #worldSelect #worlds circle {
+	-webkit-transition: r, fill, stroke, stroke-width;
+	-o-transition: r, fill, stroke, stroke-width;
 	transition: r, fill, stroke, stroke-width;
-	transition-duration: 300ms;
-	transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	-webkit-transition-duration: 300ms;
+	     -o-transition-duration: 300ms;
+	        transition-duration: 300ms;
+	-webkit-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	     -o-transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	        transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 #worldSelect #worlds circle:hover {
 	cursor: pointer
@@ -83,7 +102,13 @@
 	stroke: #989898;
 }
 #worldSelect #worlds circle.buyable {
-	animation: showBuyable 1.5s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	-webkit-animation: showBuyable 1.5s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	        animation: showBuyable 1.5s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+@-webkit-keyframes showBuyable {
+	0% { stroke: #989898; }
+	50% { stroke: #D8B36B; }
+	100% { stroke: #989898; }
 }
 @keyframes showBuyable {
 	0% { stroke: #989898; }
@@ -111,10 +136,16 @@
 .label {
 	position: absolute;
 	display: inline-block;
+	width: -webkit-max-content;
+	width: -moz-max-content;
 	width: max-content;
 	pointer-events: none;
 
-	transform: translate(400px, 170px);
+	-webkit-transform: translate(400px, 170px);
+
+	    -ms-transform: translate(400px, 170px);
+
+	        transform: translate(400px, 170px);
 
 	font-family: "Varela Round", Arial, sans-serif;
 	font-size: 20px;
@@ -122,13 +153,19 @@
 	font-weight: 400;
 
 	opacity: 0;
+	-webkit-transition: opacity 150ms;
+	-o-transition: opacity 150ms;
 	transition: opacity 150ms;
 
 	background: #F6EEE5;
 }
 .label.active {
 	opacity: 1;
+	-webkit-transition: opacity 150ms 50ms, -webkit-transform 100ms;
+	transition: opacity 150ms 50ms, -webkit-transform 100ms;
+	-o-transition: opacity 150ms 50ms, transform 100ms;
 	transition: opacity 150ms 50ms, transform 100ms;
+	transition: opacity 150ms 50ms, transform 100ms, -webkit-transform 100ms;
 }
 
 #coinCost {
@@ -143,6 +180,8 @@
 	text-align: right;
 
 	opacity: 0;
+	-webkit-transition: opacity 150ms;
+	-o-transition: opacity 150ms;
 	transition: opacity 150ms;
 
 	background: #F6EEE5;
@@ -173,11 +212,21 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	    -ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
+
+
+	display: -webkit-box;
+
+
+	display: -ms-flexbox;
 
 
 	display: flex;
-	align-items: center;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 	/*
 	max-width: 500px;
 	flex-wrap: wrap;
@@ -268,6 +317,10 @@
 	padding-right: 10px;
 	border-radius: 5px;
 	border: 2.5px solid transparent;
+
+	-webkit-transition: background 150ms, border 150ms;
+
+	-o-transition: background 150ms, border 150ms;
 
 	transition: background 150ms, border 150ms;
 }
