@@ -755,7 +755,7 @@ const engine = {
 			ctx.scale(pr, pr);
 			rescaleCanv();
 		}
-		Render.setPixelRatio(window.devicePixelRatio * 1.2);
+		Render.setPixelRatio(window.devicePixelRatio);
 
 		// ~ images
 		Render.images = {}
