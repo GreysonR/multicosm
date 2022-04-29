@@ -15,6 +15,7 @@ const gameButtons = {
 }
 
 Render.on("afterRender", () => {
+	if (inTitle || inHome) return;
 	const { top, right, width, height, opacity } = gameButtons;
 	const x = 800 - right - width;
 	

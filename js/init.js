@@ -123,6 +123,50 @@ var allWorlds = {
 	get relLevelIndex() {
 		return allWorlds.levelIndex - allWorlds.curWorld.levels[0].index;
 	},
+	"Home": {
+		levels: [
+			(function initHomeLevel() {
+				let level = World.create(-1, new vec(-100, -100), new vec(-200, -200));
+				
+				level.createLayer("#F08E47");
+				level.createLayer("#7C5DBE");
+				
+				level.createWall(new vec(574, 434), 308, 140, 0);
+				level.createWall(new vec(657, -44), 332, 268, 0);
+				level.createWall(new vec(509, -88), 397, 131, 0);
+				level.createWall(new vec(-133, -99), 464, 142, 0);
+				level.createWall(new vec(-106, -111), 350, 234, 0);
+				level.createWall(new vec(-104, 250), 300, 149, 0);
+				level.createWall(new vec(-95, 221), 199, 370, 0);
+				level.createWall(new vec(-95, 221), 241, 171, 0);
+				level.createWall(new vec(-80, -99), 147, 661, 0);
+				level.createWall(new vec(689, 392), 193, 170, 0);
+				level.createWall(new vec(590, -111), 330, 245, 0);
+				level.createWall(new vec(732, -88), 150, 662, 0);
+				level.createInternalCorner(new vec(67, 123), 0, 0);
+				level.createInternalCorner(new vec(104, 399), 0, 0);
+				level.createInternalCorner(new vec(244, 43), 0, 0);
+				level.createInternalCorner(new vec(590, 43), 1, 0);
+				level.createInternalCorner(new vec(657, 134), 1, 0);
+				level.createInternalCorner(new vec(732, 224), 1, 0);
+				level.createInternalCorner(new vec(732, 392), 2, 0);
+				level.createInternalCorner(new vec(689, 434), 2, 0);
+				level.createInternalCorner(new vec(67, 221), 3, 0);
+				level.createInternalCorner(new vec(146, 250), 3, 0);
+				level.createPortal(new vec(726, 312), 6, 80, 0, 1, new vec(-1, 0), true);
+				level.createPortal(new vec(103, 407), 6, 80, 0, 1, new vec(1, 0), true);
+				level.createPortal(new vec(66, 141), 6, 80, 0, 2, new vec(1, 0), true);
+				level.createPortal(new vec(584, 43), 6, 80, 0, 1, new vec(-1, 0), true);
+				level.createSpike(new vec(594, 422), 95, 0, new vec(0, -1));
+
+				return level;
+			})(),
+			(function initBlankLevel() {
+				let level = World.create(-1, new vec(-100, -100), new vec(-200, -200));
+				return level;
+			})(),
+		]
+	},
 	"0": {
 		levels: [
 			/*(function initLevelTest2() {
@@ -2874,8 +2918,3 @@ if (data.level > 1) {
 	player.alive = true;
 }
 World.set(data.level, data.layer);
-
-function setLevel(level) {
-	World.set(level);
-	localStorage.setItem("level", level);
-}

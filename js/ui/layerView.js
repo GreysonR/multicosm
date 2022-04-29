@@ -14,6 +14,7 @@ const layerView = {
 }
 
 Render.on("afterRender", () => {
+	if (inTitle || inHome) return;
 	// 40px width/height of blocks, 50px total width, 5px margins
 	// ctx.drawImage(Render.images.x, canv.width - 56 - 6, 6);
 	let { curWorld } = World;
