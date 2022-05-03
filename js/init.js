@@ -759,14 +759,14 @@ var allWorlds = {
 
 				// ~ layer 1
 				level.createWall(new vec(421, 7.81926), 87, 282.181, 1);
-				level.createWall(new vec(421, 7.81926), 399.113, 253.181, 1);
+				level.createWall(new vec(421, -114), 462, 375, 1);
 				level.createWall(new vec(153, 273), 186, 331, 1);
 				level.createWall(new vec(-156, 298), 495, 291, 1);
 				level.createWall(new vec(-156, 236), 197, 336, 1);
-				level.createWall(new vec(-156, -157), 629, 233, 1);
+				level.createWall(new vec(-156, -209), 936, 285, 1);
 				level.createWall(new vec(611, -122), 272, 726, 1);
 				level.createWall(new vec(339, -165), 538.494, 354, 1);
-				level.createWall(new vec(228, -109), 485.545, 228, 1);
+				level.createWall(new vec(228, -165), 547, 284, 1);
 				level.createWall(new vec(454, 398), 482, 226, 1);
 				level.createInternalCorner(new vec(228, 76), 1, 1);
 				level.createInternalCorner(new vec(339, 119), 1, 1);
@@ -784,22 +784,19 @@ var allWorlds = {
 				level.createWall(new vec(-140, 379), 555, 249, 2);
 				level.createWall(new vec(-184, 218), 305, 359, 2);
 				level.createWall(new vec(-88, -112), 343, 223, 2);
-				level.createWall(new vec(643, -95), 240, 672, 2);
+				level.createWall(new vec(637, -95), 246, 672, 2);
 				level.createWall(new vec(611, -76), 272, 187, 2);
-				level.createWall(new vec(611, 232), 335, 381, 2);
-				level.createWall(new vec(415, -160), 451.588, 224, 2);
+				level.createWall(new vec(611, 189), 335, 424, 2);
+				level.createWall(new vec(415, -160), 112, 224, 2);
 				level.createWall(new vec(294, 398), 642, 230, 2);
-				level.createInternalCorner(new vec(643, 111), 1, 2);
-				level.createInternalCorner(new vec(611, 64), 1, 2);
-				level.createInternalCorner(new vec(643, 232), 2, 2);
+				level.createInternalCorner(new vec(637, 111), 1, 2);
+				level.createInternalCorner(new vec(637, 189), 2, 2);
 				level.createInternalCorner(new vec(611, 398), 2, 2);
 				level.createInternalCorner(new vec(415, 397.5), 3, 2);
 				level.createInternalCorner(new vec(121, 379), 3, 2);
 				level.createInternalCorner(new vec(333, 280), 2, 2);
 				level.createInternalCorner(new vec(255, 379), 2, 2);
 				level.createCoin(new vec(582, 71), 2);
-
-				level.createSpike(new vec(631, 111), 121, 2, new vec(-1, 0));
 
 				return level;
 			})(),

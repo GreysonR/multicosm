@@ -6,7 +6,7 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%) scale(0);
 
 	width:  450px;
 	height: 265px;
@@ -21,16 +21,15 @@
 	visibility: visible;
 
 	animation-name: completeIn;
-	animation-duration: 350ms;
-	animation-timing-function: cubic-bezier(.29,.01,.13,1.35);
+	animation-duration: 200ms;
 	animation-fill-mode: forwards;
 }
 @keyframes completeIn {
 	from {
-		transform: translate(-50%, -50%) scale(0);
+		opacity: 0;
 	}
 	to {
-		transform: translate(-50%, -50%) scale(1);
+		opacity: 1;
 	}
 }
 #levelComplete #coins {
