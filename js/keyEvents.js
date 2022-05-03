@@ -122,7 +122,7 @@ window.addEventListener("keydown", event => {
 	if (key === "a" || key === "arrowleft") events.trigger("left", true);
 	if (key === "d" || key === "arrowright") events.trigger("right", true);
 
-	if (key === "q" && event.altKey) {
+	if (key === "q" && event.altKey && false) {
 		document.getElementById("devTools").classList.toggle("active");
 	}
 
