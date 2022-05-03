@@ -3,6 +3,7 @@
 var inHome = false;
 
 function openHome() {
+	World.set(1);
 	inHome = true;
 	Render.enabled = false;
 
@@ -17,7 +18,7 @@ function openHome() {
 	// loadLevelSelect(0);
 }
 function closeHome() {
-	inHome = true;
+	inHome = false;
 	Render.enabled = true;
 
 	document.getElementById("home").classList.remove("active");
@@ -121,7 +122,6 @@ function loadLevelSelect(index) {
 		}
 	}
 }
-openHome();
 
 document.getElementById("worldsBackground").addEventListener("mousemove", event => {
 	let elem = event.target;

@@ -12,13 +12,22 @@
 
 	<link rel="stylesheet" href="./css/index.css">
 	<link rel="stylesheet" href="./css/home.css">
+	<link rel="stylesheet" href="./css/title.css">
 </head>
 <body>
 	<div id="inGame">
+		<div id="title" class="active">
+			<button id="b0" onclick="closeTitle();openHome()" class="focused">Play</button>
+			<button id="b1" onclick="openCredits();">Credits</button>
+			<p>Created by Greyson Rockwell</p>
+			<button id="b3" class="credits" onclick="closeCredits();">Back</button>
+			<div id="titleText"></div>
+		</div>
+		
 		<div id="winText">Great job!</div>
-		<div id="enterContinue" class="active">Enter to continue</div>
+		<div id="enterContinue">Enter to continue</div>
 		<div id="win"></div>
-		<div id="tutorial" class="active"></div>
+		<div id="tutorial" onclick="closeTutorial()" class="active"></div>
 
 		<canvas id="canv" width="800" height="480"></canvas>
 	</div>
@@ -48,6 +57,7 @@
 					<path d="M565 240H624" stroke="#989898" stroke-width="4" stroke-dasharray="12 12"/>
 					<circle cx="643" cy="240" r="13.5" stroke="#989898" stroke-width="5"/>
 				</svg>
+				<div id="backLevel" onclick="closeHome();openTitle()">Back</div>
 			</div>
 		</div>
 		<div id="levelSelect" class="active">
@@ -112,6 +122,7 @@
 <script src="./js/ui/layerView.js"></script>
 <script src="./js/ui/gameButtons.js"></script>
 <script src="./js/ui/homeMenu.js"></script>
+<script src="./js/ui/title.js"></script>
 
 <script>
 	// Start engine after everything has loaded

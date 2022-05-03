@@ -1,10 +1,10 @@
 "use strict";
 
 const events = {
-	up: function(keydown) { if (keydown) player.move("up") },
-	down: function(keydown) { if (keydown) player.move("down") },
-	left: function(keydown) { if (keydown) player.move("left") },
-	right: function(keydown) { if (keydown) player.move("right") },
+	up: function(keydown) { if (keydown && !inHome && !inTitle) player.move("up") },
+	down: function(keydown) { if (keydown && !inHome && !inTitle) player.move("down") },
+	left: function(keydown) { if (keydown && !inHome && !inTitle) player.move("left") },
+	right: function(keydown) { if (keydown && !inHome && !inTitle) player.move("right") },
 	reset: function(keydown, resetPlayer = true, ignoreDead = false) {
 		if (keydown && (!player.moving || player.looping) && (player.alive || ignoreDead) || document.getElementById("winText").classList.contains("active")) {
 			let world = World.curWorld;
@@ -101,6 +101,7 @@ const events = {
 function nextLevel() {
 	let levelData = data.worlds[allWorlds.worldIndex];
 
+	console.log(allWorlds.levelIndex, allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index);
 	if (allWorlds.levelIndex < allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index) {
 		World.set(World.worldIndex + 1);
 		player.alive = true;
@@ -138,7 +139,16 @@ window.addEventListener("keyup", event => {
 	if (key === "d" || key === "arrowright") events.trigger("right", false);
 
 	if (key === "x") reset();
-	if (key === "escape") openHome();
+	if (key === "escape") {
+		let levelSelect = document.getElementById("levelSelect");
+		if ((!inHome || levelSelect.classList.contains("active")) && !inTitle) {
+			openHome();
+		}
+		else if (!inTitle) {
+			closeHome();
+			openTitle();
+		}
+	}
 });
 
 // touch events

@@ -1,0 +1,82 @@
+#title {
+	position: absolute;
+	top:  290px;
+	left: 240px;
+	display: none;
+	user-select: none;
+}
+#title.active {
+	display: block;
+}
+
+#title button {
+	display: block;
+	cursor: pointer;
+	position: relative;
+
+	background: none;
+	outline: none;
+	border: none;
+
+	font-family: "Varela Round", Arial, sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	color: #626262;
+	margin-bottom: 4px;
+}
+#title button.focused {
+	color: #444;
+}
+#title button.focused::before {
+	content: "";
+	display: block;
+
+	position: absolute;
+	top:  10px;
+	left: -25px;
+
+	width:  10px;
+	height: 10px;
+	border: 4px solid #444;
+	border-bottom: none;
+	border-left: none;
+	border-radius: 0 5px 0 0;
+	transform: rotate(45deg);
+
+	pointer-events: none;
+}
+#title.credits button {
+	display: none;
+}
+
+#title #titleText {
+	position: absolute;
+	top:  -130px;
+	left: -50px;
+
+	width: 400px;
+	height: 100px;
+
+	background-image: url("../images/title.svg");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+
+#title p {
+	font-family: "Varela Round", Arial, sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	color: #626262;
+
+	margin-top: 0px;
+	
+	display: none;
+}
+#title .credits {
+	display: none;
+	margin-top: -20px;
+}
+#title.credits p, #title.credits .credits {
+	display: block;
+}
