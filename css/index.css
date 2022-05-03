@@ -49,6 +49,7 @@ html {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
+	user-select: none;
 }
 #enterContinue {
 	display: none;
@@ -60,13 +61,14 @@ html {
 	z-index: 3;
 	transform-origin: center top;
 
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	font-size: 22px;
+	font-family: 'Varela Round', sans-serif;
+	font-size: 20px;
 	color: #616161;
 
 	background-color: #F6EEE5;
 	border-radius: 5px;
-	padding: 3px;
+	padding: 4px;
+	user-select: none;
 }
 #winText {
 	display: none;
@@ -78,14 +80,15 @@ html {
 	transform-origin: center bottom;
 	z-index: 3;
 
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'Varela Round', sans-serif;
 	font-weight: bold;
-	font-size: 30px;
+	font-size: 28px;
 	color: #353535;
 
 	background-color: #F6EEE5;
 	border-radius: 5px;
-	padding: 3px;
+	padding: 4px;
+	user-select: none;
 }
 #enterContinue.active, #tutorial.active, #win.active, #winText.active {
 	display: block;

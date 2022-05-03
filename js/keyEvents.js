@@ -101,7 +101,6 @@ const events = {
 function nextLevel() {
 	let levelData = data.worlds[allWorlds.worldIndex];
 
-	console.log(allWorlds.levelIndex, allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index);
 	if (allWorlds.levelIndex < allWorlds.curWorld.levels[allWorlds.curWorld.levels.length - 1].index) {
 		World.set(World.worldIndex + 1);
 		player.alive = true;
@@ -123,7 +122,7 @@ window.addEventListener("keydown", event => {
 	if (key === "a" || key === "arrowleft") events.trigger("left", true);
 	if (key === "d" || key === "arrowright") events.trigger("right", true);
 
-	if (key === "q" && event.altKey && false) {
+	if (key === "q" && event.altKey) {
 		document.getElementById("devTools").classList.toggle("active");
 	}
 
@@ -138,8 +137,8 @@ window.addEventListener("keyup", event => {
 	if (key === "a" || key === "arrowleft") events.trigger("left", false);
 	if (key === "d" || key === "arrowright") events.trigger("right", false);
 
-	if (key === "x") reset();
-	if (key === "escape") {
+	// if (key === "x") reset();
+	if (key === "escape" || key === "h") {
 		let levelSelect = document.getElementById("levelSelect");
 		if ((!inHome || levelSelect.classList.contains("active")) && !inTitle) {
 			openHome();
@@ -227,7 +226,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				// define color vars
 				let wall = "#494949";
 				let coin = "#FFD465";
-				let portals = [ "#DDE2ED", "#F08E47", "#7C5DBE" ];
+				let portals = [ "#DDE2ED", "#FC954B", "#7C5DBE" ];
 				let spike = "#F44545";
 				let button = "#FE4A49";
 				let toggleButton = "#35ABEE";

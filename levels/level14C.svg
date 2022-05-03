@@ -1,22 +1,23 @@
 <svg width="800" height="480" viewBox="0 0 800 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="415" y="200" width="6" height="80" fill="#F08E47"/>
+<rect x="415" y="200" width="6" height="80" fill="#FC954B"/>
 <rect x="121" y="243" width="7" height="100" fill="#F6EEE5"/>
 <rect x="255" y="280" width="160" height="297" fill="#494949"/>
 <rect x="333" y="189" width="82" height="388" fill="#494949"/>
-<rect x="255" y="366" width="239" height="232" fill="#494949"/>
-<rect x="-140" y="379" width="634" height="249" fill="#494949"/>
+<rect x="-140" y="379" width="555" height="249" fill="#494949"/>
 <rect x="-184" y="218" width="305" height="359" fill="#494949"/>
 <rect x="-88" y="-112" width="343" height="223" fill="#494949"/>
 <rect x="643" y="-95" width="240" height="672" fill="#494949"/>
 <rect x="611" y="-76" width="272" height="187" fill="#494949"/>
 <rect x="611" y="232" width="335" height="381" fill="#494949"/>
-<rect x="415" y="-160" width="114" height="224" fill="#494949"/>
+<rect x="415" y="-160" width="451.588" height="224" fill="#494949"/>
 <rect x="294" y="398" width="642" height="230" fill="#494949"/>
+<rect x="631" y="111" width="12" height="121" rx="1" fill="#F44545"/>
 <rect opacity="0.1" x="633" y="111" width="10" height="10" rx="1" fill="#494949"/>
+<rect opacity="0.1" x="601" y="64" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="633" y="222" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="601" y="388" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="494" y="388" width="10" height="10" rx="3" fill="#494949"/>
-<rect opacity="0.1" x="415" y="356" width="10" height="10" rx="3" fill="#494949"/>
+<rect opacity="0.1" x="415" y="387.5" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="121" y="369" width="10" height="10" rx="3" fill="#494949"/>
 <rect opacity="0.1" x="323" y="270" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="245" y="369" width="10" height="10" rx="2" fill="#494949"/>

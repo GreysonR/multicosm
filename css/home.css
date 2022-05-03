@@ -1,7 +1,7 @@
 #home {
 	display: none;
 	position: absolute;
-	top: 50%;
+	top:  50%;
 	left: 50%;
 
 	width: 804px;
@@ -109,7 +109,7 @@
 	100% { stroke: #989898; }
 }
 #worldSelect #worlds circle.unlocked {
-	stroke: #F08E47;
+	stroke: #FC954B;
 	fill: transparent;
 	r: 12;
 	stroke-width: 8;
@@ -121,7 +121,7 @@
 }
 
 #worldSelect #worlds path.unlocked {
-	stroke: #F08E47;
+	stroke: #FC954B;
 }
 #worldSelect #worlds path.complete {
 	stroke: #6BCB6F;
@@ -237,7 +237,7 @@
 	margin-left: 22px;
 }
 #levelSelect #levels .level.unlocked {
-	border: 8px solid #F08E47;
+	border: 8px solid #FC954B;
 	width:  20px;
 	height: 20px;
 	cursor: pointer;
@@ -294,7 +294,6 @@
 	background-position: center;
 	background-repeat: no-repeat;/**/
 }
-
 #backLevel {
 	position: absolute;
 	bottom: 50px;
@@ -316,6 +315,9 @@
 	-o-transition: background 150ms, border 150ms;
 
 	transition: background 150ms, border 150ms;
+}
+#worlds>#backLevel {
+	bottom: 44px;
 }
 #backLevel:hover {
 	cursor: pointer;

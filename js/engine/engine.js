@@ -641,7 +641,7 @@ const engine = {
 				}
 			}
 
-
+			if (curWorld.afterRender) curWorld.afterRender();
 			Render.trigger("afterRender");
 			ctx.restore();
 			Render.trigger("afterTick");

@@ -16,20 +16,19 @@
 </head>
 <body>
 	<div id="inGame">
-		<div id="title" class="active">
-			<button id="b0" onclick="closeTitle();openHome()" class="focused">Play</button>
-			<button id="b1" onclick="openCredits();">Credits</button>
-			<p>Created by Greyson Rockwell</p>
-			<button id="b3" class="credits" onclick="closeCredits();">Back</button>
-			<div id="titleText"></div>
-		</div>
-		
-		<div id="winText">Great job!</div>
 		<div id="enterContinue">Enter to continue</div>
+		<div id="winText">Great job!</div>
 		<div id="win"></div>
 		<div id="tutorial" onclick="closeTutorial()" class="active"></div>
 
 		<canvas id="canv" width="800" height="480"></canvas>
+	</div>
+	<div id="title" class="active">
+		<button id="b0" onclick="closeTitle();openHome()" class="focused">Play</button>
+		<button id="b1" onclick="openCredits();">Credits</button>
+		<p>Created by Greyson Rockwell</p>
+		<button id="b3" class="credits" onclick="closeCredits();">Back</button>
+		<div id="titleText"></div>
 	</div>
 	<div id="home" class="">
 		<div id="coinCount">69</div>
@@ -95,7 +94,8 @@
 		let scale = width / canv.width * (width < 810 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
 		scale = Math.min(scale, window.innerHeight / canv.height);
 		document.getElementById("inGame").style.transform = `translate(-50%, -50%) scale(${ scale })`;
-		document.getElementById("home").style.transform = `translate(-400px, -241px) scale(${ scale * canv.width / 800 })`;
+		document.getElementById("home").style.transform = `translate(-404px, -244px) scale(${ scale * canv.width / 800 })`;
+		document.getElementById("title").style.transform = `translate(-400px, -240px) scale(${ scale * canv.width / 800 }) translate(31%, 59%)`;
 
 		document.getElementById("win").style.transform = `scale(${ pr })`;
 		document.getElementById("tutorial").style.transform = `scale(${ pr })`;

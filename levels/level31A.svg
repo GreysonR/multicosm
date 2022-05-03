@@ -23,8 +23,8 @@
 <rect x="90" y="40" width="103" height="12" fill="#F44545"/>
 <rect x="233" y="433" width="80" height="7" rx="1" fill="#7C5DBE"/>
 <rect x="725" y="143" width="7" height="117" rx="1" fill="#7C5DBE"/>
-<rect x="203" y="42" width="7" height="80" rx="1" fill="#F08E47"/>
-<rect x="27" y="433" width="80" height="7" rx="1" fill="#F08E47"/>
+<rect x="203" y="42" width="7" height="80" rx="1" fill="#FC954B"/>
+<rect x="27" y="433" width="80" height="7" rx="1" fill="#FC954B"/>
 <rect opacity="0.1" x="90" y="40" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="200" y="40" width="10" height="10" rx="1" fill="#494949"/>
 <rect opacity="0.1" x="25" y="261" width="10" height="10" fill="#494949"/>
