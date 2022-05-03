@@ -1101,22 +1101,16 @@ const engine = {
 			// - Win if hit the end
 			else if (collisionBody.isEnd) {
 				setTimeout(() => {
-					document.getElementById("enterContinue").classList.add("active");
-					document.getElementById("winText").classList.add("active");
-					document.getElementById("enterContinue").style.background = World.curWorld.layers[0].color;
-					document.getElementById("winText").style.background = World.curWorld.layers[0].color;
 					player.alive = false;
-
 
 					// ~ update stats
 					let curWorld = World.curWorld;
 					let levelData = data.worlds[allWorlds.worldIndex];
 
 					if (!levelData.completedLevels.includes(World.worldIndex)) levelData.completedLevels.push(World.worldIndex);
-
+					let levelIndex = allWorlds.relLevelIndex;
 					if (curWorld.collectedCoins.length > 0) {
 						let coins = levelData.coins;
-						let levelIndex = allWorlds.relLevelIndex;
 
 						if (!coins[levelIndex]) coins[levelIndex] = [];
 
@@ -1140,6 +1134,19 @@ const engine = {
 							}
 						}
 					}
+
+					// ~ update ui
+					let coinsElem = document.getElementById("coins");
+					document.getElementById("levelComplete").classList.add("active");
+					coinsElem.innerHTML = "";
+					for (let i = 0; i < curWorld.numCoins; i++) {
+						let coinElem = document.createElement("div");
+						coinElem.classList.add("coin");
+						if (levelData.coins && levelData.coins[levelIndex] && levelData.coins[levelIndex].includes(i)) {
+							coinElem.classList.add("active");
+						}
+						coinsElem.appendChild(coinElem);
+					} 
 
 					save();
 					

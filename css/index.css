@@ -51,46 +51,7 @@ html {
 	background-size: contain;
 	user-select: none;
 }
-#enterContinue {
-	display: none;
-
-	position: absolute;
-	bottom: 40px;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 3;
-	transform-origin: center top;
-
-	font-family: 'Varela Round', sans-serif;
-	font-size: 20px;
-	color: #616161;
-
-	background-color: #F6EEE5;
-	border-radius: 5px;
-	padding: 4px;
-	user-select: none;
-}
-#winText {
-	display: none;
-
-	position: absolute;
-	bottom: 70px;
-	left: 50%;
-	transform: translateX(-50%);
-	transform-origin: center bottom;
-	z-index: 3;
-
-	font-family: 'Varela Round', sans-serif;
-	font-weight: bold;
-	font-size: 28px;
-	color: #353535;
-
-	background-color: #F6EEE5;
-	border-radius: 5px;
-	padding: 4px;
-	user-select: none;
-}
-#enterContinue.active, #tutorial.active, #win.active, #winText.active {
+#levelComplete.active, #tutorial.active, #win.active {
 	display: block;
 }
 

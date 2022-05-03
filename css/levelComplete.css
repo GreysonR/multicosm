@@ -1,0 +1,112 @@
+#levelComplete {
+	display: block;
+	visibility: hidden;
+	pointer-events: none;
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	width:  450px;
+	height: 265px;
+
+	background: #3a3a3a;
+	border: 35px solid #424242;
+	border-radius: 60px;
+	
+	user-select: none;
+}
+#levelComplete.active {
+	visibility: visible;
+
+	animation-name: completeIn;
+	animation-duration: 350ms;
+	animation-timing-function: cubic-bezier(.29,.01,.13,1.35);
+	animation-fill-mode: forwards;
+}
+@keyframes completeIn {
+	from {
+		transform: translate(-50%, -50%) scale(0);
+	}
+	to {
+		transform: translate(-50%, -50%) scale(1);
+	}
+}
+#levelComplete #coins {
+	transform: scale(0.9);
+	width:  min-content;
+	height: 70px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 45px;
+
+	display: flex;
+}
+#levelComplete #coins>.coin {
+	width:  50px;
+	height: 50px;
+	border-radius: 22.5px;
+	margin-left: 26px;
+
+	background-color: #8E8A85;
+	border: 10px solid #777470;
+
+	margin-right: auto;
+}
+#levelComplete #coins>.coin:last-child {
+	margin-right: 0;
+}
+#levelComplete #coins>.coin.active::after {
+	content: "";
+	display: block;
+	margin: -11px;
+
+	border: none;
+	background-color: transparent;
+	width:  72px;
+	height: 72px;
+
+	background-image: url("../images/coin.png");
+	background-size: 0px;
+	background-position: center;
+	background-repeat: no-repeat;
+
+	animation-name: coinIn;
+	animation-delay:    400ms;
+	animation-duration: 300ms;
+	animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+	animation-fill-mode: forwards;
+}
+#levelComplete #coins>.coin.active:nth-child(2)::after {
+	animation-delay: 700ms;
+}
+#levelComplete #coins>.coin.active:nth-child(3)::after {
+	animation-delay: 1000ms;
+}
+@keyframes coinIn {
+	from {
+		background-size: 0px;
+	}
+	to {
+		background-size: 72px;
+	}
+}
+
+#winText {
+	font-family: 'Varela Round', sans-serif;
+	font-weight: bold;
+	font-size: 47px;
+	color: #F8F8F8;
+	text-align: center;
+
+	margin-top: 20px;
+}
+#enterContinue {
+	font-family: 'Varela Round', sans-serif;
+	font-size: 22px;
+	color: #C1C1C1;
+	text-align: center;
+
+	margin-top: 8px;
+}

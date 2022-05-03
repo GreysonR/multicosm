@@ -6,7 +6,7 @@ const events = {
 	left: function(keydown) { if (keydown && !inHome && !inTitle) player.move("left") },
 	right: function(keydown) { if (keydown && !inHome && !inTitle) player.move("right") },
 	reset: function(keydown, resetPlayer = true, ignoreDead = false) {
-		if (keydown && (!player.moving || player.looping) && (player.alive || ignoreDead) || document.getElementById("winText").classList.contains("active")) {
+		if (keydown && (!player.moving || player.looping) && (player.alive || ignoreDead) || document.getElementById("levelComplete").classList.contains("active")) {
 			let world = World.curWorld;
 
 			if (player.animation) {
@@ -15,8 +15,7 @@ const events = {
 				player.moving = false;
 			}
 
-			document.getElementById("winText").classList.remove("active");
-			document.getElementById("enterContinue").classList.remove("active");
+			document.getElementById("levelComplete").classList.remove("active");
 
 			// reset player
 			if (resetPlayer) {
@@ -56,11 +55,10 @@ const events = {
 	},
 	enter: function(keydown) {
 		if (keydown) {
-			let enterText = document.getElementById("enterContinue");
+			let enterText = document.getElementById("levelComplete");
 			if (!enterText.classList.contains("active")) return;
 			
 			enterText.classList.remove("active");
-			document.getElementById("winText").classList.remove("active");
 
 			let tutorial = document.getElementById("tutorial");
 			if (tutorial.classList.contains("active")) {
@@ -68,13 +66,7 @@ const events = {
 				player.alive = true;
 			}
 			else {
-				if (World.worldIndex + 1 === World.worlds.length) {
-					let win = document.getElementById("win");
-					win.classList.add("active");
-				}
-				else {
-					nextLevel();
-				}
+				nextLevel();
 			}
 		}
 	},
@@ -122,7 +114,7 @@ window.addEventListener("keydown", event => {
 	if (key === "a" || key === "arrowleft") events.trigger("left", true);
 	if (key === "d" || key === "arrowright") events.trigger("right", true);
 
-	if (key === "q" && event.altKey) {
+	if (key === "q" && event.altKey && false) {
 		document.getElementById("devTools").classList.toggle("active");
 	}
 

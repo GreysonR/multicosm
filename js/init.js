@@ -2931,7 +2931,7 @@ Render.on("beforeRender", () => {
 });
 
 if (data.level > 1) {
-	document.getElementById("enterContinue").classList.remove("active");
+	document.getElementById("levelComplete").classList.remove("active");
 	document.getElementById("tutorial").classList.remove("active");
 	player.alive = true;
 }

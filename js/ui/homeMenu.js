@@ -11,8 +11,7 @@ function openHome() {
 	document.getElementById("coinCount").innerHTML = data.coins;
 
 	
-	document.getElementById("enterContinue").classList.remove("active");
-	document.getElementById("winText").classList.remove("active");
+	document.getElementById("levelComplete").classList.remove("active");
 
 	loadWorldSelect();
 	// loadLevelSelect(0);

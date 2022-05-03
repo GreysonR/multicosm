@@ -11,17 +11,24 @@
 	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/levelComplete.css">
 	<link rel="stylesheet" href="./css/home.css">
 	<link rel="stylesheet" href="./css/title.css">
 </head>
 <body>
 	<div id="inGame">
-		<div id="enterContinue">Enter to continue</div>
-		<div id="winText">Great job!</div>
-		<div id="win"></div>
 		<div id="tutorial" onclick="closeTutorial()" class="active"></div>
 
 		<canvas id="canv" width="800" height="480"></canvas>
+	</div>
+	<div id="levelComplete">
+		<div id="coins">
+			<div class="coin"></div>
+			<div class="coin"></div>
+			<div class="coin"></div>
+		</div>
+		<div id="winText">Level complete!</div>
+		<div id="enterContinue">Enter to continue</div>
 	</div>
 	<div id="title" class="active">
 		<button id="b0" onclick="closeTitle();openHome()" class="focused">Play</button>
@@ -89,15 +96,15 @@
 <script>
 	// Rescale canvas
 	function rescaleCanv() {
-		let pr = window["Render"] ? Render.pixelRatio : window.devicePixelRatio * 1.2
+		let pr = window.devicePixelRatio * 1.2;
 		let width = window.innerWidth;
 		let scale = width / canv.width * (width < 810 ? 1 : width < 1400 ? 0.8 : width < 1600 ? 0.7 : 0.6);
 		scale = Math.min(scale, window.innerHeight / canv.height);
 		document.getElementById("inGame").style.transform = `translate(-50%, -50%) scale(${ scale })`;
+		document.getElementById("levelComplete").style.transform = `translate(-50%, -50%) scale(${ scale * canv.width / 800 })`;
 		document.getElementById("home").style.transform = `translate(-404px, -244px) scale(${ scale * canv.width / 800 })`;
 		document.getElementById("title").style.transform = `translate(-400px, -240px) scale(${ scale * canv.width / 800 }) translate(31%, 59%)`;
 
-		document.getElementById("win").style.transform = `scale(${ pr })`;
 		document.getElementById("tutorial").style.transform = `scale(${ pr })`;
 	}
 	rescaleCanv();
@@ -131,7 +138,7 @@
 
 <script>
 	// Remove outdated tutorial
-	document.getElementById("enterContinue").classList.remove("active");
+	document.getElementById("levelComplete").classList.remove("active");
 	document.getElementById("tutorial").classList.remove("active");
 	player.alive = true;
 	/**/
