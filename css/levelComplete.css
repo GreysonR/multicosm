@@ -10,26 +10,37 @@
 
 	width:  450px;
 	height: 265px;
-
-	background: #3a3a3a;
-	border: 35px solid #424242;
-	border-radius: 60px;
 	
 	user-select: none;
 }
 #levelComplete.active {
 	visibility: visible;
+}
+#levelComplete #levelCompleteWrapper {
+	margin-top:  -35px;
+	margin-left: -35px;
+	transform: scale(0);
 
+	width:  450px;
+	height: 265px;
+
+	background: #3a3a3a;
+	border: 35px solid #424242;
+	border-radius: 60px;
+}
+#levelComplete.active #levelCompleteWrapper {
 	animation-name: completeIn;
-	animation-duration: 200ms;
+	animation-timing-function: cubic-bezier(.34,1.33,.63,1);
+	animation-delay: 200ms;
+	animation-duration: 350ms;
 	animation-fill-mode: forwards;
 }
 @keyframes completeIn {
 	from {
-		opacity: 0;
+		transform: scale(0);
 	}
 	to {
-		opacity: 1;
+		transform: scale(1);
 	}
 }
 #levelComplete #coins {
@@ -72,16 +83,16 @@
 	background-repeat: no-repeat;
 
 	animation-name: coinIn;
-	animation-delay:    400ms;
-	animation-duration: 300ms;
+	animation-delay:	500ms;
+	animation-duration:	300ms;
 	animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
 	animation-fill-mode: forwards;
 }
 #levelComplete #coins>.coin.active:nth-child(2)::after {
-	animation-delay: 700ms;
+	animation-delay: 800ms;
 }
 #levelComplete #coins>.coin.active:nth-child(3)::after {
-	animation-delay: 1000ms;
+	animation-delay: 1200ms;
 }
 @keyframes coinIn {
 	from {
@@ -94,12 +105,11 @@
 
 #winText {
 	font-family: 'Varela Round', sans-serif;
-	font-weight: bold;
-	font-size: 47px;
+	font-size: 49px;
 	color: #F8F8F8;
 	text-align: center;
 
-	margin-top: 20px;
+	margin-top: 18px;
 }
 #enterContinue {
 	font-family: 'Varela Round', sans-serif;
