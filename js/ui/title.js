@@ -70,6 +70,3 @@ window.addEventListener("keydown", event => {
 		}
 	}
 });
-
-closeTitle();
-World.set(2);
