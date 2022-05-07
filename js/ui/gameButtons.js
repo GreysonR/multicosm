@@ -55,7 +55,7 @@ canv.addEventListener("mousemove", event => {
 	if (hovering !== false) {
 		canv.style.cursor = "pointer";
 	}
-	else if (layerView.hovering == false) {
+	else if (layerView.hovering === false) {
 		canv.style.cursor = "";
 	}
 
