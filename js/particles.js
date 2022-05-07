@@ -5,7 +5,7 @@ class Particle {
 	velocity = new vec(0, 0);
 	options = {
 		size: 6,
-		color: "#FC954B",
+		color: "#F18A40",
 		friction: 0.95,
 		opacity: 1,
 		decayTime: 1900,

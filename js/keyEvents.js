@@ -218,7 +218,7 @@ document.getElementById("mapInput").addEventListener("input", event => {
 				// define color vars
 				let wall = "#494949";
 				let coin = "#FFD465";
-				let portals = [ "#DDE2ED", "#FC954B", "#7C5DBE" ];
+				let portals = [ "#DDE2ED", "#F18A40", "#7C5DBE" ];
 				let spike = "#F44545";
 				let button = "#FE4A49";
 				let toggleButton = "#35ABEE";

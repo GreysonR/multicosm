@@ -6,8 +6,8 @@
 <rect x="-34" y="180" width="914" height="120" fill="#494949"/>
 <rect x="-101" y="193" width="413" height="337" fill="#494949"/>
 <rect x="488" y="-89" width="288" height="389" fill="#494949"/>
-<rect x="482" y="69" width="6" height="102" rx="1" fill="#FC954B"/>
-<rect x="576" y="300" width="70" height="6" fill="#FC954B"/>
+<rect x="482" y="69" width="6" height="102" rx="1" fill="#F18A40"/>
+<rect x="576" y="300" width="70" height="6" fill="#F18A40"/>
 <rect x="395" y="156" width="17" height="17" rx="5" fill="#FFD465" stroke="#F0B542" stroke-width="3"/>
 <rect opacity="0.1" x="146" y="60" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="146" y="170" width="10" height="10" rx="3" fill="#494949"/>

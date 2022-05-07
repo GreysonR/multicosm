@@ -12,8 +12,8 @@
 <rect x="-158" y="430" width="1100" height="191" fill="#494949"/>
 <rect x="441" y="63" width="90" height="7" fill="#7C5DBE"/>
 <rect x="612" y="316" width="7" height="80" rx="1" fill="#7C5DBE"/>
-<rect x="91" y="268" width="7" height="80" fill="#FC954B"/>
-<rect x="726" y="143" width="7" height="80" rx="1" fill="#FC954B"/>
+<rect x="91" y="268" width="7" height="80" fill="#F18A40"/>
+<rect x="726" y="143" width="7" height="80" rx="1" fill="#F18A40"/>
 <rect x="490.005" y="385.005" width="81.99" height="10.99" rx="0.995" fill="#FE4A49" stroke="black" stroke-width="0.01"/>
 <path d="M530.5 403V424H368.5V387" stroke="#676767" stroke-width="4.01" stroke-linecap="round" stroke-linejoin="round"/>
 <rect opacity="0.5" x="358.005" y="310.005" width="20.99" height="69.99" rx="0.995" fill="#383838" stroke="black" stroke-width="0.01"/>

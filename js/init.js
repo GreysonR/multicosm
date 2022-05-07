@@ -128,7 +128,7 @@ var allWorlds = {
 			(function initHomeLevel() {
 				let level = World.create(-1, new vec(-100, -100), new vec(-200, -200));
 				
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				level.createWall(new vec(574, 434), 308, 140, 0);
@@ -172,7 +172,7 @@ var allWorlds = {
 			/*(function initLevelTest2() {
 				let level = World.create(-1, new vec(125, 310), new vec(158, 342));
 				level.layers[0].color = "#DAD9E3";
-				// level.createLayer("#FC954B");
+				// level.createLayer("#F18A40");
 			
 				// ~ layer 0
 				level.createWall(new vec(-100, -139), 1028, 203, 0);
@@ -315,7 +315,7 @@ var allWorlds = {
 			(function initLevel5() {
 				let level = World.create(-1, new vec(146, 148), new vec(614, 389));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(654, -89), 248, 656, 0);
@@ -353,7 +353,7 @@ var allWorlds = {
 			(function initLevel6() {
 				let level = World.create(-1, new vec(222, 358), new vec(698, 388));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(730, -66), 215, 612, 0);
@@ -403,7 +403,7 @@ var allWorlds = {
 			(function initLevel7() {
 				let level = World.create(-1, new vec(170, 170), new vec(170, 278));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(-89, -123), 240, 707, 0);
@@ -434,7 +434,7 @@ var allWorlds = {
 			(function initLevel8() {
 				let level = World.create(-1, new vec(97, 70), new vec(671, 318));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(-73, 410), 946, 153, 0);
@@ -485,7 +485,7 @@ var allWorlds = {
 			(function initLevel9() {
 				let level = World.create(-1, new vec(384, 365), new vec(82, 59));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(354, -87), 363, 313, 0);
@@ -537,7 +537,7 @@ var allWorlds = {
 			(function initLevel10() {
 				let level = World.create(-1, new vec(130, 360), new vec(698, 50));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -594,7 +594,7 @@ var allWorlds = {
 			(function initLevel11() {
 				let level = World.create(-1, new vec(384, 244), new vec(694, 50));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -658,7 +658,7 @@ var allWorlds = {
 			(function initLevel12() {
 				let level = World.create(-1, new vec(96, 282), new vec(195, 40));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -724,7 +724,7 @@ var allWorlds = {
 			(function initLevel14() {
 				let level = World.create(-1, new vec(307, 311), new vec(460, 137));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -807,7 +807,7 @@ var allWorlds = {
 			(function initLevel15() {
 				let level = World.create(-1, new vec(329, 207), new vec(651, 250));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -900,7 +900,7 @@ var allWorlds = {
 			(function initLevel19() {
 				let level = World.create(-1, new vec(376, 146), new vec(59, 245));
 
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -987,7 +987,7 @@ var allWorlds = {
 			(function initLevel18() {
 				let level = World.create(-1, new vec(305, 275), new vec(714, 139));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1073,7 +1073,7 @@ var allWorlds = {
 			(function initLevel16() {
 				let level = World.create(-1, new vec(384, 224), new vec(519, 80));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1192,7 +1192,7 @@ var allWorlds = {
 			(function initLevel13() {
 				let level = World.create(-1, new vec(207, 408), new vec(416, 275));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1591,7 +1591,7 @@ var allWorlds = {
 			(function initLevel22() {
 				let level = World.create(-1, new vec(85, 102), new vec(708, 142));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				
 				// ~ layer 0
 				level.createWall(new vec(410, -81), 130, 642, 0);
@@ -1646,7 +1646,7 @@ var allWorlds = {
 			(function initLevel23() {
 				let level = World.create(-1, new vec(200, 344), new vec(490, 252));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1716,7 +1716,7 @@ var allWorlds = {
 			(function initLevel24() {
 				let level = World.create(-1, new vec(325, 122), new vec(386, 398));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1804,7 +1804,7 @@ var allWorlds = {
 			(function initLevel25() {
 				let level = World.create(-1, new vec(50, 321), new vec(384, 182));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -1919,7 +1919,7 @@ var allWorlds = {
 			(function initLevel27() {
 				let level = World.create(-1, new vec(686, 195), new vec(508, 398));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -2032,7 +2032,7 @@ var allWorlds = {
 			(function initLevel26() {
 				let level = World.create(-1, new vec(557, 149), new vec(166, 280));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -2140,7 +2140,7 @@ var allWorlds = {
 			(function initLevel28() {
 				let level = World.create(-1, new vec(702, 288), new vec(302, 230));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -2270,7 +2270,7 @@ var allWorlds = {
 			(function initLevel29() {
 				let level = World.create(-1, new vec(91, 398), new vec(326, 348));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -2393,7 +2393,7 @@ var allWorlds = {
 			(function initLevel30() {
 				let level = World.create(-1, new vec(172, 111), new vec(111, 30));
 			
-				level.createLayer("#FC954B");
+				level.createLayer("#F18A40");
 				level.createLayer("#7C5DBE");
 				
 				// ~ layer 0
@@ -2836,7 +2836,7 @@ function reset() {
 // init levels
 (function initLevelTest() {
 	let level = World.create(-1, new vec(135, 364), new vec(631, 348));
-	level.createLayer("#FC954B");
+	level.createLayer("#F18A40");
 	// level.createLayer("#7C5DBE");
 
 	level.end.layer = 1;
@@ -2884,7 +2884,7 @@ function reset() {
 (function initLevelTest2() {
 	let level = World.create(-1, new vec(125, 310), new vec(158, 342));
 	level.layers[0].color = "#DAD9E3";
-	// level.createLayer("#FC954B");
+	// level.createLayer("#F18A40");
 
 	// ~ layer 0
 	level.createWall(new vec(-100, -139), 1028, 203, 0);
