@@ -6,7 +6,7 @@
 <rect x="421" y="-114" width="462" height="375" fill="#494949"/>
 <rect x="153" y="273" width="186" height="331" fill="#494949"/>
 <rect x="-156" y="298" width="495" height="291" fill="#494949"/>
-<rect x="-156" y="236" width="197" height="336" fill="#494949"/>
+<rect x="-156" y="236" width="219" height="336" fill="#494949"/>
 <rect x="-156" y="-209" width="936" height="285" fill="#494949"/>
 <rect x="611" y="-122" width="272" height="726" fill="#494949"/>
 <rect x="339" y="-165" width="538.494" height="354" fill="#494949"/>
@@ -19,5 +19,5 @@
 <rect opacity="0.1" x="508" y="261" width="10" height="10" fill="#494949"/>
 <rect opacity="0.1" x="601" y="388" width="10" height="10" rx="2" fill="#494949"/>
 <rect opacity="0.1" x="143" y="288" width="10" height="10" rx="2" fill="#494949"/>
-<rect opacity="0.1" x="41" y="288" width="10" height="10" rx="3" fill="#494949"/>
+<rect opacity="0.1" x="63" y="288" width="10" height="10" rx="3" fill="#494949"/>
 </svg>

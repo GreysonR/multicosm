@@ -763,7 +763,7 @@ var allWorlds = {
 				level.createWall(new vec(421, -114), 462, 375, 1);
 				level.createWall(new vec(153, 273), 186, 331, 1);
 				level.createWall(new vec(-156, 298), 495, 291, 1);
-				level.createWall(new vec(-156, 236), 197, 336, 1);
+				level.createWall(new vec(-156, 236), 219, 336, 1);
 				level.createWall(new vec(-156, -209), 936, 285, 1);
 				level.createWall(new vec(611, -122), 272, 726, 1);
 				level.createWall(new vec(339, -165), 538.494, 354, 1);
@@ -776,7 +776,7 @@ var allWorlds = {
 				level.createInternalCorner(new vec(508, 261), 0, 1);
 				level.createInternalCorner(new vec(611, 398), 2, 1);
 				level.createInternalCorner(new vec(153, 298), 2, 1);
-				level.createInternalCorner(new vec(41, 298), 3, 1);
+				level.createInternalCorner(new vec(63, 298), 3, 1);
 				level.createPortal(new vec(415, 200), 6, 80, 1, 2, new vec(-1, 0));
 
 				// ~ layer 2
