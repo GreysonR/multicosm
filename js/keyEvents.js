@@ -76,8 +76,8 @@ const events = {
 		let curEvent = events[event];
 		if (curEvent) {
 			let moveEvents = [ "up", "down", "left", "right" ];
-			if (value && !this.queued && moveEvents.includes(event) && player.animation) {
-				this.queued = true;
+			if (value && !events.queued && moveEvents.includes(event) && player.animation) {
+				events.queued = true;
 				player.onMoveEnd = function() {
 					curEvent(value);
 					events.queued = false;

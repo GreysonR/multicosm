@@ -1029,6 +1029,11 @@ const engine = {
 						// ~ Move again
 						if (teleports >= 3) {
 							player.looping = true;
+
+							if (teleports >= 8) {
+								events.trigger("reset", true);
+								return;
+							}
 						}
 						
 						let newDir = sibDir.x === -1 ? "left" : sibDir.x === 1 ? "right" : sibDir.y === 1 ? "down" : "up";
