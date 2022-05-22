@@ -1031,8 +1031,9 @@ const engine = {
 							player.looping = true;
 
 							if (teleports >= 8) {
-								events.trigger("reset", true);
-								return;
+								setTimeout(() => {
+									events.trigger("reset", true);
+								}, 50);
 							}
 						}
 						
