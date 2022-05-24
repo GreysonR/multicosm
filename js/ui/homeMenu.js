@@ -365,7 +365,3 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 		}
 	}
 })();
-
-setTimeout(() => {
-	document.getElementById("b0").click();
-}, 50);
