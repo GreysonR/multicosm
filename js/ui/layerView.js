@@ -93,3 +93,5 @@ canv.addEventListener("click", () => {
 		}
 	}
 });
+
+window.dispatchEvent(new CustomEvent("layerViewLoad"));

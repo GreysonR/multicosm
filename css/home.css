@@ -326,3 +326,23 @@
 	background: #50505004;
 	border: 2.5px solid #50505010;
 }
+
+#homeArrow {
+	position: absolute;
+	top:  -100px;
+	left: -100px;
+
+	width:  30px;
+	height: 30px;
+
+	background-image: url("../images/arrowDown.svg");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: 0;
+
+	transform: translate(-15px, -50px);
+	transition: top, left;
+	transition-duration: 150ms;
+	transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
+}

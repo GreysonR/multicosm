@@ -24,6 +24,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 		world: 0,
 		level: 0,
 		coins: 0,
+		useKeyboard: false,
 		worlds: {
 			"0": {
 				name: "Introduction",
@@ -316,6 +317,32 @@ var allWorlds = {
 				let level = World.create(-1, new vec(146, 148), new vec(614, 389));
 			
 				level.createLayer("#F18A40");
+
+				Render.loadImg("pointer.svg");
+
+				let clickedOtherLayer = false;
+				window.addEventListener("layerViewLoad", () => {
+					Render.on("afterRender", () => {
+						if (!clickedOtherLayer) {
+							let curWorld = World.curWorld;
+							if (curWorld === level) {
+								if (curWorld.curViewingLayer !== curWorld.curLayer) {
+									clickedOtherLayer = true;
+								}
+								else {
+									let pointer = Render.images["pointer"];
+									if (pointer !== undefined) {
+										let w = 27;
+										let h = 37;
+										let y = curWorld.curViewingLayer === 0 ? 80 : 38;
+										let s = engine.Performance.lastUpdate % 1000 < 450 ? 0.9 : 1;
+										ctx.drawImage(pointer, 18 + (w - w*s)/2, y + (h - h*s)/2, w * s, h * s);
+									}
+								}
+							}
+						}
+					});
+				});
 				
 				// ~ layer 0
 				level.createWall(new vec(654, -89), 248, 656, 0);
@@ -2827,6 +2854,13 @@ var allWorlds = {
 }
 
 function save() {
+	let parent = document.getElementById("worldsBackground");
+	for (let i = 0; i < parent.childElementCount; i++) {
+		let elem = parent.children[i];
+		if (elem === lastWorldArrow) {
+			data.world = i;
+		}
+	}
 	localStorage.setItem("multicosmData", JSON.stringify(data));
 }
 function reset() {
@@ -2922,7 +2956,7 @@ function reset() {
 	wire2.connectIn(button1);
 	wire2.connectOut(piston0);
 	return level;
-})();
+});
 
 Render.on("beforeRender", () => {
 	animate.run();
@@ -2933,4 +2967,4 @@ if (data.level > 1) {
 	document.getElementById("tutorial").classList.remove("active");
 	player.alive = true;
 }
-World.set(data.level, data.layer);
+// World.set(data.level, data.layer);

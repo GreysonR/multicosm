@@ -1,6 +1,14 @@
 "use strict";
 
 var inHome = false;
+var inLevelSelect = false;
+let homeArrowSelected;
+let lastWorldArrow;
+
+if (data.world) {
+	let parent = document.getElementById("worldsBackground");
+	lastWorldArrow = parent.children[data.world];
+}
 
 function openHome() {
 	World.set(1);
@@ -15,12 +23,144 @@ function openHome() {
 
 	loadWorldSelect();
 	// loadLevelSelect(0);
+	addHomeArrow();
 }
 function closeHome() {
 	inHome = false;
 	Render.enabled = true;
 
 	document.getElementById("home").classList.remove("active");
+	removeHomeArrow();
+}
+function arrowElemPos(elem) {
+	if (elem.nodeName === "circle")
+		return new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy")));
+	else {
+		return new vec(elem.offsetLeft + 418 - document.getElementById("levels").clientWidth / 2, 248);
+	}
+}
+function moveHomeArrow(event) {
+	let key = event.key.toLowerCase();
+	let parent = document.getElementById("levelSelect").classList.contains("active") ? document.getElementById("levels") : document.getElementById("worldsBackground");
+
+	if (key === "enter" || key === " ") {
+		data.useKeyboard = true;
+		homeArrowSelected.click();
+		return;
+	}
+
+	let selectedPos = arrowElemPos(homeArrowSelected);
+	let minDist = Infinity;
+	let minElem;
+
+	if (key === "w" || key === "arrowup") {
+		for (let i = parent.childElementCount; i--;) {
+			let elem = parent.children[i];
+
+			if ((elem.nodeName === "circle" || elem.classList.contains("level")) && elem !== homeArrowSelected) {
+				let pos = arrowElemPos(elem);
+				if (pos.y < selectedPos.y && pos.x === selectedPos.x) {
+					if (Math.abs(pos.y - selectedPos.y) < minDist) {
+						minDist = Math.abs(pos.y - selectedPos.y);
+						minElem = elem;
+					}
+				}
+			}
+		}
+	}
+	if (key === "s" || key === "arrowdown") {
+		for (let i = parent.childElementCount; i--;) {
+			let elem = parent.children[i];
+
+			if ((elem.nodeName === "circle" || elem.classList.contains("level")) && elem !== homeArrowSelected) {
+				let pos = arrowElemPos(elem);
+				if (pos.y > selectedPos.y && pos.x === selectedPos.x) {
+					if (Math.abs(pos.y - selectedPos.y) < minDist) {
+						minDist = Math.abs(pos.y - selectedPos.y);
+						minElem = elem;
+					}
+				}
+			}
+		}
+	}
+	if (key === "a" || key === "arrowleft") {
+		for (let i = parent.childElementCount; i--;) {
+			let elem = parent.children[i];
+
+			if ((elem.nodeName === "circle" || elem.classList.contains("level")) && elem !== homeArrowSelected) {
+				let pos = arrowElemPos(elem);
+				if (pos.x < selectedPos.x && pos.y === selectedPos.y) {
+					if (Math.abs(pos.x - selectedPos.x) < minDist) {
+						minDist = Math.abs(pos.x - selectedPos.x);
+						minElem = elem;
+					}
+				}
+			}
+		}
+	}
+	if (key === "d" || key === "arrowright") {
+		for (let i = parent.childElementCount; i--;) {
+			let elem = parent.children[i];
+
+			if ((elem.nodeName === "circle" || elem.classList.contains("level")) && elem !== homeArrowSelected) {
+				let pos = arrowElemPos(elem);
+				if (pos.x > selectedPos.x && pos.y === selectedPos.y) {
+					if (Math.abs(pos.x - selectedPos.x) < minDist) {
+						minDist = Math.abs(pos.x - selectedPos.x);
+						minElem = elem;
+					}
+				}
+			}
+		}
+	}
+	if (minElem) {
+		let arrow = document.getElementById("homeArrow");
+		let pos = arrowElemPos(minElem);
+		
+		arrow.style.left = pos.x + "px";
+		arrow.style.top = pos.y + "px";
+		arrow.style.opacity = 1;
+		data.useKeyboard = true;
+		homeArrowSelected = minElem;
+
+		if (parent === document.getElementById("worldsBackground")) {
+			lastWorldArrow = minElem;
+		}
+	}
+}
+function removeHomeArrow() {
+	window.removeEventListener("mousemove", removeHomeArrow);
+	window.removeEventListener("keydown", moveHomeArrow);
+}
+function addHomeArrow(level) {
+	let parent = document.getElementById("levelSelect").classList.contains("active") ? document.getElementById("levels") : document.getElementById("worldsBackground");
+	homeArrowSelected = parent.children[0];
+
+	if (parent.id === "worldsBackground") {
+		if (lastWorldArrow) {
+			homeArrowSelected = lastWorldArrow;
+		}
+	}
+	else if (level && !level.completed) {
+		let n = level.completedLevels.length;
+
+		for (let i = 0; i < parent.childElementCount; i++) {
+			if (parent.children[i].classList.contains("level"))
+				n--;
+			if (n === -1) {
+				homeArrowSelected = parent.children[i];
+				break;
+			}
+		}
+	}
+
+	window.addEventListener("keydown", moveHomeArrow);
+
+	let arrow = document.getElementById("homeArrow");
+	let pos = arrowElemPos(homeArrowSelected);
+	arrow.style.left = pos.x + "px";
+	arrow.style.top  = pos.y + "px";
+	arrow.style.opacity = Number(data.useKeyboard);
 }
 function loadWorldSelect() {
 	let background = document.getElementById("worldsBackground");
@@ -92,15 +232,25 @@ function loadLevelSelect(index) {
 		if (unlocked) levelDiv.classList.add("unlocked");
 		if (completed) levelDiv.classList.add("complete");
 
-		levelDiv.onclick = function() {
+		levelDiv.onclick = function(event) {
 			if (unlocked) {
+				data.useKeyboard = !event.isTrusted;
 				World.set(level.index);
 				events.reset(true, true, true);
 				closeHome();
 			}
 		}
 		levelDiv.onmouseover = function() {
+			homeArrowSelected = levelDiv;
 			if (unlocked) {
+				data.useKeyboard = false;
+
+				let arrow = document.getElementById("homeArrow");
+				let pos = arrowElemPos(levelDiv);
+				arrow.style.opacity = 0;
+				arrow.style.left = pos.x + "px";
+				arrow.style.top  = pos.y + "px";
+
 				levelLabel.innerHTML = "Level " + (index + 1);
 				levelLabel.style.transform = `translate(${ levelDiv.offsetLeft + 400 - levelUI.clientWidth / 2 - levelLabel.clientWidth/4 }px, ${ levelUI.offsetTop - 70 }px)`;
 				levelLabel.classList.add("active");
@@ -120,6 +270,8 @@ function loadLevelSelect(index) {
 			levelUI.appendChild(coinDiv);
 		}
 	}
+
+	addHomeArrow(worldData);
 }
 
 document.getElementById("worldsBackground").addEventListener("mousemove", event => {
@@ -153,35 +305,67 @@ document.getElementById("worldsBackground").addEventListener("mousemove", event 
 		title.classList.add("active");
 		title.style.transform = `translate(${ pos.x }px, ${ pos.y }px) translateX(-50%)`;
 
+		let arrow = document.getElementById("homeArrow");
+		let arrowPos = arrowElemPos(elem);
+		arrow.style.left = arrowPos.x + "px";
+		arrow.style.top =  arrowPos.y + "px";
+		arrow.style.opacity = 0;
+		data.useKeyboard = false;
+		homeArrowSelected = elem;
+		lastWorldArrow = elem;
+
 		elem.onmouseleave = function() {
 			elem.onmouseleave = null;
-			elem.onclick = null;
 			title.classList.remove("active");
 			costUI.classList.remove("active");
 		}
-		elem.onclick = function() {
-			if (!world) return;
-
-			if (world.unlocked) { // go to level select menu
-				loadLevelSelect(worldName);
-			}
-			else if (data.worlds[world.prev].completed) { // attempt to buy world
-				if (!world.cost || data.coins >= world.cost) {
-					if (world.cost) data.coins -= world.cost;
-					document.getElementById("coinCount").innerHTML = data.coins;
-
-					world.unlocked = true;
-					elem.classList.add("unlocked");
-					elem.classList.remove("buyable");
-					costUI.classList.remove("active");
-					
-					title.style.transform = `translate(${ pos.x }px, ${ (Number(elem.getAttribute("cy")) - 70) }px) translateX(-50%)`;
-
-					loadWorldSelect();
-					
-					save();
-				}
-			}
-		}
 	}
 });
+
+(function initWorldSelect() {
+	let parent = document.getElementById("worldsBackground");
+	let title = document.getElementById("worldLabel");
+	let costUI = document.getElementById("coinCost");
+
+	for (let i = parent.childElementCount; i--;) {
+		let elem = parent.children[i];
+		if (elem.nodeName === "circle") {
+			let index = Array.prototype.indexOf.call(elem.parentNode.children, elem) / 2;
+			let worldName = worldNames[index];
+			let pos = new vec(Number(elem.getAttribute("cx")), Number(elem.getAttribute("cy")));
+			let world = data.worlds[worldName];
+
+			function click() {
+				if (!world) return;
+		
+				if (world.unlocked) { // go to level select menu
+					loadLevelSelect(worldName);
+				}
+				else if (data.worlds[world.prev].completed) { // attempt to buy world
+					if (!world.cost || data.coins >= world.cost) {
+						if (world.cost) data.coins -= world.cost;
+						document.getElementById("coinCount").innerHTML = data.coins;
+		
+						world.unlocked = true;
+						elem.classList.add("unlocked");
+						elem.classList.remove("buyable");
+						costUI.classList.remove("active");
+						
+						title.style.transform = `translate(${ pos.x }px, ${ (Number(elem.getAttribute("cy")) - 70) }px) translateX(-50%)`;
+		
+						loadWorldSelect();
+						
+						save();
+					}
+				}
+			}
+
+			elem.onclick = click;
+			elem.click = click;
+		}
+	}
+})();
+
+setTimeout(() => {
+	document.getElementById("b0").click();
+}, 50);
