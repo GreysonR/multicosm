@@ -470,8 +470,25 @@ const engine = {
 			
 			// ~ Render End
 			if (curViewingLayer === end.layer) {
-				ctx.fillStyle = end.color || "#6BCB6F";
-				Render.roundedRect(end.position.x, end.position.y, 32, 32, 3);
+				// ctx.fillStyle = end.color || "#6BCB6F";
+				// Render.roundedRect(end.position.x + 1.5, end.position.y + 1.5, 29, 29, 3);
+				// ctx.strokeStyle = "#5DB261";
+				// ctx.lineWidth = 3;
+				// ctx.stroke();
+
+				let img = Render.images["end"];
+				if (img !== undefined) {
+					let w = 32;
+					let h = 32;
+					ctx.drawImage(img, end.position.x, end.position.y, w, h)
+				}
+				else {
+					ctx.fillStyle = end.color || "#6BCB6F";
+					Render.roundedRect(end.position.x + 1.5, end.position.y + 1.5, 29, 29, 3);
+					ctx.strokeStyle = "#5DB261";
+					ctx.lineWidth = 3;
+					ctx.stroke();
+				}
 			}
 
 			// ~ Render particles
@@ -1162,3 +1179,4 @@ const engine = {
 		}
 	}
 }
+engine.Render.loadImg("end.svg");
