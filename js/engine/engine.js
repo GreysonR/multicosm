@@ -401,10 +401,17 @@ const engine = {
 			// ~ Render player
 			if (player.render && curViewingLayer === curLayer) {
 				const player = engine.player;
-				ctx.fillStyle = "#FF537D";
-				// ctx.fillRect(player.position.x, player.position.y, 32, 32);
-
-				Render.roundedRect(player.position.x, player.position.y, 32, 32, 3);
+				
+				let img = Render.images["player"];
+				if (img !== undefined) {
+					let w = 32;
+					let h = 32;
+					ctx.drawImage(img, player.position.x, player.position.y, w, h)
+				}
+				else {
+					ctx.fillStyle = "#FF537D";
+					Render.roundedRect(player.position.x, player.position.y, 32, 32, 3);
+				}
 				/*
 				let sw = 7;
 				Render.roundedRect(player.position.x + sw/2, player.position.y + sw/2, 32 - sw, 32 - sw, 1);
@@ -1180,3 +1187,4 @@ const engine = {
 	}
 }
 engine.Render.loadImg("end.svg");
+engine.Render.loadImg("player.svg");
