@@ -30,7 +30,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				name: "Introduction",
 				unlocked: true, // true by default
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"1": {
@@ -39,7 +39,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 5,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"2": {
@@ -48,7 +48,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 11,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Crossroads": {
@@ -57,7 +57,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 10,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Groves": {
@@ -66,7 +66,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 6,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Machinery": {
@@ -75,7 +75,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 12,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Intermission": {
@@ -84,7 +84,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 1,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Automation": {
@@ -93,7 +93,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 20,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 			"Extras": {
@@ -102,7 +102,7 @@ function mergeObj(obj1, obj2) { // Merges obj2 over obj1
 				cost: 10,
 				unlocked: false,
 				completed: false,
-				completedLevels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+				completedLevels: [],
 				coins: [],
 			},
 		}
